@@ -1,0 +1,136 @@
+/*media max screen*/
+
+@media only screen and (max-width: 320px) {
+	.tabs {
+    	border: 1px solid #0ca5ea;
+    	height: 80px!important;
+    	text-align: center;
+    	width: 49.5%;
+    	border-radius: 0px;
+	}
+	.title1 {
+    	color: #2b4161;
+    	padding: 10px;
+    	text-align: center;
+	}
+	.sec-fasilitas {
+    	padding-bottom: 10px;
+    	padding-top: 10px;
+	}
+	.marbot2 {
+    	margin-bottom: 10px !important;
+	}
+}
+
+@media only screen and (max-width: 375px) {
+	.kotak2 h2{
+		font-size: 23px;
+	}
+	.kotak2 .price-list{
+		margin:8px;
+		margin-bottom:15px;
+	}
+	.kotak2 .text-right{
+		text-align: left;
+	}
+}
+
+@media only screen and (max-width: 414px) {
+	.tabs {
+    	border: 1px solid #0ca5ea;
+    	height: 60px;
+    	text-align: center;
+    	width: 49.5%;
+    	border-radius: 0px;
+	}
+	.nav-pills > li.active, .nav-pills > li.active, .nav-pills > li:hover {
+		background: #0ca5ea;
+		color: #fff;
+	}
+	.nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
+		border-radius: 0px;
+	}
+	.nav > li > a:focus, .nav > li > a:hover{
+		border-radius: 0px;
+	}
+	header{
+		 height: 140px;
+	}
+	.titile2 .pull-right{
+		float: none!important;
+		width: 100%;
+	}
+	.tabse {
+    	background: #fff none repeat scroll 0 0;
+    	border: 1px solid #0ca5ea;
+    	color: #0ca5ea;
+    	font-size: 20px;
+    	text-align: center;
+    	width: 49.5%;
+	}
+	.kotak {
+    	padding: 0px;
+	}
+	.nev-pills > li.active > a, .nev-pills > li.active > a:focus, .nev-pills > li.active > a:hover {
+    	height: auto;
+    	border:1px solid #0ca4e9;
+    }
+	.plsi > li > a:focus, .plsi > li > a:hover{
+		height: auto;
+    }
+}
+
+@media only screen and (max-width: 568px) {
+	.checkout{
+		margin-top:20px;
+	}
+	.tabs a {
+    	color: #0ca5ea;
+    	font-size: 14px;
+	}
+}
+
+
+@media only screen and (max-width: 667px) {
+	.kotak {
+    	padding: 0px;
+	}
+	footer .pull-left{
+		width: 100%!important;
+		text-align: center;
+		float: none!important;
+	}
+	footer .pull-right{
+		width: 100%!important;
+		text-align: center;
+		float: none!important;
+	}
+	.side-right {
+    	padding-left: 0px;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.check-text {
+    	padding-left: 10px;
+    	padding-right: 10px;
+    	padding-top: 15px;
+	}
+	.marbot2 {
+    	margin-bottom: 20px !important;
+	}
+}
+
+@media only screen and (max-width: 1024px) {
+	.count-checkout {
+    	border-radius: 5px 5px 0;
+    	padding: 15px 10px;
+    	width: 50px;
+	}
+	.sec-fasilitas {
+    	padding-bottom: 60px;
+    	padding-top: 0;
+	}
+
+}
+

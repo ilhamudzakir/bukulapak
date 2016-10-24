@@ -1,0 +1,6 @@
+Admin pusat = admin@admin.com : password
+Admin area (area1) = andi@komunigrafik.com : password
+Sales area (area1) = bakhtiar@komunigrafik.com : 9rOE92Dm
+Sales area (area1) = irwansyah@komunigrafik.com : 7su9vFyA
+Sales area (area1) = dahri@komunigrafik.com : HM161wr1
+Agen area (area1) = ilham@komunigrafik.com : 5BatB

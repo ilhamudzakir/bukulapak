@@ -1,0 +1,70 @@
+<div class="page-content">
+  <div class="content">
+  <div class="grid simple">
+    <div class="grid-title">
+      <h3>Rangkuman</h3>
+    </div>
+    <div class="grid-body ">
+    <div class="row">
+      <div class="col-md-6">
+      <h2>Total Penjualan</h2>
+        <?php $penjualan = GetOrderSalesbyArea($this->session->userdata('area_id')); ?>
+          <?php if($penjualan->num_rows() > 0) { ?>
+            <?php $value = $penjualan->row_array(); ?>
+            <div class="">IDR. <?php echo number_format($value['total_order'])?></div>
+          <?php }else{ ?>
+             <div class="">IDR. 0</div> 
+          <?php } ?>
+      </div>
+      <div class="col-md-6">
+        <h2>Lapak</h2>
+        <ul>
+            <?php $summary = GetLapakSummarybyArea($this->session->userdata('area_id'));?>
+            <?php if($summary->num_rows() > 0) { ?>
+              <?php foreach ($summary->result_array() as $key => $value) { ?>
+                <li><?php echo $value['jumlah_lapak'].' '.strtoupper($value['status_lapak']);?></li>
+              <?php } ?>
+            <?php }else{ ?>
+              <li>Area ini belum mempunyai lapak</li>
+            <?php } ?>
+            
+          </ul>
+      </div>
+    </div>
+    </div>
+    </div>
+
+    <div class="grid simple">
+      <div class="row">
+        <div class="col-md-12">
+          <?php echo $this->session->flashdata('message_success');?>
+          <input type="hidden" id="controller_name" value="<?php echo $controller_name; ?>">
+          <div class="grid-title">
+            <div class="row">
+              <div class="col-md-12">
+                <h3>Lapak Dalam Area ini</h3>
+              </div>
+            </div>
+          </div>
+          <div class="grid-body ">
+            <table id="table_admin_area" class="table table-striped" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th>Nama Lapak</th>
+				  <th>Sekolah</th>
+				  <th>Masa Aktif</th>
+				  <th>Total Sales</th>
+				  <th>Harga</th>
+				  <th>Status</th>
+				  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
