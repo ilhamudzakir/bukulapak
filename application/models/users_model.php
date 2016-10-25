@@ -4,8 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class users_model extends CI_Model {
 
 	var $table = 'users';
-	//var $column = array('username','email', 'first_name', 'last_name','active');
-	var $column = array('username');
+	var $join1 = 'area';
+	var $column = array('users.nik','users.username','users.email', 'users.first_name', 'users.last_name','users.phone','tab_area.title','users.created_on','users.last_login','users.active','users.password_mask');
+	//var $column = array('username');
 	var $order = array('id' => 'desc');
 
 	public function __construct()
@@ -17,7 +18,25 @@ class users_model extends CI_Model {
 	private function _get_datatables_query()
 	{
 		
+		//$this->db->from($this->table);
+		$this->db->select(
+			$this->table.'.id as id,'.
+			'tab_area.id as tab_area_id,'.
+			$this->table.'.nik as nik,'.
+			$this->table.'.username as username,'.
+			$this->table.'.email as email,'.
+			$this->table.'.first_name as first_name,'.
+			$this->table.'.last_name as last_name,'.
+			$this->table.'.phone as phone,'.
+			$this->table.'.area_id as area_id,'.
+			$this->table.'.created_on as created_on,'.
+			$this->table.'.last_login as last_login,'.
+			$this->table.'.active as active,'.
+			$this->table.'.password_mask as password_mask,'.
+			'tab_area.title as area,'
+			);
 		$this->db->from($this->table);
+		$this->db->join($this->join1.' as tab_area', 'tab_area.id = '.$this->table.'.area_id');
 
 		$i = 0;
 	
@@ -31,14 +50,17 @@ class users_model extends CI_Model {
 		
 		if(isset($_POST['order']))
 		{
-			//$this->db->order_by($column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-			$this->db->order_by('id', 'desc');
+			$this->db->order_by($column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+			//$this->db->order_by('id', 'desc');
 		} 
-		else if(isset($this->order))
+		elseif(isset($this->order))
 		{
 			$order = $this->order;
 			$this->db->order_by(key($order), $order[key($order)]);
+			//$this->db->order_by('id', 'DESC');
 		}
+
+		//die('is'.print_mz($_POST['order']));
 	}
 
 	function get_datatables()

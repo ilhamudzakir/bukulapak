@@ -541,14 +541,14 @@ class Front extends MX_Controller {
       $this->email->to($data['order_email']);// change it to yours
       $this->email->subject('Order Buku');
       $this->email->message($message);
-    //   if($this->email->send())
-    //  {
+      if($this->email->send())
+     {
       
-    //  }
-    //  else
-    // {
-    //  show_error($this->email->print_debugger());
-    // }
+     }
+     else
+    {
+     show_error($this->email->print_debugger());
+    }
 			
             $this->session->unset_userdata($order_array);
             $this->cart->destroy();

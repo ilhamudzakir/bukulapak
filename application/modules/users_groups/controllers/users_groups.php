@@ -123,39 +123,22 @@ class users_groups extends MX_Controller {
         foreach ($list as $users_groups) {
             $no++;
             $row = array();
-            //$row[] = $users_groups->id;
-            //$row[] = $users_groups->area_id;
-            //$row[] = $users_groups->user_id;
-            /*$row[] = $users_groups->username.'here';
-            $row[] = $users_groups->group_name;
-            $active_label = ($users_groups->active == 1) ? anchor("users_groups/deactivate/".$users_groups->user_id."/5/sales_area", lang('index_active_link')) : anchor("users_groups/activate/". $users_groups->user_id."/5", lang('index_inactive_link'));
-            $row[] = $active_label;
+            $row[] = $users_groups->username;
+            $row[] = $users_groups->nik;
             
-            $row[] = '<a class="btn btn-sm btn-primary" href="'.site_url('users_groups/edit_user/'.$users_groups->user_id.'/'.$users_groups->group_id).'" title="Edit" ><i class="glyphicon glyphicon-pencil"></i> Edit</a>';
-            */
-            $active_label = ($users_groups->active == 1) ? anchor("users_groups/deactivate/".$users_groups->user_id."/5/sales_area", lang('index_active_link')) : anchor("users_groups/activate/". $users_groups->user_id."/5", lang('index_inactive_link'));
+            $row[] = $users_groups->email;
+            $row[] = $users_groups->first_name;
+            $row[] = $users_groups->last_name;
+            $row[] = $users_groups->phone;
+            $row[] = $users_groups->area;
+            $row[] = date('d M Y H:i:s',$users_groups->created_on);
+            $row[] = date('d M Y H:i:s',$users_groups->last_login);
+            $active_label = ($users_groups->active == 1) ? anchor("users_groups/deactivate/".$users_groups->user_id."/5/sales_area", lang('index_active_link'),array('class'=>'btn btn-sm btn-info')) : anchor("users_groups/activate/". $users_groups->user_id."/5", lang('index_inactive_link'),array('class'=>'btn btn-sm btn-danger'));
+            $row[] = $active_label;
+            $row[] = $users_groups->group_name;
             $action_label = '<a class="btn btn-sm btn-primary" href="'.site_url('users_groups/edit_user/'.$users_groups->user_id.'/'.$users_groups->group_id).'" title="Edit" ><i class="glyphicon glyphicon-pencil"></i></a>';
-            $row[] =    '<div class="row">'.
-                            '<div class="col-md-12">'.
-                            '<h4><a href="'.site_url('users_groups/edit_user/'.$users_groups->user_id.'/'.$users_groups->group_id).'">'.$users_groups->nik.' - '.strtoupper($users_groups->username).'</a></h4>'.
-                                '<div class="row">'.
-                                    '<div class="col-md-6">'.
-                                        '<ul class="">'.
-                                            '<li class=""><label>Email : '.$users_groups->email.'</label></li>'.
-                                            '<li class=""><label>First name : '.$users_groups->first_name.'</label></li>'.
-                                            '<li class=""><label>Last name : '.$users_groups->last_name.'</label></li>'.
-                                        '</ul>'.
-                                    '</div>'.
-                                    '<div class="col-md-6">'.
-                                        '<ul class="">'.
-                                            '<li class=""><label>Phone : '.$users_groups->phone.'</label></li>'.
-                                            '<li class=""><label>Active : '.$active_label.'</label></li>'.
-                                            /*'<li class=""><label>Action : '.$action_label.'</label></li>'.*/
-                                        '</ul>'.
-                                    '</div>'.
-                                '</div>'.
-                            '</div>'.
-                        '</div>';
+            $row[] = $action_label;
+            
             $data[] = $row;
         }
 
@@ -230,6 +213,7 @@ class users_groups extends MX_Controller {
                 'nik'  => $this->input->post('nik'),
                 'area_id'  => $this->session->userdata('area_id'),
                 'phone'      => $this->input->post('phone'),
+                'password_mask'      => $this->input->post('password'),
                 //'active' => 1
                 //'company'    => $this->input->post('company'),
                 //'phone'      => $this->input->post('phone'),
@@ -515,6 +499,12 @@ class users_groups extends MX_Controller {
             if ($this->form_validation->run() === TRUE)
             {
                 $this->ion_auth->update($user->id, $data);
+
+                /*START password_mask*/
+                $data_mask['password_mask'] = $this->input->post('password');
+                $this->db->where('id', $user->id);
+                $this->db->update('users', $data_mask);
+                /*END password_mask*/
 
                 //check to see if we are creating the user
                 //redirect them back to the admin page

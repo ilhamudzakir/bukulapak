@@ -18,16 +18,22 @@
           <div class="alert alert-info"><?php echo $this->session->flashdata('message');?></div>
         <?php } ?>
     <br />
-    <table id="table" class="table" cellspacing="0" width="100%">
+    <table id="table" class="table" cellspacing="0" >
       <thead>
         <tr>
-          <th>Username</th>
-          <!-- <th>Email</th>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>Groups</th>
-          <th>Active</th>
-          <th>Action</th> -->
+          <th width="8.33%">Username</th>
+          <th width="8.33%">NIK</th>
+          <th width="8.33%">Email</th>
+          <th width="8.33%">First name</th>
+          <th width="8.33%">Last name</th>
+          <th width="8.33%">Phone</th>
+          <th width="8.33%">Area</th>
+          <th width="8.33%">Created on</th>
+          <th width="8.33%">Last login</th>
+          <th width="8.33%">Active</th>
+          <th width="8.33%">Pwd Mask</th>
+          <th width="8.33%">Groups</th>
+          <th width="8.33%">Action</th>
         </tr>
       </thead>
       <tbody>

@@ -14,12 +14,18 @@
     <table id="table_admin" class="table" cellspacing="0" width="100%">
       <thead>
         <tr>
-          <th>Id</th>
-          <th>User ID</th>
-          <th>Username</th>
-          <th>Group Name</th>
-          <th>Active</th>
-          <th>Action</th>
+          <th width="8.33%">Username</th>
+          <th width="8.33%">NIK</th>
+          <th width="8.33%">Email</th>
+          <th width="8.33%">First name</th>
+          <th width="8.33%">Last name</th>
+          <th width="8.33%">Phone</th>
+          <th width="8.33%">Area</th>
+          <th width="8.33%">Created on</th>
+          <th width="8.33%">Last login</th>
+          <th width="8.33%">Active</th>
+          <th width="8.33%">Groups</th>
+          <th width="8.33%">Action</th>
         </tr>
       </thead>
       <tbody>

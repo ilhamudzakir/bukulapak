@@ -64,40 +64,27 @@ class Auth extends MX_Controller {
             $no++;
             $row = array();
             $row_1 = array();
-            /*$row[] = $users->username;
+            $row[] = $users->username;
+            $row[] = $users->nik;
+            
             $row[] = $users->email;
             $row[] = $users->first_name;
-            $row[] = $users->last_name;*/
+            $row[] = $users->last_name;
+            $row[] = $users->phone;
+            $row[] = $users->area;
+            $row[] = date('d M Y H:i:s',$users->created_on);
+            $row[] = date('d M Y H:i:s',$users->last_login);
             $get_users_groups = $this->users->get_user_groups($users->id);
+            
+            $active_label = ($users->active == 1) ? anchor("auth/deactivate/".$users->id, lang('index_active_link'), array('class' => 'btn btn-small btn-info')) : anchor("auth/activate/". $users->id, lang('index_inactive_link'), array('class' => 'btn btn-small btn-danger'));
+            $row[] = $active_label;
+            $row[] = $users->password_mask;
             foreach ($get_users_groups as $group):
                 $row_1[] = $group->group_name.';';
             endforeach;
-            //$row[] = $row_1;
-            $active_label = ($users->active == 1) ? anchor("auth/deactivate/".$users->id, lang('index_active_link')) : anchor("auth/activate/". $users->id, lang('index_inactive_link'));
-            //$row[] = $active_label;
-            //$row[] = '<a class="btn btn-small btn-primary" href="'.site_url('auth/edit_user/'.$users->id).'" title="Edit"><i class="glyphicon glyphicon-pencil"></i></a>';*/
+            $row[] = $row_1;
             $action_label = '<a class="btn btn-small btn-primary" href="'.site_url('auth/edit_user/'.$users->id).'" title="Edit"><i class="glyphicon glyphicon-pencil"></i></a>';
-            $row[] =    '<div class="row">'.
-                            '<div class="col-md-12">'.
-                            '<h4>'.$users->nik.' - '.strtoupper($users->username).'</h4>'.
-                                '<div class="row">'.
-                                    '<div class="col-md-6">'.
-                                        '<ul class="list-group">'.
-                                            '<li class="list-group-item list-group-item-success"><label>Email : '.$users->email.'</label></li>'.
-                                            '<li class="list-group-item list-group-item-info"><label>First name : '.$users->first_name.'</label></li>'.
-                                            '<li class="list-group-item list-group-item-warning"><label>Last name : '.$users->last_name.'</label></li>'.
-                                        '</ul>'.
-                                    '</div>'.
-                                    '<div class="col-md-6">'.
-                                        '<ul class="list-group">'.
-                                            '<li class="list-group-item list-group-item-success"><label>Groups : '.implode($row_1).'</label></li>'.
-                                            '<li class="list-group-item list-group-item-info"><label>Active : '.$active_label.'</label></li>'.
-                                            '<li class="list-group-item list-group-item-warning"><label>Action : '.$action_label.'</label></li>'.
-                                        '</ul>'.
-                                    '</div>'.
-                                '</div>'.
-                            '</div>'.
-                        '</div>';
+            $row[] = $action_label;
 
             $data[] = $row;
         }
@@ -141,22 +128,6 @@ class Auth extends MX_Controller {
             $this->_render_page('auth/index', $this->data);
         }
     }
-
-    /*function testpage()
-    {
-        $this->data['title'] = "Login";
-        //set the flash data error message if there is one
-            $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-
-            //list the users
-            $this->data['users'] = $this->ion_auth->users()->result();
-            foreach ($this->data['users'] as $k => $user)
-            {
-                $this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
-            }
-        $output = $this->_render_page('auth/testpage', $this->data);
-        echo $output;
-    }*/
 
     //log the user in
     function login()
@@ -537,7 +508,7 @@ class Auth extends MX_Controller {
                 'area_id'    => $this->input->post('area_id'),
                 'nik'    => $this->input->post('nik'),
                 'phone'      => $this->input->post('phone'),
-				
+                'password_mask'      => $this->input->post('password'),
 				'active'	=>1
             );
         }
@@ -680,6 +651,12 @@ class Auth extends MX_Controller {
             if ($this->form_validation->run() === TRUE)
             {
                 $this->ion_auth->update($user->id, $data);
+
+                /*START password_mask*/
+                $data_mask['password_mask'] = $this->input->post('password');
+                $this->db->where('id', $user->id);
+                $this->db->update('users', $data_mask);
+                /*END password_mask*/
 
                 //check to see if we are creating the user
                 //redirect them back to the admin page

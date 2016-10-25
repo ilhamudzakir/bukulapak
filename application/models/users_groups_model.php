@@ -5,7 +5,8 @@ class users_groups_model extends CI_Model {
 
 	var $table = 'users_groups';
 	//var $column = array('user_id','area_id', 'group_id','users.username','groups.name','users.active');
-	var $column = array('users.username');
+	//var $column = array('users.username');
+	var $column = array('users.nik','users.username','users.email', 'users.first_name', 'users.last_name','users.phone','area.title','users.created_on','users.last_login','users.active');
 	var $order = array('id' => 'desc');
 
 	public function __construct()
@@ -16,9 +17,26 @@ class users_groups_model extends CI_Model {
 
 	private function _get_datatables_query()
 	{
-		$this->db->select('users.area_id as area_id,'.$this->table.'.id as id,'.$this->table.'.user_id as user_id,'.$this->table.'.group_id as group_id, users.username as username, groups.name as group_name,users.active as active, users.first_name as first_name, users.last_name as last_name, users.email as email, users.last_login as last_login, users.nik as nik, users.phone as phone');
+		$this->db->select(
+			'users.area_id as area_id,'.
+			$this->table.'.id as id,'.
+			$this->table.'.user_id as user_id,'.
+			$this->table.'.group_id as group_id,
+			users.username as username, 
+			groups.name as group_name,
+			users.active as active, 
+			users.first_name as first_name, 
+			users.last_name as last_name, 
+			users.email as email, 
+			users.created_on as created_on, 
+			users.last_login as last_login, 
+			users.nik as nik, 
+			users.phone as phone,
+			area.title as area
+			');
 		$this->db->from($this->table);
 		$this->db->join('users', 'users.id = '.$this->table.'.user_id');
+		$this->db->join('area', 'area.id = users.area_id');
 		$this->db->join('groups', 'groups.id = '.$this->table.'.group_id');
 
 		$i = 0;

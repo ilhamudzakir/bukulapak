@@ -11,7 +11,7 @@ class lapak_model extends CI_Model {
 	var $column = array(
 		//'lapak.id',
 		//'lapak.sales_id',
-		'lapak.title',
+		'lapak.lapak_code',
 		//'lapak.start_active',
 		//'lapak.end_active',
 		//'lapak.propinsi_id',
@@ -47,39 +47,44 @@ class lapak_model extends CI_Model {
 	{
 		$this->db->select(
 			$this->table.'.id as lapak_id,'.
-			//$this->table.'.sales_id as sales_id,'.
+			$this->table.'.sales_id as sales_id,'.
+			$this->table.'.lapak_code as lapak_code,'.
 			$this->table.'.title as title,'.
 			$this->table.'.start_active as start_active,'.
 			$this->table.'.end_active as end_active,'.
-			//$this->table.'.propinsi_id as propinsi_id,'.
-			//$this->table.'.kabupaten_id as kabupaten_id,'.
+			$this->table.'.propinsi_id as propinsi_id,'.
+			$this->table.'.kabupaten_id as kabupaten_id,'.
 			'sekolah.title as school_name,'.
-			//$this->table.'.agen_id as agen_id,'.
-			//$this->table.'.agen_disc as agen_disc,'.
-			//$this->table.'.buyer_disc as buyer_disc,'.
-			//$this->table.'.notes as notes,'.
+			$this->table.'.agen_id as agen_id,'.
+			$this->table.'.agen_disc as agen_disc,'.
+			$this->table.'.buyer_disc as buyer_disc,'.
+			$this->table.'.notes as notes,'.
 			$this->table.'.is_approve_superior as is_approve_superior,'.
-			//$this->table.'.superior_id as superior_id,'.
-			//$this->table.'.approve_superior_date as approve_superior_date,'.
+			$this->table.'.superior_id as superior_id,'.
+			$this->table.'.approve_superior_date as approve_superior_date,'.
 			$this->table.'.is_approve_next_superior as is_approve_next_superior,'.
-			//$this->table.'.next_superior_id as next_superior_id,'.
-			//$this->table.'.approve_next_superior_date as approve_next_superior_date,'.
+			$this->table.'.next_superior_id as next_superior_id,'.
+			$this->table.'.approve_next_superior_date as approve_next_superior_date,'.
 			$this->table.'.active as active,'.
-			//'user_sales.username as sales_name,'.
-			//$this->join2.'.title as propinsi,'.
-			//$this->join3.'.title as kabupaten,'.
-			'user_agen.username as agen_name,'
-			//'user_superior.username as superior_name,'.
-			//'user_next_superior.username as next_superior_name,'
+			$this->table.'.active_date as active_date,'.
+			$this->table.'.active_user_id as active_user_id,'.
+			'user_sales.username as sales_name,'.
+			$this->join2.'.title as propinsi,'.
+			$this->join3.'.title as kabupaten,'.
+			'user_agen.username as agen_name,'.
+			'user_superior.username as superior_name,'.
+			'user_next_superior.username as next_superior_name,'.
+			'active_user.username as active_user,'
 			);
 		$this->db->from($this->table);
-		//$this->db->join($this->join1.' as user_sales', 'user_sales.id = '.$this->table.'.sales_id');
-		$this->db->join($this->join1.' as user_agen', 'user_agen.id = '.$this->table.'.agen_id');
-		$this->db->join($this->join4.' as sekolah', 'sekolah.id = '.$this->table.'.sekolah_id');
-		//$this->db->join($this->join1.' as user_superior', 'user_superior.id = '.$this->table.'.superior_id');
-		//$this->db->join($this->join1.' as user_next_superior', 'user_next_superior.id = '.$this->table.'.next_superior_id');
-		//$this->db->join($this->join2, $this->join2.'.propinsi_id = '.$this->table.'.propinsi_id');
-		//$this->db->join($this->join3, $this->join3.'.kabupaten_id = '.$this->table.'.kabupaten_id');
+		$this->db->join($this->join1.' as user_sales', 'user_sales.id = '.$this->table.'.sales_id', 'left');
+		$this->db->join($this->join1.' as user_agen', 'user_agen.id = '.$this->table.'.agen_id', 'left');
+		$this->db->join($this->join4.' as sekolah', 'sekolah.id = '.$this->table.'.sekolah_id', 'left');
+		$this->db->join($this->join1.' as user_superior', 'user_superior.id = '.$this->table.'.superior_id', 'left');
+		$this->db->join($this->join1.' as user_next_superior', 'user_next_superior.id = '.$this->table.'.next_superior_id', 'left');
+		$this->db->join($this->join2, $this->join2.'.propinsi_id = '.$this->table.'.propinsi_id', 'left');
+		$this->db->join($this->join3, $this->join3.'.kabupaten_id = '.$this->table.'.kabupaten_id', 'left');
+		$this->db->join($this->join1.' as active_user', 'active_user.id = '.$this->table.'.active_user_id', 'left');
 		//$this->db->where($this->table.'.sales_id',$id);
 
 		$i = 0;
