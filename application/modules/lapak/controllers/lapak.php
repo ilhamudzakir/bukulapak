@@ -172,13 +172,28 @@ class Lapak extends MX_Controller {
             }
 
             
-
+            $row[] = $lapak->sales_name;
             $row[] = $lapak->title;
-			$row[] = $lapak->school_name;
+            $row[] = $lapak->lapak_code;
+            $row[] = $lapak->school_name;
+            $row[] = $lapak->propinsi;
+            $row[] = $lapak->kabupaten;
+            $row[] = $lapak->agen_name;
+            $row[] = $lapak->agen_disc;
+            $row[] = $lapak->buyer_disc;
+            $row[] = $lapak->notes;
+            $row[] = $lapak->is_approve_superior;
+            $row[] = $lapak->superior_name;
+			$row[] = $lapak->approve_superior_date;
+            $row[] = $lapak->is_approve_next_superior;
+            $row[] = $lapak->next_superior_name;
+            $row[] = $lapak->approve_next_superior_date;
 			$row[] = date('d M Y',strtotime($lapak->start_active)).' - '.date('d M Y',strtotime($lapak->end_active));
 			$row[] = $num_rows.' buku';
-			$row[] = number_format($hargas['total_harga']);
+			//$row[] = number_format($hargas['total_harga']);
 			$row[] = strtoupper($lapak->active);
+            $row[] = $lapak->active_date;
+            $row[] = $lapak->active_user;
 			$row[] =  $button_action;
 			
 			$data[] = $row;
@@ -208,6 +223,42 @@ class Lapak extends MX_Controller {
             $query_harga = GetJoin('lapak_buku','buku','lapak_buku.kode_buku = buku.kode_buku','left','sum(buku.harga) as total_harga',$filter);
             $num_rows = $query->num_rows();
             $hargas = $query_harga->row_array();
+            if($lapak->is_approve_superior != 'approve' || $lapak->is_approve_next_superior != 'approve' )
+            {
+                $button_action = '<a class="btn btn-sm btn-primary" href="'.site_url('lapak/edit/'.$lapak->lapak_id).'" title="Edit" onclick="edit_lapak('."'".$lapak->lapak_id."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>';
+            }else{
+                $button_action = '<a class="btn btn-sm btn-primary" href="'.site_url('lapak/lapak_app/'.$lapak->lapak_id).'" title="Detail" onclick="edit_lapak('."'".$lapak->lapak_id."'".')"><i class="glyphicon glyphicon-pencil"></i> Detail</a>';
+            }
+
+            
+            $row[] = $lapak->sales_name;
+            $row[] = $lapak->title;
+            $row[] = $lapak->lapak_code;
+            $row[] = $lapak->school_name;
+            $row[] = $lapak->propinsi;
+            $row[] = $lapak->kabupaten;
+            $row[] = $lapak->agen_name;
+            $row[] = $lapak->agen_disc;
+            $row[] = $lapak->buyer_disc;
+            $row[] = $lapak->notes;
+            $row[] = $lapak->is_approve_superior;
+            $row[] = $lapak->superior_name;
+            $row[] = $lapak->approve_superior_date;
+            $row[] = $lapak->is_approve_next_superior;
+            $row[] = $lapak->next_superior_name;
+            $row[] = $lapak->approve_next_superior_date;
+            $row[] = date('d M Y',strtotime($lapak->start_active)).' - '.date('d M Y',strtotime($lapak->end_active));
+            $row[] = $num_rows.' buku';
+            //$row[] = number_format($hargas['total_harga']);
+            $row[] = strtoupper($lapak->active);
+            $row[] = $lapak->active_date;
+            $row[] = $lapak->active_user;
+            //$row[] =  $button_action;
+            /*$filter = array('lapak_id'=>'where/'.$lapak->lapak_id,'is_deleted'=>'where/0');
+            $query = GetAll('lapak_buku',$filter);
+            $query_harga = GetJoin('lapak_buku','buku','lapak_buku.kode_buku = buku.kode_buku','left','sum(buku.harga) as total_harga',$filter);
+            $num_rows = $query->num_rows();
+            $hargas = $query_harga->row_array();
 
             $rec = '<div class="row">'.
                         '<div class="col-md-12"><h3><strong>'.$lapak->title.'</strong></h3></div>'.
@@ -225,7 +276,7 @@ class Lapak extends MX_Controller {
 			$row[] = date('d M Y',strtotime($lapak->start_active)).' - '.date('d M Y',strtotime($lapak->end_active));
 			$row[] = $num_rows.' buku';
 			$row[] = number_format($hargas['total_harga']);
-			$row[] = strtoupper($lapak->active);
+			$row[] = strtoupper($lapak->active);*/
 			$data[] = $row;
         }
 
@@ -261,28 +312,29 @@ class Lapak extends MX_Controller {
                 $button_action = '<a class="btn btn-sm btn-primary" href="'.site_url('lapak/lapak_app/'.$lapak->lapak_id).'" title="Detail" onclick="edit_lapak('."'".$lapak->lapak_id."'".')"><i class="glyphicon glyphicon-pencil"></i> Detail</a>';
             //}
 
-            $rec = '<div class="row">'.
-                        '<div class="col-md-12"><h3><strong>'.$lapak->title.'</strong></h3></div>'.
-                    '</div>'.
-                    '<div class="row">'.
-                        '<div class="col-md-4">'.
-                            '<p>'.$lapak->school_name.'<br/>Masa aktif: '.date('d M Y',strtotime($lapak->start_active)).' - '.date('d M Y',strtotime($lapak->end_active)).'</p><p><span class="label label-info">'.strtoupper($lapak->active).'</span></p>'.
-                        '</div>'.
-                        '<div class="col-md-4">'.
-                            '<p>Total sales : '.$num_rows.' buku<br/><strong>IDR. '.number_format($hargas['total_harga']).'</strong></p>'.
-                        '</div>'.
-                        '<div class="col-md-4 text-right">'.
-                            '<a class="btn btn-sm btn-primary" href="'.site_url('lapak/lapak_app/'.$lapak->lapak_id).'" title="Detail"><i class="glyphicon glyphicon-pencil"></i> Detail</a>'.
-                        '</div>'.
-                    '</div>';
+            $row[] = $lapak->sales_name;
             $row[] = $lapak->title;
-			$row[] = $lapak->school_name;
-			$row[] = date('d M Y',strtotime($lapak->start_active)).' - '.date('d M Y',strtotime($lapak->end_active));
-			$row[] = $num_rows.' buku';
-			$row[] = number_format($hargas['total_harga']);
-			
-			$row[] = strtoupper($lapak->active);
-			$row[] =  $button_action;
+            $row[] = $lapak->lapak_code;
+            $row[] = $lapak->school_name;
+            $row[] = $lapak->propinsi;
+            $row[] = $lapak->kabupaten;
+            $row[] = $lapak->agen_name;
+            $row[] = $lapak->agen_disc;
+            $row[] = $lapak->buyer_disc;
+            $row[] = $lapak->notes;
+            $row[] = $lapak->is_approve_superior;
+            $row[] = $lapak->superior_name;
+            $row[] = $lapak->approve_superior_date;
+            $row[] = $lapak->is_approve_next_superior;
+            $row[] = $lapak->next_superior_name;
+            $row[] = $lapak->approve_next_superior_date;
+            $row[] = date('d M Y',strtotime($lapak->start_active)).' - '.date('d M Y',strtotime($lapak->end_active));
+            $row[] = $num_rows.' buku';
+            //$row[] = number_format($hargas['total_harga']);
+            $row[] = strtoupper($lapak->active);
+            $row[] = $lapak->active_date;
+            $row[] = $lapak->active_user;
+            $row[] =  $button_action;
         
             $data[] = $row;
         }
@@ -320,28 +372,29 @@ class Lapak extends MX_Controller {
                 $button_action = '<a class="btn btn-sm btn-info" href="'.site_url('lapak/app_atasan_1/'.$lapak->lapak_id.'/'.$this->session->userdata('user_id')).'" title="'.$lapak->is_approve_superior.'"><i class="glyphicon glyphicon-check"></i> '.$lapak->is_approve_superior.'</a>';
             }
 
-            $rec = '<div class="row">'.
-                        '<div class="col-md-12"><h3><strong>'.$lapak->title.'</strong></h3></div>'.
-                    '</div>'.
-                    '<div class="row">'.
-                        '<div class="col-md-4">'.
-                            '<p>'.$lapak->school_name.'<br/>Masa aktif: '.date('d M Y',strtotime($lapak->start_active)).' - '.date('d M Y',strtotime($lapak->end_active)).'</p><p><span class="label label-info">'.strtoupper($lapak->active).'</span></p>'.
-                        '</div>'.
-                        '<div class="col-md-4">'.
-                            '<p>Total sales : '.$num_rows.' buku<br/><strong>IDR. '.number_format($hargas['total_harga']).'</strong></p>'.
-                        '</div>'.
-                        '<div class="col-md-4 text-right">'.
-                            $button_action.
-                        '</div>'.
-                    '</div>';
-           
-			$row[] = $lapak->title;
-			$row[] = $lapak->school_name;
-			$row[] = date('d M Y',strtotime($lapak->start_active)).' - '.date('d M Y',strtotime($lapak->end_active));
-			$row[] = $num_rows.' buku';
-			$row[] = number_format($hargas['total_harga']);
-			$row[] = strtoupper($lapak->active);
-			$row[] = $button_action;
+            $row[] = $lapak->sales_name;
+            $row[] = $lapak->title;
+            $row[] = $lapak->lapak_code;
+            $row[] = $lapak->school_name;
+            $row[] = $lapak->propinsi;
+            $row[] = $lapak->kabupaten;
+            $row[] = $lapak->agen_name;
+            $row[] = $lapak->agen_disc;
+            $row[] = $lapak->buyer_disc;
+            $row[] = $lapak->notes;
+            $row[] = $lapak->is_approve_superior;
+            $row[] = $lapak->superior_name;
+            $row[] = $lapak->approve_superior_date;
+            $row[] = $lapak->is_approve_next_superior;
+            $row[] = $lapak->next_superior_name;
+            $row[] = $lapak->approve_next_superior_date;
+            $row[] = date('d M Y',strtotime($lapak->start_active)).' - '.date('d M Y',strtotime($lapak->end_active));
+            $row[] = $num_rows.' buku';
+            //$row[] = number_format($hargas['total_harga']);
+            $row[] = strtoupper($lapak->active);
+            $row[] = $lapak->active_date;
+            $row[] = $lapak->active_user;
+            $row[] =  $button_action;
         
             $data[] = $row;
         }
@@ -378,27 +431,29 @@ class Lapak extends MX_Controller {
             }else{
                 $button_action = '<a class="btn btn-sm btn-info" href="'.site_url('lapak/app_atasan_2/'.$lapak->lapak_id.'/'.$this->session->userdata('user_id')).'" title="'.$lapak->is_approve_superior.'"><i class="glyphicon glyphicon-check"></i> '.$lapak->is_approve_superior.'</a>';
             }
-            $rec = '<div class="row">'.
-                        '<div class="col-md-12"><h3><strong>'.$lapak->title.'</strong></h3></div>'.
-                    '</div>'.
-                    '<div class="row">'.
-                        '<div class="col-md-4">'.
-                            '<p>'.$lapak->school_name.'<br/>Masa aktif: '.date('d M Y',strtotime($lapak->start_active)).' - '.date('d M Y',strtotime($lapak->end_active)).'</p><p><span class="label label-info">'.strtoupper($lapak->active).'</span></p>'.
-                        '</div>'.
-                        '<div class="col-md-4">'.
-                            '<p>Total sales : '.$num_rows.' buku<br/><strong>IDR. '.number_format($hargas['total_harga']).'</strong></p>'.
-                        '</div>'.
-                        '<div class="col-md-4 text-right">'.
-                            $button_action.
-                        '</div>'.
-                    '</div>';
+            $row[] = $lapak->sales_name;
             $row[] = $lapak->title;
-			$row[] = $lapak->school_name;
-			$row[] = date('d M Y',strtotime($lapak->start_active)).' - '.date('d M Y',strtotime($lapak->end_active));
-			$row[] = $num_rows.' buku';
-			$row[] = number_format($hargas['total_harga']);
-			$row[] = strtoupper($lapak->active);
-			$row[] = $button_action;
+            $row[] = $lapak->lapak_code;
+            $row[] = $lapak->school_name;
+            $row[] = $lapak->propinsi;
+            $row[] = $lapak->kabupaten;
+            $row[] = $lapak->agen_name;
+            $row[] = $lapak->agen_disc;
+            $row[] = $lapak->buyer_disc;
+            $row[] = $lapak->notes;
+            $row[] = $lapak->is_approve_superior;
+            $row[] = $lapak->superior_name;
+            $row[] = $lapak->approve_superior_date;
+            $row[] = $lapak->is_approve_next_superior;
+            $row[] = $lapak->next_superior_name;
+            $row[] = $lapak->approve_next_superior_date;
+            $row[] = date('d M Y',strtotime($lapak->start_active)).' - '.date('d M Y',strtotime($lapak->end_active));
+            $row[] = $num_rows.' buku';
+            //$row[] = number_format($hargas['total_harga']);
+            $row[] = strtoupper($lapak->active);
+            $row[] = $lapak->active_date;
+            $row[] = $lapak->active_user;
+            $row[] =  $button_action;
             $data[] = $row;
         }
 
@@ -1531,7 +1586,9 @@ class Lapak extends MX_Controller {
         $email = $this->input->post('email');
         $additional_data = array(
             'first_name'=>$this->input->post('first_name'),
+            'password_mask'=>$this->input->post('password'),
             'area_id' => $area_id,
+            'active' => 1,
             'created_on' => date('Y-m-d H:i:s',now()),
             );
         $group = array('group_id'=>4);

@@ -25,6 +25,8 @@ var save_method; //for save method string
                 "orderable": false, //set not orderable
               },
               ],
+              "scrollY": 200,
+              "scrollX": true
 
             });
 

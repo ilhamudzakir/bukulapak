@@ -24,8 +24,10 @@ var save_method; //for save method string
               },
               ],
               "oLanguage": {
-                 "sSearch": "Username : _INPUT_"
-               }
+                 "sSearch": "Search : _INPUT_"
+               },
+              "scrollY": 200,
+              "scrollX": true
 
             });
 

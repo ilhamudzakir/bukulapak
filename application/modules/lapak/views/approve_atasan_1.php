@@ -50,13 +50,28 @@
             <table id="table_atasan_1" class="table" cellspacing="0" width="100%">
               <thead>
                 <tr>
-                  <th>Nama Lapak</th>
-				  <th>Sekolah</th>
-				  <th>Masa Aktif</th>
-				  <th>Total Sales</th>
-				  <th>Harga</th>
-				  <th>Status</th>
-				  <th>Action</th>
+                  <th width="150px">Sales</th>
+                  <th width="150px">Nama Lapak</th>
+                  <th width="150px">Kode Lapak</th>
+                  <th width="150px">Sekolah</th>
+                  <th width="150px">Propinsi</th>
+                  <th width="150px">Kabupaten</th>
+                  <th width="150px">Agen</th>
+                  <th width="150px">Disc Agen</th>
+                  <th width="150px">Disc Pembeli</th>
+                  <th width="150px">Notes</th>
+                  <th width="150px">App atasan 1</th>
+                  <th width="150px">Nama atasan 1</th>
+                  <th width="150px">Tgl App atasan 1</th>
+                  <th width="150px">App atasan 2</th>
+                  <th width="150px">Nama atasan 2</th>
+                  <th width="150px">Tgl App atasan 2</th>
+                  <th width="150px">Tgl aktif</th>
+                  <th width="150px">Jumlah buku</th>
+                  <th width="150px">Status aktif</th>
+                  <th width="150px">Tanggal aktif</th>
+                  <th width="150px">User yg mengaktifkan</th>
+                  <th width="150px">Action</th>
                 </tr>
               </thead>
               <tbody>

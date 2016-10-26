@@ -27,6 +27,11 @@ $(document).ready(function() {
       "orderable": false, //set not orderable
     },
     ],
+    "oLanguage": {
+                 "sSearch": "Kode lapak : _INPUT_"
+               },
+              "scrollY": 200,
+              "scrollX": true
 
   });
 
@@ -46,6 +51,11 @@ $(document).ready(function() {
       "orderable": false, //set not orderable
     },
     ],
+    "oLanguage": {
+                 "sSearch": "Kode lapak : _INPUT_"
+               },
+              "scrollY": 200,
+              "scrollX": true
 
   });
 
@@ -65,6 +75,11 @@ $(document).ready(function() {
       "orderable": false, //set not orderable
     },
     ],
+    "oLanguage": {
+                 "sSearch": "Kode lapak : _INPUT_"
+               },
+              "scrollY": 200,
+              "scrollX": true
 
   });
 
@@ -84,6 +99,11 @@ $(document).ready(function() {
       "orderable": false, //set not orderable
     },
     ],
+    "oLanguage": {
+                 "sSearch": "Kode lapak : _INPUT_"
+               },
+              "scrollY": 200,
+              "scrollX": true
 
   });
 
@@ -103,6 +123,11 @@ $(document).ready(function() {
       "orderable": false, //set not orderable
     },
     ],
+    "oLanguage": {
+                 "sSearch": "Kode lapak : _INPUT_"
+               },
+              "scrollY": 200,
+              "scrollX": true
 
   });
 
