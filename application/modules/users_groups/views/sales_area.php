@@ -17,6 +17,7 @@
           <div class="alert alert-info"><?php echo $this->session->flashdata('message');?></div>
         <?php } ?>
     <br />
+    <div class="table-scroll">
     <table id="table_sales" class="table table-striped" cellspacing="0" width="100%">
       <thead>
         <tr>
@@ -37,6 +38,7 @@
       <tbody>
       </tbody>
     </table>
+    </div>
   </div>
   </div>
   </div>

@@ -78,8 +78,9 @@
                 </div>
                 <div class="col-md-3">
                   <label class="control-label">Nama Sekolah</label>
-                  <?php //echo bs_form_input($school_name);?>
+                <?php if( $agen_name != 0) { ?>
 					 <input type="text" value="<?php echo $agen_name ?>" class="form-control" disabled="disabled">
+           <?php } ?>
                   <select id="sekolah_id" required name="sekolah_id" style="width: 100%">
                     <option value="">Pilih Sekolah</option>
                     <?php foreach ($sekolah as $key => $value) { ?>
@@ -152,7 +153,7 @@
                         <tr>
                           <!-- <td><img src="<?php echo $value['cover'] ?>"></td> -->
                           <td>
-                            <img src="http://placehold.it/100x125">
+                            <img width="50" src="<?php echo base_url() ?>uploads/cover/<?php echo $value['cover'] ?>">
                           </td>
                           <td>
                             <?php echo $value['judul'] .'<br/>IDR. '.number_format($value['harga']) ?>; 

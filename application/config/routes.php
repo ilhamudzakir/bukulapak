@@ -39,6 +39,9 @@
 */
 
 $route['default_controller'] = "front";
+$route['sales-login'] = 'auth/login';
+$route['agen-login'] = 'auth/login';
+
 $route['404_override'] = '';
 
 

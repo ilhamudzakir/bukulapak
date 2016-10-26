@@ -117,7 +117,7 @@
                       <input type="hidden" name="judul_<?php echo $value['lapak_id']?>_<?php echo $value['kode_buku']?>" id="judul_<?php echo $value['lapak_id']?>_<?php echo $value['kode_buku']?>" value="<?php echo $value['judul']?>">
                       <!-- <input type="hidden" name="sales_<?php echo $value['lapak_id']?>_<?php echo $value['kode_buku']?>" id="sales_<?php echo $value['lapak_id']?>_<?php echo $value['kode_buku']?>" value="<?php echo $value['sales_id']?>"> -->
                       
-                      <input type="button" name="submit" value="Beli" class="form btn2" onClick="addcart(<?php echo $value['lapak_id']?>,<?php echo $value['kode_buku']?>,<?php echo $value['sales_id']?>,<?php echo $area_id?>)">
+                      <input type="button" name="submit" value="Beli" class="form btn2" onClick="addcart(<?php echo $value['lapak_id']?>,'<?php echo $value['kode_buku']?>',<?php echo $value['sales_id']?>,<?php echo $area_id?>)">
                     </div>
                   <!-- </form> -->
                 </div>

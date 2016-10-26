@@ -10128,4 +10128,8 @@ body.rtl .footer-widget {
     transition-delay: 0s;
     -webkit-backface-visibility: hidden;
   }
+  
 }
+.table-scroll{
+      overflow-x: auto;
+  }

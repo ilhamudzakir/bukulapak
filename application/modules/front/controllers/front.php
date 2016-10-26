@@ -433,7 +433,19 @@ class Front extends MX_Controller {
         //$this->form_validation->set_rules('order_kabupaten_id', 'Kabupaten penerima', 'required|xss_clean');
         $this->form_validation->set_rules('order_recipient_postcode', 'Kodepos penerima', 'required|xss_clean');
         $this->form_validation->set_rules('area_id', 'Area', 'required|xss_clean');
-
+       
+        $this->session->set_flashdata('order_propinsi_id',$order_propinsi_id);
+        $this->session->set_flashdata('order_kabupaten_id',$order_kabupaten_id);
+        $this->session->set_flashdata('order_kecamatan_id',$order_kecamatan_id);
+        $filter_propinsi = array("propinsi_id"=>"where/".$order_propinsi_id,);
+        $filter_kabupaten = array("kabupaten_id"=>"where/".$order_kabupaten_id,);
+        $filter_kecamatan = array("kecamatan_id"=>"where/".$order_kecamatan_id,);
+        $propop = GetAll('propinsi',$filter_propinsi)->row();
+        $prokab = GetAll('kabupaten',$filter_kabupaten)->row();
+        $prokec = GetAll('kecamatan',$filter_kecamatan)->row();
+        
+       
+        $this->session->set_flashdata('order_recipient_postcode',$order_recipient_postcode);
         if ($this->form_validation->run() == TRUE)
         {
 
@@ -524,31 +536,31 @@ class Front extends MX_Controller {
             $order_total = $value['order_total'];
         
         $order_code = $confirmation_code;
+		//email
+  //       $message = '<h1><b>Terima Kasih,</b></h1>
+  // <h4>Nomor transaksi anda adalah <b>'.$order_code.'</b></h4>
+  // <h4>selanjutnya silahkan melakukan pembayaran sebesar <b>RP '.number_format($order_total).'</b> ke nomor rekening berikut</h4>
+  // </br>
+  // <h4><b>Rekening Bank Permata</b></h4>
+  // <h4>Bank Permata Cabang Kyai Hasyim Jakarta</h4>
+  // <h4>atas nama : PT Erlangga</h4>
+  // <h4>Nomor rekening : 451376137813</h4>';
 		
-        $message = '<h1><b>Terima Kasih,</b></h1>
-  <h4>Nomor transaksi anda adalah <b>'.$order_code.'</b></h4>
-  <h4>selanjutnya silahkan melakukan pembayaran sebesar <b>RP '.number_format($order_total).'</b> ke nomor rekening berikut</h4>
-  </br>
-  <h4><b>Rekening Bank Permata</b></h4>
-  <h4>Bank Permata Cabang Kyai Hasyim Jakarta</h4>
-  <h4>atas nama : PT Erlangga</h4>
-  <h4>Nomor rekening : 451376137813</h4>';
-		
-        $this->load->library('email', $config);
-      $this->email->set_newline("\r\n");
-	  $this->email->set_mailtype("html");
-      $this->email->from('admin@bukusekolahku.com','admin bukusekolahku.com'); // change it to yours
-      $this->email->to($data['order_email']);// change it to yours
-      $this->email->subject('Order Buku');
-      $this->email->message($message);
-      if($this->email->send())
-     {
+  //       $this->load->library('email', $config);
+  //     $this->email->set_newline("\r\n");
+	 //  $this->email->set_mailtype("html");
+  //     $this->email->from('admin@bukusekolahku.com','admin bukusekolahku.com'); // change it to yours
+  //     $this->email->to($data['order_email']);// change it to yours
+  //     $this->email->subject('Order Buku');
+  //     $this->email->message($message);
+  //     if($this->email->send())
+  //    {
       
-     }
-     else
-    {
-     show_error($this->email->print_debugger());
-    }
+  //    }
+  //    else
+  //   {
+  //    show_error($this->email->print_debugger());
+  //   }
 			
             $this->session->unset_userdata($order_array);
             $this->cart->destroy();
@@ -556,6 +568,9 @@ class Front extends MX_Controller {
 
             redirect('front/thankyou/'.$confirmation_code);
         }else{
+            $this->session->set_flashdata('order_propinsi_nama',$propop->title);
+            $this->session->set_flashdata('order_kabupaten_nama',$prokab->title);
+            $this->session->set_flashdata('order_kecamatan_nama',$prokec->title);
             //die('here');
             $this->data['free'] = $this->db->get_where('config_ongkir', array('id' => 1))->row();
             $this->_render_page('front/cart', $this->data);

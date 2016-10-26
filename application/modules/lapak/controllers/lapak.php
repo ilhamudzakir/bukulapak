@@ -1658,7 +1658,7 @@ class Lapak extends MX_Controller {
             foreach ($query->result_array() as $key => $value) {
                 $table_html .= '<tr>';
                     $table_html .= '<td>';
-                        $table_html .= '<img src="http://placehold.it/100x125">';
+                        $table_html .= "<img width='50px' src='".base_url()."uploads/cover/".$value['cover']."'";
                     $table_html .= '</td>';
                     $table_html .= '<td>';
                         $table_html .= $value['judul'].'<br/>IDR. '.number_format($value['harga']);
@@ -1667,7 +1667,9 @@ class Lapak extends MX_Controller {
                         $table_html .= $value['jenjang'];
                     $table_html .= '</td>';
                     $table_html .= '<td>';
-                        $table_html .= '<button type="button" onClick="masukkan_buku('.$lapak_id.','.$value['kode_buku'].')" id="btnmasukkanbuku_'.$value['kode_buku'].'" class="btn btn-info">Tambahkan buku ini</button>';
+                    $r="'";
+                    $kodebuk=$r."".$value['kode_buku']."".$r;
+                        $table_html .= '<button type="button" onClick="masukkan_buku('.$lapak_id.','.$kodebuk.')" id="btnmasukkanbuku_'.$value["kode_buku"].'" class="btn btn-info">Tambahkan buku ini</button>';
                     $table_html .= '</td>';
                 $table_html .= '</tr>';                
             }
@@ -1808,7 +1810,7 @@ class Lapak extends MX_Controller {
                     $html_lapak_buku .= '<tr>';    
                         $html_lapak_buku .= '<td>';    
                             //$html_lapak_buku .= '<img src="'.$value['cover'].'">';    
-                            $html_lapak_buku .= '<img src="http://placehold.it/100x125">';    
+                            $html_lapak_buku .= '<img width="50" src="'.base_url().'uploads/cover/'.$value["cover"].'">';    
                         $html_lapak_buku .= '</td>';
                         $html_lapak_buku .= '<td>';
                             $html_lapak_buku .= $value['judul'].'<br/>IDR. '.number_format($value['harga']);            
@@ -1850,7 +1852,7 @@ class Lapak extends MX_Controller {
                 $html_lapak_buku .= '<tr>';    
                     $html_lapak_buku .= '<td>';    
                         //$html_lapak_buku .= '<img src="'.$value['cover'].'">';    
-                        $html_lapak_buku .= '<img src="http://placehold.it/100x125">';    
+                        $html_lapak_buku .= '<img width="50" src="'.base_url().'uploads/cover/'.$value["cover"].'">';    
                     $html_lapak_buku .= '</td>';
                     $html_lapak_buku .= '<td>';
                         $html_lapak_buku .= $value['judul'].'<br/>IDR. '.number_format($value['harga']);            

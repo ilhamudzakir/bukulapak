@@ -130,23 +130,11 @@ var d = document.getElementById("namanya");
 var e = document.getElementById("tlpnya");
 var f = document.getElementById("order_recipient_name");
 var g = document.getElementById("order_recipient_phone");
-       if(e.style.display == ''){
+       if(document.getElementById('copyname').checked){
          f.value=document.getElementById("order_name").value;
       g.value=document.getElementById("order_phone").value;
-          e.style.display = 'none';
-       d.style.display = 'none';
-       
-      
-    }else if(e.style.display == 'block'){
-      
-       f.value=document.getElementById("order_name").value;
-      g.value=document.getElementById("order_phone").value;
-          e.style.display = 'none';
-       d.style.display = 'none';
-       
        }else{
-          e.style.display = 'block';
-           d.style.display = 'block';
+         
             f.value='';
       g.value='';
        }

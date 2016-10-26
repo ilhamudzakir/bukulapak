@@ -514,11 +514,21 @@ class Auth extends MX_Controller {
         }
         if ($this->form_validation->run() == true && $this->ion_auth->register($username, $password, $email, $additional_data))
         {	
-			$user=$this->db->query("select * from users order by id DESC")->row();
-			$id=$user->id+1;
-			$groupData = $this->input->post('groups');
-			foreach ($groupData as $grp) {
-			$this->ion_auth->add_to_group($grp, $id);
+			$id=$this->db->insert_id();
+			if ($this->ion_auth->is_admin())
+            {
+                //Update the groups user belongs to
+                $groupData = $this->input->post('groups');
+
+                if (isset($groupData) && !empty($groupData)) {
+
+                    $this->ion_auth->remove_from_group('', $id);
+
+                    foreach ($groupData as $grp) {
+                        $this->ion_auth->add_to_group($grp, $id);
+                    }
+
+                }
             }
             //check to see if we are creating the user
             //redirect them back to the admin page

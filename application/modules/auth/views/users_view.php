@@ -18,6 +18,7 @@
           <div class="alert alert-info"><?php echo $this->session->flashdata('message');?></div>
         <?php } ?>
     <br />
+    <div class="table-scroll">
     <table id="table" class="table" cellspacing="0" >
       <thead>
         <tr>
@@ -39,6 +40,7 @@
       <tbody>
       </tbody>
     </table>
+    </div>
   </div>
   </div>
   </div>

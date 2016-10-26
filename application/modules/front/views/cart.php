@@ -28,12 +28,12 @@
     <div class="row">
       <div class="col-md-6">
         <label class="blue">Email</label>
-        <input type="email" class="form border" name="order_email" id="order_email" placeholder="Alamat Email" value="<?php echo set_value('order_name'); ?>">
+        <input type="email" class="form border" name="order_email" id="order_email" placeholder="Alamat Email" value="<?php echo set_value('order_email'); ?>">
         <?php echo form_error('order_email', '<div class="alert alert-error">', '</div>'); ?>
       </div>
       <div class="col-md-6">
         <label class="blue">Telepon</label>
-        <input type="text" class="form border" name="order_phone" id="order_phone" placeholder="Nomor Telepon" value="<?php echo set_value('order_name'); ?>">
+        <input type="text" class="form border" name="order_phone" id="order_phone" placeholder="Nomor Telepon" value="<?php echo set_value('order_phone'); ?>">
         <?php echo form_error('order_phone', '<div class="alert alert-error">', '</div>'); ?>
       </div>
       </div>
@@ -82,7 +82,7 @@
           <select id="propinsi_id" class="form border arrow-sel" name="propinsi_id" style="width: 100%" onChange="getkabupaten()">
             <option value="">Pilih propinsi</option>
             <?php foreach ($propinsi as $key => $value) { ?>
-              <option value="<?php echo $value['propinsi_id']; ?>" <?php echo set_select('propinsi_id',$value['propinsi_id']); ?> > <?php echo $value['title']; ?></option>
+              <option  <?php if($this->session->flashdata('order_propinsi_id')== $value['propinsi_id']){ ?> selected <?php } ?> value="<?php echo $value['propinsi_id']; ?>" <?php echo set_select('propinsi_id',$value['propinsi_id']); ?> > <?php echo $value['title']; ?></option>
             <?php }?>
           </select>
           <?php echo form_error('propinsi_id', '<div class="alert alert-error">', '</div>'); ?>
@@ -90,7 +90,13 @@
             <i class="fa fa-cog fa-spin"></i> Loading
           </div>
           <select id="kabupaten_id" class="form border arrow-sel" name="kabupaten_id" style="width: 100%" onChange="getkecamatan()">
-           <option value="">Pilih Kabupaten</option>
+           <?php if($this->session->flashdata('order_propinsi_id')){ ?>
+           <option value="<?php echo $this->session->flashdata('order_kabupaten_id') ?>"><?php echo $this->session->flashdata('order_kabupaten_nama') ?></option>
+           <?php }else{
+            ?>
+             <option value="0">Pilih kabupaten</option>
+            <?php
+            } ?>
            <?php foreach ($kabupaten as $key => $value) { ?>
              <option value="<?php echo $value['kabupaten_id']; ?>" <?php echo set_select('kabupaten_id',$value['kabupaten_id']); ?>  > <?php echo $value['title']; ?></option>
            <?php }?>
@@ -100,7 +106,14 @@
             <i class="fa fa-cog fa-spin"></i> Loading
           </div>
          <select id="kecamatan_id" class="form border arrow-sel" name="kecamatan_id" style="width: 100%" onChange="getongkir(<?php echo $area_sales['area_id']; ?>)">
-           <option value="0">Pilih Kecamatan</option>
+          
+           <?php if($this->session->flashdata('order_propinsi_id')){ ?>
+           <option value="<?php echo $this->session->flashdata('order_kecamatan_id') ?>"><?php echo $this->session->flashdata('order_kecamatan_nama') ?></option>
+           <?php }else{
+            ?>
+             <option value="0">Pilih Kecamatan</option>
+            <?php
+            } ?>
            <?php foreach ($kecamatan as $key => $value) { ?>
              <option value="<?php echo $value['kecamatan_id']; ?>" <?php echo set_select('kecamatan_id',$value['kecamatan_id']); ?>  > <?php echo $value['title']; ?></option>
            <?php }?>
