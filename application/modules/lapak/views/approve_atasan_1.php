@@ -66,7 +66,7 @@
                   <th width="150px">App atasan 2</th>
                   <th width="150px">Nama atasan 2</th>
                   <th width="150px">Tgl App atasan 2</th>
-                  <th width="150px">Tgl aktif</th>
+                  <th width="150px">Tgl Berlaku</th>
                   <th width="150px">Jumlah buku</th>
                   <th width="150px">Status aktif</th>
                   <th width="150px">Tanggal aktif</th>

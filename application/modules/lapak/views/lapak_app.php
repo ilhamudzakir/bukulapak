@@ -61,11 +61,17 @@
                 <div class="col-md-12 text-right">
                   <?php if($valuesuperior_id != 0 || $valuenext_superior_id != 0) { ?>
                     <button type="button" class="btn btn-info" disabled="disabled">Approved</button>
+                    <?php if($valueis_approve_superior != "approve") { ?>
+                      <button type="button" class="btn btn-danger" onClick="delete_lapak(<?php echo $this->uri->segment(3)?>)">Hapus</button>
+                    <?php } ?>
                   <?php }else { ?>
-                    <button type="submit" class="btn btn-info">Approve</button>
+                    <button type="submit" class="btn btn-primary">Approve</button>
+                    <?php if($valueis_approve_superior != "approve") { ?>
+                      <button type="button" class="btn btn-danger" onClick="delete_lapak(<?php echo $this->uri->segment(3)?>)">Hapus</button>
+                    <?php } ?>
                   <?php } ?>
                   <a href="<?php echo site_url('lapak')?>">
-                    <button type="button" class="btn btn-danger">Cancel</button>
+                    <button type="button" class="btn btn-info">Cancel</button>
                   </a>
                 </div>
                 

@@ -176,7 +176,7 @@
         <h3 class="modal-title">Gambar bukti transfer / konfirmasi pembayaran </h3>
       </div>
       <div class="modal-body form text-center">
-        <img src="<?php echo base_url().'uploads/'.$img_confirmation  ?>">
+        <img src="<?php echo base_url().'uploads/transaksi/'.$img_confirmation  ?>" class="img img-responsive">
       </div>
     </div>
   </div>

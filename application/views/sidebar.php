@@ -16,10 +16,22 @@
                   <div class="status-icon green"></div>Online</a>
               </div>
             </div>
-			  <h5 style="color:white;font-weight:bold"><?php if($this->ion_auth->is_admin_area()) {
-			$user=$this->db->query("select * from users where id='".$this->session->userdata('user_id')."'")->row();
-				$area=$this->db->query("select * from area where id='".$user->area_id."'")->row();
-			?> Area :  <?php echo $area->title; }?></h5>
+			  <h5 style="color:white;font-weight:bold">
+          <?php 
+          if(!$this->ion_auth->is_admin()) {
+            $filter = array("users.id"=>"where/".$this->session->userdata('user_id'));
+            $query = GetJoin("users","area","users.area_id = area.id","left","area.title as area",$filter);
+            //echo "last : ".$this->db->last_query();
+            if($query->num_rows() > 0){
+              $v = $query->row_array();
+              $area = $v['area'];
+              echo "Area : ".$area;
+            }else{
+              echo "Area : kosong";
+            }
+        }
+        ?>
+      </h5>
           </div>
           <!-- END MINI-PROFILE -->
           <!-- BEGIN SIDEBAR MENU -->
