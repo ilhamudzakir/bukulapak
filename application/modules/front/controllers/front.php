@@ -61,6 +61,10 @@ class Front extends MX_Controller {
         }else{
             $this->data['kabupaten'] = array();
         }
+        $filterc = array("id"=>"where/7",);
+        $this->data['cara_pembelian'] = GetAll('static_page',$filterc)->row();
+        $filterk = array("id"=>"where/6",);
+        $this->data['keunggulan'] = GetAll('static_page',$filterk)->row();
         $this->data['buku']=$this->buku->count_max();
         $lapak=$this->lapak->select_where_order("active","aprove","id","DESC");
         $this->data['lapak']=$lapak->result();
@@ -127,13 +131,13 @@ class Front extends MX_Controller {
             $kode_buku = $kode_buku;
             $sales_id = $sales_id;
             $cty = $this->input->post('cty');
-            $berat = ($this->input->post('berat') == 0) ? 1 : $this->input->post('berat');
+            $berat = $this->input->post('berat');
             $harga = $this->input->post('harga');
             $judul = url_title($this->input->post('judul'));
             $current_url = $this->input->post('current_url');
 
             $dweight = ($berat * $cty);
-            $kg_weight = ($dweight < 1) ? 1 : $dweight;
+            $kg_weight = $dweight;
 
             $data = array(
                 'id'            => $kode_buku,
@@ -244,26 +248,49 @@ class Front extends MX_Controller {
     {
         $rowid = $rowid;
         $qty = $this->input->post('qty');
-        $berat = ($this->input->post('berat') == 0) ? 1 : $this->input->post('berat');
-        
-        $dweight = ($berat * $qty) * 1000;
-        $kg_weight = ($dweight < 1) ? 1 : $dweight;
-
+        $berat = $this->input->post('berat');
+        $beratm=$this->input->post('beratm');
+        $propinsi_id=$this->input->post('propinsi_id');
+        $kabupaten_id=$this->input->post('kabupaten_id');
+        $kecamatan_id=$this->input->post('kecamatan_id');
+        $paket=$this->input->post('paket');
+        $kg_weight = $qty*$beratm;
         $data = array(
             'rowid'     => $rowid,
             'qty'       => $qty,
             'weight'    => $kg_weight
         );
-
         if($this->cart->update($data))
+        {    
+        $query = $this->area_shipping->getbyid($propinsi_id, $kabupaten_id, $kecamatan_id);
+        if($query->num_rows() > 0)
         {
-            echo json_encode(array("status" => TRUE,"total_item"=>$this->cart->total_items()));
+            $value = $query->row_array();
+            if($paket==''){
+            $ongkir = $value['reguler'];
+        }elseif($paket=='reguler'){
+             $ongkir = $value['reguler'];
+         }elseif($paket=='ok'){
+             $ongkir = $value['ok'];
+        }
+        }else{
+            $ongkir = 0;
+        }
+        $free = $this->db->get_where('config_ongkir', array('id' => 1))->row();
+        if($free->free=='1'){
+             $this->session->set_userdata('ongkir',0);   
+        }else{
+            $berat=ceil($berat/1000);
+            $ongkir=$ongkir*$berat;
+            $this->session->set_userdata('ongkir',$ongkir);
+        }
+            echo json_encode(array("status" => TRUE,"berat" => $kg_weight,"total_item"=>$this->cart->total_items()));
         }else{
             echo json_encode(array("status" => FALSE,"total_item"=>0));
         }
     }
 
-    public function getongkir($area_id, $propinsi_id, $kabupaten_id, $kecamatan_id,$paket)
+    public function getongkir($area_id, $propinsi_id, $kabupaten_id, $kecamatan_id,$paket,$berat)
     {
         $query = $this->area_shipping->getbyid($propinsi_id, $kabupaten_id, $kecamatan_id);
         if($query->num_rows() > 0)
@@ -283,9 +310,11 @@ class Front extends MX_Controller {
         if($free->free=='1'){
              $this->session->set_userdata('ongkir',0);   
         }else{
-              $this->session->set_userdata('ongkir',$ongkir);
+            $berat=ceil($berat/1000);
+            $ongkir=$ongkir*$berat;
+            $this->session->set_userdata('ongkir',$ongkir);
         }
-       $price_total = $this->cart->total() + $this->session->userdata('ongkir')+$this->session->userdata('uniquecode');
+       $price_total = $this->cart->total() + $ongkir+$this->session->userdata('uniquecode');
         
         echo json_encode(array('ongkir'=>'RP. '.number_format($ongkir),'totalongkir'=>$ongkir,'price_total'=>'RP. '.number_format($price_total)));
     }

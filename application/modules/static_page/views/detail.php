@@ -18,7 +18,7 @@
 
           <div class="grid-body ">
             <div class="row">
-              <div class="col-xs-12 col-sm-12 col-md-8">
+              <div class="col-xs-12 col-sm-12 col-md-12">
                 <form onSubmit="document.my_form.content.value = $('.Editor-editor').html()" name="my_form" method="post" enctipe="multipart/form-data" class="form" action="<?php echo base_url() ?>static_page/update">
                   <input type="hidden" name="id" value="<?php echo $static->id ?>">
                    <div class="form-group">
@@ -33,7 +33,7 @@
             <div class="form-group">
               <label class="control-label col-md-2">Content</label>
               <div class="col-md-10">
-               <textarea name="content" class="form-controll col-md-12" id="txtEditor"><?php echo $static->content ?></textarea>
+               <textarea name="content" class="form-controll col-md-12" id="txtEditor"><?php echo str_replace('src="', 'src="'.base_url(),$static->content) ?></textarea>
                 <span class="help-block"></span>
               </div>
               <div class="clearfix"></div>

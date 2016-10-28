@@ -156,27 +156,9 @@
 <section class="sec-fasilitas">
 <div class="container animatedParent">
      <div class="header-fasilitas">
-     <h2>Keunggulan beli buku di sini</h2>
+     <h2><?php echo $keunggulan->title ?></h2>
      </div>
-     <div class="col-md-3 text-center animated bounceInUp slow">
-          <img src="assets/front/images/icon-mudah.png" />
-          <h3>Mudah</h3>
-          
-     </div>
-     <div class="col-md-3 text-center animated bounceInUp slow">
-          <img src="assets/front/images/icon-aman.png" />
-          <h3>Aman</h3>
-         
-     </div>
-     <div class="col-md-3 text-center animated bounceInUp slow">
-          <img src="assets/front/images/icon-terpercaya.png" />
-          <h3>Terpercaya</h3>
-          
-     </div>
-     <div class="col-md-3 text-center animated bounceInUp slow">
-          <img src="assets/front/images/icon-sesuai.png" />
-          <h3>Sesuai</h3>         
-     </div>   
+     <?php echo $keunggulan->content ?>   
 
 </div>
 </section>
@@ -184,50 +166,10 @@
 <section class="sec-cara-pembelian">
 <div class="container animatedParent">
      <div class="header-fasilitas">
-     <h2>Cara Pembelian</h2>
+     <h2><?php echo $cara_pembelian->title ?></h2>
      </div>
-    <div class="row">
-     <div class="col-md-3 animated bounceInUp slow">
-         <img src="assets/front/images/comic.jpg" class="img-responsive"/>
-         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-          
-     </div>
-     <div class="col-md-3 animated bounceInUp slow">
-          <img src="assets/front/images/comic.jpg" class="img-responsive"/>
-         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultricies neque eu ultrices sollicitudin</p>
-         
-     </div>
-     <div class="col-md-3 animated bounceInUp slow">
-          <img src="assets/front/images/comic.jpg" class="img-responsive"/>
-         <p>Lorem ipsum dolor sit amet, consectetu</p>
-          
-     </div>
-     <div class="col-md-3 animated bounceInUp slow">
-        <img src="assets/front/images/comic.jpg" class="img-responsive"/>
-         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultricies neque eu ultrices sollicitudin</p>        
-     </div> 
-        </div>
+     <?php echo $cara_pembelian->content ?>
     
-    <div class="row">
-     <div class="col-md-3 animated bounceInUp slow">
-          <img src="assets/front/images/comic.jpg" class="img-responsive"/>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ultricies neque eu ultrices sollicitudin</p>
-          
-     </div>
-     <div class="col-md-3 animated bounceInUp slow">
-          <img src="assets/front/images/comic.jpg" class="img-responsive"/>
-         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ult
-     </div>
-     <div class="col-md-3 animated bounceInUp slow">
-        <img src="assets/front/images/comic.jpg" class="img-responsive"/>
-         <p>Lorem ipsum dolor sit amet, consectetur altricies neque eu ultrices sollicitudin</p>
-          
-     </div>
-     <div class="col-md-3 animated bounceInUp slow">
-         <img src="assets/front/images/comic.jpg" class="img-responsive"s/>
-         <p>Lorem ipsum dolor sit amet, consectetur adipiscing es neque eu ultrices sollicitudin</p>        
-     </div>  
-    </div>
 
 </div>
 </section>

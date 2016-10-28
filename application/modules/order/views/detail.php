@@ -81,7 +81,7 @@
                       <?php foreach ($items_order->result_array() as $key => $value) { ?>
                         <li class="row">
                             <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                              <img src="http://placehold.it/80x80">
+                              <img width="100" src="<?php echo base_url() ?>uploads/cover/<?php echo getcoverbuku($value['product_id']) ?>">
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                               <label><?php echo $value['judul_buku']?></label>
@@ -113,9 +113,14 @@
             <div class="row order-history">
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <h4>History Status</h4>
-                <?php if($order_history->num_rows() > 0) { $i=1; ?>
+                <?php if($order_history->num_rows() > 0) { ?>
                 <ul class="ul-order-history" id="ul-order-history">
-                  <?php foreach ($order_history->result_array() as $key => $value) { ?>
+                  <?php
+                  $no=0;
+                   foreach ($order_history->result_array() as $key => $value) {
+                   $x=$no-1;
+                   $i=$value['order_status_id'];
+                   ?>
                     <li class="row">
                         <div class="col-md-2"><?php echo $value['order_status']?></div>
                         <div class="col-md-5">
@@ -128,20 +133,20 @@
                           <?php } ?> 
                         </div>
                         <div class="col-md-2">
-                          <?php if($i == 2) echo '<label class="label label-info" onClick="lihatconfirmationimg()">Lihat gambar</label>'?>
+                          <?php if($i == 2) echo '<label class="label label-info" onClick="lihatconfirmationimg('.$value['order_id'].','.$x.')">Lihat gambar</label>'?>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3" <?php if($no>1){?> style="display: none"<?php } ?>>
                           <?php 
-                          if($i == $order_history->num_rows() && $i <=4) { ?>
+                          if($i ==2 and $next_order_status_title!='') { ?>
                             <?php if($next_order_status_id != 3){ ?>
                               <?php if($this->ion_auth->is_admin_area()) { ?>
                                 <label class="label label-inverse" onClick="ubahstatus()">Ubah status : <?php echo $next_order_status_title; ?></label>
                               <?php }elseif($this->ion_auth->is_admin()){ ?>
                                 
-                              <?php } ?>
+                              <?php }} ?>
                             <?php }else{ ?>
                               <?php //if($this->ion_auth->) { ?>
-                              <?php if($cek_rekening == 0) { ?>
+                              <?php if($cek_rekening == 0 and $next_order_status_title!='') { ?>
                                 <?php if($this->ion_auth->is_admin()) { ?>
                                   <label class="label label-inverse" onClick="ubahstatus()">Ubah status : <?php echo $next_order_status_title; ?></label>
                                 <?php }?>
@@ -151,11 +156,11 @@
                                 <?php }?>
                               <?php }?>
                             <?php } ?>
-                          <?php } ?>
-                          <?php $i++; ?>
+                          
+                         
                         </div>
                     </li>
-                  <?php } ?> 
+                  <?php $no++;} ?> 
                   </ul>
                 <?php } ?>
               </div>
@@ -176,7 +181,7 @@
         <h3 class="modal-title">Gambar bukti transfer / konfirmasi pembayaran </h3>
       </div>
       <div class="modal-body form text-center">
-        <img src="<?php echo base_url().'uploads/'.$img_confirmation  ?>">
+        <img id="confirm_img" width="300" src="">
       </div>
     </div>
   </div>
@@ -213,7 +218,9 @@
                       $value_msg = 'pesanan sedang diproses'; 
                     }elseif($next_order_status_id == 5) {  
                       $value_msg = 'Barang telah dikirim dengan nomor resi pengiriman = ......'; 
-                    } ?>
+                    }else{
+                       $value_msg='';
+                      } ?>
                   <textarea class="form-control" name="catatan" id="catatan"><?php echo $value_msg?></textarea>
                   <span class="help-block"></span>
                 </div>

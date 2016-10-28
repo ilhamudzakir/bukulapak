@@ -145,4 +145,13 @@ class area_shipping_model extends CI_Model {
 		$data = $this->db->get();
 		return $data;
 	}
+
+	function selected_where($table,$column,$where){
+		$this->load->database('default',TRUE);
+		$this->db->select('*');
+		$this->db->from($table);
+		$this->db->where($column,$where);
+		$data = $this->db->get();
+		return $data;
+	}
 }

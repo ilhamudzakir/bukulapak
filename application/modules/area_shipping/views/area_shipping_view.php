@@ -37,8 +37,8 @@
         <?php if($this->ion_auth->is_admin()){ ?>
           <th>Area</th>
           <?php } ?>
-          <th>Propinsi</th>
-          <th>Kabupaten</th>
+          <th>Tujuan Propinsi</th>
+          <th>Tujuan Kabupaten</th>
           <th>Reguler</th>
           <th>Ok</th>
           <th>Action</th>
@@ -52,39 +52,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="modal_ongkir" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h3 class="modal-title">Upload Buku</h3>
-      </div>
-      <div class="modal-body form">
-        <div id="loading" style="display:none">
-          <i class="fa fa-cog fa-spin"></i> Loading
-        </div>
-        <div id="validation_errors" class=""></div>
-        <form action="#" id="formongkir" class="form-horizontal" enctype="multipart/form-data">
-          <div class="form-body">
-            <div class="form-group">
-              <label class="control-label col-md-5">Unggah data Onkos Kirim (.xls)</label>
-              <div class="col-md-7">
-                <input type="file" class="form border" name="upload_file" id="upload_file">
-                <input type="hidden" id="base_url" name="base_url" value="<?php echo base_url()?>">
-                <span class="help-block"></span>
-              </div>
-            </div>
-            
-          </div>
-        </form>
-        <div class="modal-footer">
-          <button type="button" id="btnSave" onclick="upload()" class="btn btn-primary">Upload</button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+
         
 <div class="modal fade" id="modal_form" role="dialog">
   <div class="modal-dialog">
@@ -115,7 +83,7 @@
             <input value="<?php echo $area->area_id ?>" type="hidden" name="area_id">
             <?php } ?>
             <div class="form-group">
-              <label class="control-label col-md-3">Propinsi</label>
+              <label class="control-label col-md-3">Tujuan Propinsi</label>
               <div class="col-md-9">
                 <select id="propinsi_id" name="propinsi_id" style="width: 100%" onChange="getkabupaten()">
                     <?php if($propinsi_id!=''){ ?> <?php }else{ ?><option value="0">Pilih propinsi</option><?php } ?>
@@ -128,7 +96,7 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="control-label col-md-3">Kabupaten</label>
+              <label class="control-label col-md-3">Tujuan Kabupaten</label>
               <div class="col-md-9">
                 <select id="kabupaten_id" name="kabupaten_id" style="width: 100%">
                   <option value="0">Pilih Kabupaten</option>

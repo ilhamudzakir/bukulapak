@@ -113,7 +113,13 @@ class Area_shipping extends MX_Controller {
 	public function ajax_edit($id)
 	{
 		$data = $this->area_shipping->get_by_id($id);
-		echo json_encode($data);
+		$prop= $this->area_shipping->selected_where('propinsi','propinsi_id',$data->propinsi_id)->row();
+		$propinsi=$prop->title;
+		$kab= $this->area_shipping->selected_where('kabupaten','kabupaten_id',$data->kabupaten_id)->row();
+		$kabupaten=$kab->title;
+		$ar= $this->area_shipping->selected_where('area','id',$data->area_id)->row();
+		$area=$ar->title;
+		echo json_encode(array("id" => $data->id,"area_id" => $data->area_id,"propinsi_id" => $data->propinsi_id,"kabupaten_id" => $data->kabupaten_id,"reguler" => $data->reguler,"ok" => $data->ok,"area" => $area,"kabupaten" => $kabupaten,"propinsi" => $propinsi));
 	}
 
 	public function ajax_add()

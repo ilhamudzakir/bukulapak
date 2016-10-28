@@ -17,9 +17,8 @@
               </div>
             </div>
 			  <h5 style="color:white;font-weight:bold"><?php if($this->ion_auth->is_admin_area()) {
-			$user=$this->db->query("select * from users where id='".$this->session->userdata('user_id')."'")->row();
-				$area=$this->db->query("select * from area where id='".$user->area_id."'")->row();
-			?> Area :  <?php echo $area->title; }?></h5>
+			
+			?> Area :  <?php echo $this->session->userdata('area'); }?></h5>
           </div>
           <!-- END MINI-PROFILE -->
           <!-- BEGIN SIDEBAR MENU -->

@@ -991,9 +991,13 @@ class Ion_auth_model extends CI_Model
 
                     return FALSE;
                 }
-
                 $this->set_session($user);
-
+                $area=$this->db->query("select * from area where id='".$user->area_id."' ");
+                if($area->num_rows()>0){
+                    $area=$area->row();
+                $this->session->set_userdata('area',$area->title);
+                $this->session->set_userdata('location_area',$area->location);
+                }
                 $this->update_last_login($user->id);
 
                 $this->clear_login_attempts($identity);

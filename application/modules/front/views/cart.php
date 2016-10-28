@@ -146,21 +146,25 @@
   <?php $i = 1; ?>
   <?php $totalweight = 0; ?>
   
-  <?php foreach($this->cart->contents() as $items): ?>
+  <?php foreach($this->cart->contents() as $items):
+
+   $totalweight += $items['weight'];
+   ?>
     <div class="col-md-12 lapak-list center">
+    <?php $buku=$this->db->query("select * from buku where kode_buku='".$items['id']."'")->row(); ?>
       <div class="row">
         <input type="hidden" id="rowid" name="rowid" value="<?php echo $items['rowid']?>">
         <input type="hidden" id="id_<?php echo $items['rowid']?>" name="id_<?php echo $items['rowid']?>" value="<?php echo $items['id']?>">
         <input type="hidden" id="name_<?php echo $items['rowid']?>" name="name_<?php echo $items['rowid']?>" value="<?php echo $items['name']?>">
+        <input type="hidden" id="beratm_<?php echo $items['rowid']?>" name="beratm_<?php echo $items['rowid']?>" value="<?php echo $buku->berat; ?>">
         <input type="hidden" id="berat_<?php echo $items['rowid']?>" name="berat_<?php echo $items['rowid']?>" value="<?php echo $items['weight']?>">
         <div class="col-md-3">
-			<?php $buku=$this->db->query("select * from buku where kode_buku='".$items['id']."'")->row(); ?>
-          <img class="float-l" src="<?php echo base_url().'uploads/cover/'.$buku->cover?>" width="80px">
+			 <img class="float-l" src="<?php echo base_url().'uploads/cover/'.$buku->cover?>" width="80px">
         </div>
         <div class="col-md-6">
             <div class="float-l">
               <h4><?php echo $items['name']?></h4>
-
+              
               <div class="width-seratus">
               <input  type="number" min="1" step="1" value ="<?php echo $items['qty']?>" class="form border select2" name="qty_<?php echo $items['rowid'] ?>" id="qty_<?php echo $items['rowid'] ?>" onChange="updatecart('<?php echo $items['rowid'] ?>')" onKeyUp="updatecart('<?php echo $items['rowid'] ?>')"/>
 
@@ -174,10 +178,9 @@
           <div class="clearfix"></div>
         </div>
       </div>
-    </div>     
-  <?php $totalweight += ($items['weight']); ?>
+    </div>
 <?php endforeach; ?>
-
+<input type="hidden" id="totalweight" name="totalweight" value="<?php echo $totalweight ?>">
 <div class="lapak-list ">
   <div class="row">
     <div class="col-md-6">

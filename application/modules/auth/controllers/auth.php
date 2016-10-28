@@ -509,17 +509,17 @@ class Auth extends MX_Controller {
                 'nik'    => $this->input->post('nik'),
                 'phone'      => $this->input->post('phone'),
                 'password_mask'      => $this->input->post('password'),
-				'active'	=>1
+                'active'    =>1
             );
         }
         if ($this->form_validation->run() == true)
-        {	
-			//$id=$this->db->insert_id();
+        {   
+            //$id=$this->db->insert_id();
             //die('last_id'.$id);
             $id = $this->ion_auth->register($username, $password, $email, $additional_data);
             if($id != FALSE)
             {
-    			if ($this->ion_auth->is_admin())
+                if ($this->ion_auth->is_admin())
                 {
                     //Update the groups user belongs to
                     $groupData = $this->input->post('groups');
@@ -649,8 +649,8 @@ class Auth extends MX_Controller {
                 'type'  => 'password',
                 'value' => $this->form_validation->set_value('password_confirm'),
             );
-			$groups=$this->ion_auth->where('is_deleted', 0)->groups()->result_array();
-			$this->data['groups'] = $groups;
+            $groups=$this->ion_auth->where('is_deleted', 0)->groups()->result_array();
+            $this->data['groups'] = $groups;
             $this->_render_page('auth/create_user', $this->data);
         }
     }

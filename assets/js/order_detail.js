@@ -19,9 +19,23 @@ function ubahstatus()
   $('#modal_form').modal('show'); // show bootstrap modal
 }
 
-function lihatconfirmationimg()
-{
-  $('#modal_img').modal('show'); // show bootstrap modal
+function lihatconfirmationimg(id,con)
+{   
+
+    $.ajax({
+    url : base_url+"order/get_image_confirm/"+id+'/'+con,
+    success : function(response){
+      $('#confirm_img').attr('src',response);
+      $('#modal_img').modal('show'); // show bootstrap modal
+          
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+        alert('Error get data from ajax');
+    },
+    dataType: "html",
+  });
+  
 }
 
 function save()

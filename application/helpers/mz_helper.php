@@ -1663,4 +1663,15 @@ if ( ! function_exists('link_menu'))
 	}
 /*END Andi helper */
 
+
+function getcoverbuku($id){
+        $ci=& get_instance();
+        $ci->load->database(); 
+
+        $sql = "select * from buku where kode_buku='".$id."'"; 
+        $query = $ci->db->query($sql);
+        $row = $query->row();
+        return $row->cover;
+   }
+
 ?>

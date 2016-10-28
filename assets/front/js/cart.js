@@ -12,6 +12,11 @@ function updatecart(rowid)
   var qty = $('#qty_'+rowid).val();
   var price = $('#price_'+rowid).val();
   var berat = $('#berat_'+rowid).val();
+  var beratm = $('#beratm_'+rowid).val();
+  var propinsi_id = $('#propinsi_id').val();
+  var kabupaten_id = $('#kabupaten_id').val();
+  var kecamatan_id = $('#kecamatan_id').val();
+  var paket = $('#paket').val();
 
   $.ajax({
     url : base_url+"front/updatecart/"+rowid,
@@ -20,6 +25,11 @@ function updatecart(rowid)
       rowid: rowid,
       qty: qty,
       berat: berat,
+      beratm: beratm,
+      propinsi_id: propinsi_id,
+      kabupaten_id: kabupaten_id,
+      kecamatan_id: kecamatan_id,
+      paket: paket,
     },
     success : function(response){
       if(!response.status)
@@ -27,6 +37,7 @@ function updatecart(rowid)
         alert('Failed');
       }else{
         $(".text-checkout").html(response.total_item);
+         $('#berat_'+rowid).val(response.berat);
         window.location.reload();
       }
     },
@@ -91,6 +102,7 @@ function getongkir(area_id)
   var propinsi_id = $('#propinsi_id').val();
   var kabupaten_id = $('#kabupaten_id').val();
   var kecamatan_id = $('#kecamatan_id').val();
+  var berat = $('#totalweight').val();
   var paket = $('#paket').val();
 
   if(paket==''){
@@ -108,7 +120,7 @@ function getongkir(area_id)
     alert('silahkan pilih alamat terlebih dahulu')
   }else{
   $.ajax({
-    url : base_url+"front/getongkir/"+area_id+"/"+propinsi_id+"/"+kabupaten_id+"/"+kecamatan_id+"/"+paket,
+    url : base_url+"front/getongkir/"+area_id+"/"+propinsi_id+"/"+kabupaten_id+"/"+kecamatan_id+"/"+paket+"/"+berat,
     success : function(response){
       $('#ongkir').html(response.ongkir);
       $('#totalongkir').html(response.totalongkir);

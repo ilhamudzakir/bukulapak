@@ -95,14 +95,16 @@ var save_method; //for save method string
               type: "GET",
               dataType: "JSON",
               success: function(data)
-              {
-                 
+              {  
                   $('[name="id"]').val(data.id);
                   $('[name="area_id"]').val(data.area_id);
                   $('[name="propinsi_id"]').val(data.propinsi_id);
                   $('[name="kabupaten_id"]').val(data.kabupaten_id);
                   $('[name="reguler"]').val(data.reguler);
                   $('[name="ok"]').val(data.ok);
+                  document.getElementById("s2id_propinsi_id").getElementsByClassName("select2-chosen")[0].innerHTML=data.propinsi;
+                  document.getElementById("s2id_kabupaten_id").getElementsByClassName("select2-chosen")[0].innerHTML=data.kabupaten;
+                  document.getElementById("s2id_area_id").getElementsByClassName("select2-chosen")[0].innerHTML=data.area;
                   
                   $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
                   $('.modal-title').text('Edit area_shipping'); // Set title to Bootstrap modal title
