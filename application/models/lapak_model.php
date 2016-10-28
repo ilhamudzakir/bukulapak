@@ -85,7 +85,7 @@ class lapak_model extends CI_Model {
 		$this->db->join($this->join2, $this->join2.'.propinsi_id = '.$this->table.'.propinsi_id', 'left');
 		$this->db->join($this->join3, $this->join3.'.kabupaten_id = '.$this->table.'.kabupaten_id', 'left');
 		$this->db->join($this->join1.' as active_user', 'active_user.id = '.$this->table.'.active_user_id', 'left');
-		//$this->db->where($this->table.'.sales_id',$id);
+		$this->db->where($this->table.'.is_deleted',0);
 
 		$i = 0;
 	
@@ -117,6 +117,7 @@ class lapak_model extends CI_Model {
 		if($_POST['length'] != -1)
 		$this->db->limit($_POST['length'], $_POST['start']);
 		$this->db->where($this->table.'.sales_id',$id);
+		
 		$query = $this->db->get();
 		//die($this->db->last_query());
 		return $query->result();

@@ -237,22 +237,22 @@ class Lapak extends MX_Controller {
             $row[] = $lapak->school_name;
             $row[] = $lapak->propinsi;
             $row[] = $lapak->kabupaten;
-            $row[] = $lapak->agen_name;
-            $row[] = $lapak->agen_disc;
-            $row[] = $lapak->buyer_disc;
-            $row[] = $lapak->notes;
-            $row[] = $lapak->is_approve_superior;
-            $row[] = $lapak->superior_name;
-            $row[] = $lapak->approve_superior_date;
-            $row[] = $lapak->is_approve_next_superior;
-            $row[] = $lapak->next_superior_name;
-            $row[] = $lapak->approve_next_superior_date;
+            //$row[] = $lapak->agen_name;
+            //$row[] = $lapak->agen_disc;
+            //$row[] = $lapak->buyer_disc;
+            //$row[] = $lapak->notes;
+            //$row[] = $lapak->is_approve_superior;
+            //$row[] = $lapak->superior_name;
+            //$row[] = $lapak->approve_superior_date;
+            //$row[] = $lapak->is_approve_next_superior;
+            //$row[] = $lapak->next_superior_name;
+            //$row[] = $lapak->approve_next_superior_date;
             $row[] = date('d M Y',strtotime($lapak->start_active)).' - '.date('d M Y',strtotime($lapak->end_active));
             $row[] = $num_rows.' buku';
             //$row[] = number_format($hargas['total_harga']);
             $row[] = strtoupper($lapak->active);
-            $row[] = $lapak->active_date;
-            $row[] = $lapak->active_user;
+            //$row[] = $lapak->active_date;
+            //$row[] = $lapak->active_user;
             //$row[] =  $button_action;
             /*$filter = array('lapak_id'=>'where/'.$lapak->lapak_id,'is_deleted'=>'where/0');
             $query = GetAll('lapak_buku',$filter);
@@ -534,6 +534,7 @@ class Lapak extends MX_Controller {
 
     function edit($id)
     {
+        //die('here');
         $this->data['title'] = "Edit Lapak";
 
         $this->data['controller_name'] = 'lapak';
@@ -699,6 +700,18 @@ class Lapak extends MX_Controller {
             $this->data['sekolah_id'] = 0;
             $this->data['agen_name'] = '';
         }
+
+        if($lapak->superior_id != 0){
+            $getsuperiorq = getsuperiorbyid($lapak->superior_id);
+            //$superior_name = $getsuperiorq['title'];
+            $is_approve_superior = $getsuperiorq['is_approve_superior'];
+            $this->data['valueis_approve_superior'] = $is_approve_superior;
+            //$this->data['superior_name'] = $superior_name;
+
+        }else{
+            $this->data['valueis_approve_superior'] = "pending";
+            //$this->data['superior_name'] = '';
+        }
         
 
         $this->data['title_input'] = array(
@@ -845,6 +858,8 @@ class Lapak extends MX_Controller {
 
         $this->data['lapak_buku'] = GetLapakBuku($lapak_id);
 
+        $this->data['valueis_approve_superior'] = $lapak->is_approve_superior;
+
         $this->data['csrf'] = $this->_get_csrf_nonce();
 
         $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
@@ -856,12 +871,15 @@ class Lapak extends MX_Controller {
             $getsuperiorq = getsuperiorbyid($lapak->superior_id);
             $superior_name = $getsuperiorq['title'];
             $superior_id = $getsuperiorq['id'];
+            //$is_approve_superior = $getsuperiorq['is_approve_superior'];
             $this->data['valuesuperior_id'] = $superior_id;
             $this->data['superior_name'] = $superior_name;
+            
 
         }else{
             $this->data['valuesuperior_id'] = 0;
             $this->data['superior_name'] = '';
+            $this->data['valueis_approve_superior'] = "pending";
         }
 
         if($lapak->next_superior_id != 0){
@@ -1785,7 +1803,9 @@ class Lapak extends MX_Controller {
 	public function ajax_delete($id)
 	{
 		$data = array(
-				'is_deleted' => 1
+				'is_deleted' => 1,
+                'delete_date' => date('Y-m-d H:i:s',now()),
+                'delete_user_id' => $this->session->userdata('user_id')
 			);
 		$this->lapak->update(array('id' => $id), $data);
 		echo json_encode(array("status" => TRUE));

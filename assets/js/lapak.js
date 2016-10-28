@@ -718,7 +718,7 @@ function masukkan_buku(lapak_id, buku_id)
 function delete_lapak(id)
 {
   controller_name = $('#controller_name').val();
-  if(confirm('Are you sure delete this data?'))
+  if(confirm('Anda yakin akan menghapusnya?'))
   {
     // ajax delete data to database
       $.ajax({
@@ -728,9 +728,15 @@ function delete_lapak(id)
         dataType: "JSON",
         success: function(data)
         {
-           //if success reload ajax table
-           $('#modal_form').modal('hide');
-           reload_table();
+          if(data.status)
+          {
+            window.setTimeout(function(){
+                window.location.href = base_url + controller_name;
+            }, 500);
+          }else
+          {
+            alert('Error deleting data');
+          }
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
@@ -740,6 +746,36 @@ function delete_lapak(id)
      
   }
 }
+
+/*function delete_lapak(id)
+{
+  controller_name = $('#controller_name').val();
+  save_method = 'update';
+  $('#form')[0].reset(); // reset form on modals
+  $('.form-group').removeClass('has-error'); // clear error class
+   $('.help-block').empty(); // clear error string
+  
+  //Ajax Load data from ajax
+  $.ajax({
+    //url : "<?php echo site_url('lapak/ajax_edit/')?>/" + id,
+    url : base_url + controller_name + "/ajax_delete/" + id,
+    type: "GET",
+    dataType: "JSON",
+    success: function(data)
+    {
+       if(data.status)
+       {
+          window.setTimeout(function(){
+              window.location.href = base_url + controller_name + "/lapak";
+          }, 2000);
+       } 
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+        alert('Error get data from ajax');
+    }
+});
+}*/
 
 function delete_lapak_buku(lapak_id,id)
 {

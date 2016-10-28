@@ -200,9 +200,12 @@
             <div class="form-group">
               <div class="row">
                 <div class="col-md-12">
-                  <button type="submit" class="btn btn-info">Save</button>
+                  <button type="submit" class="btn btn-primary">Save</button>
+                  <?php if($valueis_approve_superior != "approve") { ?>
+                    <button type="button" class="btn btn-danger" onClick="delete_lapak(<?php echo $this->uri->segment(3)?>)">Hapus</button>
+                  <?php } ?>
                   <a href="<?php echo site_url('lapak')?>">
-                    <button type="button" class="btn btn-danger">Cancel</button>
+                    <button type="button" class="btn btn-info">Cancel</button>
                   </a>
                 </div>
                 
@@ -364,6 +367,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" id="btnSaveSekolah" onclick="save_sekolah()" class="btn btn-primary">Save</button>
+          
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
         </div>
       
