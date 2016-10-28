@@ -512,28 +512,89 @@ class Auth extends MX_Controller {
 				'active'	=>1
             );
         }
-        if ($this->form_validation->run() == true && $this->ion_auth->register($username, $password, $email, $additional_data))
+        if ($this->form_validation->run() == true)
         {	
-			$id=$this->db->insert_id();
-			if ($this->ion_auth->is_admin())
+			//$id=$this->db->insert_id();
+            //die('last_id'.$id);
+            $id = $this->ion_auth->register($username, $password, $email, $additional_data);
+            if($id != FALSE)
             {
-                //Update the groups user belongs to
-                $groupData = $this->input->post('groups');
+    			if ($this->ion_auth->is_admin())
+                {
+                    //Update the groups user belongs to
+                    $groupData = $this->input->post('groups');
 
-                if (isset($groupData) && !empty($groupData)) {
+                    if (isset($groupData) && !empty($groupData)) {
 
-                    $this->ion_auth->remove_from_group('', $id);
+                        $this->ion_auth->remove_from_group('', $id);
 
-                    foreach ($groupData as $grp) {
-                        $this->ion_auth->add_to_group($grp, $id);
+                        foreach ($groupData as $grp) {
+                            $this->ion_auth->add_to_group($grp, $id);
+                        }
+
                     }
-
                 }
+                //check to see if we are creating the user
+                //redirect them back to the admin page
+                $this->session->set_flashdata('message', $this->ion_auth->messages());
+                redirect("auth", 'refresh');
+            }else
+            {
+                //display the create user form
+                //set the flash data error message if there is one
+                $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+
+                $this->data['area'] = GetArea();
+
+                //$this->data['area_id'] = $user->area_id;
+
+                $this->data['nik'] = array(
+                    'name'  => 'nik',
+                    'id'    => 'nik',
+                    'type'  => 'text',
+                    'value' => $this->form_validation->set_value('nik'),
+                );
+
+                $this->data['first_name'] = array(
+                    'name'  => 'first_name',
+                    'id'    => 'first_name',
+                    'type'  => 'text',
+                    'value' => $this->form_validation->set_value('first_name'),
+                );
+                $this->data['last_name'] = array(
+                    'name'  => 'last_name',
+                    'id'    => 'last_name',
+                    'type'  => 'text',
+                    'value' => $this->form_validation->set_value('last_name'),
+                );
+                $this->data['email'] = array(
+                    'name'  => 'email',
+                    'id'    => 'email',
+                    'type'  => 'text',
+                    'value' => $this->form_validation->set_value('email'),
+                );
+                $this->data['phone'] = array(
+                    'name'  => 'phone',
+                    'id'    => 'phone',
+                    'type'  => 'text',
+                    'value' => $this->form_validation->set_value('phone'),
+                );
+                $this->data['password'] = array(
+                    'name'  => 'password',
+                    'id'    => 'password',
+                    'type'  => 'password',
+                    'value' => $this->form_validation->set_value('password'),
+                );
+                $this->data['password_confirm'] = array(
+                    'name'  => 'password_confirm',
+                    'id'    => 'password_confirm',
+                    'type'  => 'password',
+                    'value' => $this->form_validation->set_value('password_confirm'),
+                );
+                $groups=$this->ion_auth->where('is_deleted', 0)->groups()->result_array();
+                $this->data['groups'] = $groups;
+                $this->_render_page('auth/create_user', $this->data);
             }
-            //check to see if we are creating the user
-            //redirect them back to the admin page
-            $this->session->set_flashdata('message', $this->ion_auth->messages());
-            redirect("auth", 'refresh');
         }
         else
         {
