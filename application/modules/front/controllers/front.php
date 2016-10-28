@@ -854,7 +854,7 @@ class Front extends MX_Controller {
                     }
                     
                     foreach ($query_items->result_array() as $key => $value) {
-						$buku=$this->db->query("select * from buku where kode_buku='".$items['product_id']."'")->row();
+						$buku=$this->db->query("select * from buku where kode_buku LIKE '".$value['product_id']."'")->row();
                         $martop2 = ($key == 0) ? 'martop2' : '';
                         $items .= '<div class="col-md-12 '.$martop2.'" style="border-top:1px solid grey; padding: 20px 0px;">';
                           $items .= '<div class="col-md-3 text-center">';

@@ -1,4 +1,4 @@
-<div class="page-content" <?php if($this->ion_auth->is_sales()) { ?> style="margin-left:0px" <?php } ?>>
+<div class="page-content" >
   <div class="content">
   <div class="grid simple">    
     <div>

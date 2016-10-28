@@ -1,6 +1,6 @@
 <!-- BEGIN SIDEBAR -->
       <!-- BEGIN MENU -->
-      <div class="page-sidebar" id="main-menu">
+      <div class="page-sidebar" id="main-menu" style="display: block!important">
         <div class="page-sidebar-wrapper scrollbar-dynamic" id="main-menu-wrapper">
           <!-- BEGIN MINI-PROFILE -->
           <div class="user-info-wrapper">
@@ -60,6 +60,12 @@
                 <li class="start active">
                   <a href="<?php echo site_url('static_page')?>">
                     <span class="title">Static Page</span>
+                  </a>
+                </li>
+
+                 <li class="start active">
+                  <a href="<?php echo site_url('static_page')?>">
+                    <span class="title">Layout Order Email</span>
                   </a>
                 </li>
                 
