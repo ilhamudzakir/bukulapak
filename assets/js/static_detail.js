@@ -21,7 +21,7 @@ $(document).ready(function() {
 
 $( document ).ready(function() {
    $( ".Editor-editor" ).keyup(function() {
-    $('.Editor-editor').html($('#txtEditor').val());
+    $('.Editor-editor').html()=$('#txtEditor').val();
    });
 });
  $(document).on("ajax:before", "#form-wysiwyg", function(e) {

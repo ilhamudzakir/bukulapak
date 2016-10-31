@@ -2142,6 +2142,43 @@ class Lapak extends MX_Controller {
         }
     }
 
+        function export_excel(){
+        $this->data['controller_name'] = 'lapak';
+
+        $this->data['area']=select_all('area');
+        $this->_render_page('lapak/export_excel', $this->data);
+    }
+
+    function export(){
+         $this->load->dbutil();
+        $this->load->helper('file');
+        $this->load->helper('download');
+        $sales=$this->input->post('sales');
+        $kodelapak=$this->input->post('kode_lapak');
+        $active=$this->input->post('active');
+        if($sales==''){
+            $qusername='';
+        }else{
+            $qusername=" and users.username='".$sales."'";
+        }
+        if($kodelapak==''){
+            $qkodelapak='';
+        }else{
+            $qkodelapak=" and lapak.lapak_code='".$kodelapak."'";
+        }
+        if($active==''){
+            $qactive='';
+        }else{
+            $qactive=" and lapak.active='".$active."'";
+        }
+        $query=$this->db->query("SELECT users.username as nama_sales, lapak.title, lapak.lapak_code, lapak.start_active, lapak.end_active, propinsi.title as propinsi, kabupaten.title as kabupaten, sekolah.title as sekolah, agen.username as agen, lapak.agen_disc, lapak.buyer_disc, lapak.notes, lapak.active FROM lapak INNER JOIN propinsi on propinsi.propinsi_id=lapak.propinsi_id INNER JOIN users on users.id=lapak.sales_id INNER JOIN users as agen on agen.id=lapak.agen_id INNER JOIN kabupaten on kabupaten.kabupaten_id=lapak.kabupaten_id INNER JOIN sekolah on sekolah.id=lapak.sekolah_id where lapak.is_deleted='0'".$qusername."".$qkodelapak."".$qactive);
+        $delimiter = ",";
+        $newline = "\r\n";
+        $data = $this->dbutil->csv_from_result($query, $delimiter, $newline);
+        force_download('Lapak.csv', $data);
+    }
+
+
     function _render_page($view, $data=null, $render=false)
     {
         $data = (empty($data)) ? $this->data : $data;

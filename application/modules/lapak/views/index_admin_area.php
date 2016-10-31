@@ -43,6 +43,9 @@
             <div class="row">
               <div class="col-md-12">
                 <h3>Lapak Dalam Area ini</h3>
+                <a href="<?php echo site_url('lapak/export_excel')?>">
+                  <button class="btn btn-info" ><i class="glyphicon"></i> Export Excel</button>
+                </a>
               </div>
             </div>
           </div>

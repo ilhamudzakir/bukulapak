@@ -172,7 +172,7 @@
                         <tr>
                           <!-- <td><img src="<?php echo $value['cover'] ?>"></td> -->
                           <td>
-                            <img src="http://placehold.it/100x125">
+                            <img width="100" src="<?php echo base_url() ?>uploads/cover/<?php echo $value['cover'] ?>">
                           </td>
                           <td>
                             <?php echo $value['judul'] .'<br/>IDR. '.number_format($value['harga']) ?>; 
