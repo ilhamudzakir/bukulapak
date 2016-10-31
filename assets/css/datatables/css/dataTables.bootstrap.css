@@ -370,3 +370,7 @@ div.FixedHeader_Cloned table {
 	margin: 0 !important
 }
 
+.dataTables_scrollBody{
+	height: auto!important;
+	width: auto!important
+}

@@ -78,15 +78,12 @@
                 </div>
                 <div class="col-md-3">
                   <label class="control-label">Nama Sekolah</label>
-                <?php if( $agen_name != 0) { ?>
-					 <input type="text" value="<?php echo $agen_name ?>" class="form-control" disabled="disabled">
+                <?php if( $sekolah_name != 0) { ?>
+					 <input type="text" value="<?php echo $sekolah_id ?>" class="form-control" disabled="disabled">
            <?php } ?>
                   <select id="sekolah_id" required name="sekolah_id" style="width: 100%">
-                    <option value="">Pilih Sekolah</option>
-                    <?php foreach ($sekolah as $key => $value) { ?>
-                      <?php $selected = ($value['id'] == $sekolah_id) ? 'selected="selected"' : '' ?>
-                      <option value="<?php echo $value['id']; ?>" <?php echo $selected ?> > <?php echo $value['title']; ?></option>
-                    <?php }?>
+                    <option value="<?php echo $sekolah_id ?>"><?php echo $sekolah_name ?></option>
+                    
                   </select>
                   <span class="help-block"></span>
                 </div>

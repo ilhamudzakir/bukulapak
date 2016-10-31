@@ -133,11 +133,20 @@ class users_groups extends MX_Controller {
             $row[] = $users_groups->area;
             $row[] = date('d M Y H:i:s',$users_groups->created_on);
             $row[] = date('d M Y H:i:s',$users_groups->last_login);
-            $active_label = ($users_groups->active == 1) ? anchor("users_groups/deactivate/".$users_groups->user_id."/5/sales_area", lang('index_active_link'),array('class'=>'btn btn-sm btn-info')) : anchor("users_groups/activate/". $users_groups->user_id."/5", lang('index_inactive_link'),array('class'=>'btn btn-sm btn-danger'));
-            $row[] = $active_label;
+            if($users_groups->active==0){
+            $status='Inactive';
+           }else{
+            $status='Active';
+           }
+            $row[] = $status;
             $row[] = $users_groups->group_name;
             $action_label = '<a class="btn btn-sm btn-primary" href="'.site_url('users_groups/edit_user/'.$users_groups->user_id.'/'.$users_groups->group_id).'" title="Edit" ><i class="glyphicon glyphicon-pencil"></i></a>';
-            $row[] = $action_label;
+            if($users_groups->active == 0){
+                $active_label1=anchor("auth/activate/". $users_groups->id, 'Active', array('class' => 'btn btn-small btn-info'));
+            } else{
+                $active_label1 =anchor("auth/deactivate/".$users_groups->id, 'Non Active', array('class' => 'btn btn-small btn-danger'));
+            }
+            $row[] = $action_label."</br></br>".$active_label1;
             
             $data[] = $row;
         }

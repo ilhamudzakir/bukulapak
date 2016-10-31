@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 ini_set("memory_limit","-1");
 set_time_limit(0);
@@ -624,7 +625,6 @@ class Lapak extends MX_Controller {
         //if($sekolah->num_rows() > 0){
         //    $this->data['sekolah'] = $sekolah->result_array();
         //}else{
-            $this->data['sekolah'] = array();
         //}
 
         $this->data['agen'] = GetAgen();
@@ -690,14 +690,14 @@ class Lapak extends MX_Controller {
 
         if($lapak->sekolah_id != 0){
             $getagenq = GetsekolahbyidDetail($lapak->propinsi_id,$lapak->kabupaten_id,$lapak->sekolah_id);
-            $agen_name = $getagenq['title'];
+            $sekolahname = $getagenq['title'];
             $sekolah_id = $getagenq['id'];
             $this->data['sekolah_id'] = $sekolah_id;
-            $this->data['agen_name'] = $agen_name;
+            $this->data['sekolah_name'] = $sekolahname;
 
         }else{
             $this->data['sekolah_id'] = 0;
-            $this->data['agen_name'] = '';
+            $this->data['sekolah_name'] = '';
         }
         
 

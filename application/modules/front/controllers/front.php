@@ -566,7 +566,7 @@ class Front extends MX_Controller {
         
         $order_code = $confirmation_code;
 		$emails=select_where('email_order','id','1')->row();
-        $email1=str_replace('*order_code', $order_code, $emails);
+        $email1=str_replace('*order_code', $order_code, $emails->content);
         $message=str_replace('*order_total', number_format($order_total), $email1);
         //email
 

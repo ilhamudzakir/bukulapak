@@ -23,9 +23,9 @@
                             <div class="col-md-6 col-sm-12 col-xs-12 col-lg-6">
 
                                 <p>
-                                    <?php echo lang('create_user_nik_label', 'nik');?> <br />
+                                    Nik * <br />
                                     <select onchange="nik_change()" name="nik" id="nik" style="width:100%">
-                                    <option value="">Select NIK</option>   
+                                    <option value="">Select NIK*</option>   
                                     <?php foreach ($employe as $nik) {
                                     ?>
                                     <option value="<?php echo $nik->nik ?>"><?php echo $nik->nik ?></option>
@@ -34,31 +34,35 @@
                                 </p>
 
                                 <p>
-                                    <?php echo lang('create_user_fname_label', 'first_name');?> <br />
+                                    First Name * <br />
                                     <?php echo bs_form_input($first_name);?>
                                 </p>
 
                                 <p>
-                                    <?php echo lang('create_user_lname_label', 'last_name');?> <br />
+                                    Last Name * <br />
                                     <?php echo bs_form_input($last_name);?>
                                 </p>
                             </div>
                             <div class="col-md-6 col-sm-12 col-xs-12 col-lg-6">
                                 <p>
-                                    <?php echo lang('create_user_email_label', 'email');?> <br />
+                                    Email * <br />
                                     <?php echo bs_form_input($email);?>
                                 </p>
 
                                 <p>
-                                    <?php echo lang('create_user_phone_label', 'phone');?> <br />
+                                    Phone * <br />
                                     <?php echo bs_form_input($phone);?>
                                 </p>
 
                                 <p>
-                                    <?php echo lang('create_user_password_label', 'password');?> <br />
+                                
+                                    Password * <br />
+                                    <div class="row">
+                                <div class="col-md-7">
                                     <?php echo bs_form_input($password);?>
+                                    </div><div class="col-md-5">
                                     <?php echo bs_form_button($gen_password,'Generate Password');?>
-                                    
+                                </div></div>
                                 </p>
 
                                 <p>

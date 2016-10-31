@@ -76,15 +76,25 @@ class Auth extends MX_Controller {
             $row[] = date('d M Y H:i:s',$users->last_login);
             $get_users_groups = $this->users->get_user_groups($users->id);
             
-            $active_label = ($users->active == 1) ? anchor("auth/deactivate/".$users->id, lang('index_active_link'), array('class' => 'btn btn-small btn-info')) : anchor("auth/activate/". $users->id, lang('index_inactive_link'), array('class' => 'btn btn-small btn-danger'));
-            $row[] = $active_label;
+           if($users->active==0){
+            $status='Inactive';
+           }else{
+            $status='Active';
+           }
+            $row[] = $status;
             $row[] = $users->password_mask;
             foreach ($get_users_groups as $group):
                 $row_1[] = $group->group_name.';';
             endforeach;
             $row[] = $row_1;
             $action_label = '<a class="btn btn-small btn-primary" href="'.site_url('auth/edit_user/'.$users->id).'" title="Edit"><i class="glyphicon glyphicon-pencil"></i></a>';
-            $row[] = $action_label;
+             
+            if($users->active == 0){
+                $active_label1=anchor("auth/activate/". $users->id, 'Active', array('class' => 'btn btn-small btn-info'));
+            } else{
+                $active_label1 =anchor("auth/deactivate/".$users->id, 'Non Active', array('class' => 'btn btn-small btn-danger'));
+            }
+            $row[] = $action_label."</br></br>".$active_label1;
 
             $data[] = $row;
         }
