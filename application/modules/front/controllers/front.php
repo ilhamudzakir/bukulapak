@@ -66,7 +66,7 @@ class Front extends MX_Controller {
         $filterk = array("id"=>"where/6",);
         $this->data['keunggulan'] = GetAll('static_page',$filterk)->row();
         $this->data['buku']=$this->buku->count_max();
-        $lapak=$this->lapak->select_where_order("active","aprove","id","DESC");
+        $lapak=$this->db->query("select * from buku order by kode_buku DESC limit 0,8");
         $this->data['lapak']=$lapak->result();
         $this->_render_page('front/home', $this->data);
 	}
