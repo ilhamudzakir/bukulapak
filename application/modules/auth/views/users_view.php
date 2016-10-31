@@ -11,6 +11,9 @@
       <a href="<?php echo site_url('auth/create_user')?>">
         <button class="btn btn-success" ><i class="glyphicon glyphicon-plus"></i> Add User</button>
       </a>
+      <a href="<?php echo site_url('auth/export_excel')?>">
+        <button class="btn btn-info" ><i class="glyphicon"></i> Export Excel</button>
+      </a>
     <br />
     <?php
         if( $this->session->flashdata('message')) { ?>

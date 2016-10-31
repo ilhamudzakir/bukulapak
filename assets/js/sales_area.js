@@ -53,7 +53,7 @@ var save_method; //for save method string
                 $("#password").val(gen_password);
                 alert(gen_password);
             });
-
+           
           });
 
           function randomPassword(length) {

@@ -1674,4 +1674,24 @@ function getcoverbuku($id){
         return $row->cover;
    }
 
+function select_where($table,$column,$where){
+		$ci=& get_instance();
+		$ci->load->database('default',TRUE);
+		$ci->db->select('*');
+		$ci->db->from($table);
+		$ci->db->where($column,$where);
+		$data = $ci->db->get();
+		return $data;
+}
+
+
+function select_all($table){
+		$ci=& get_instance();
+		$ci->load->database('default',TRUE);
+		$ci->db->select('*');
+		$ci->db->from($table);
+		$data = $ci->db->get();
+		return $data;
+}
+
 ?>

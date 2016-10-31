@@ -134,7 +134,7 @@ class Auth extends MX_Controller {
     {
         $this->data['title'] = "Login";
         
-
+         $this->data['background']=select_where('background','id',9)->row();
         //validate form input
         $this->form_validation->set_rules('identity', 'Identity', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
@@ -937,6 +937,37 @@ class Auth extends MX_Controller {
             return FALSE;
         }
     }
+
+    function export_excel(){
+        $this->data['controller_name'] = 'auth';
+
+        $this->data['area']=select_all('area');
+        $this->_render_page('auth/export_excel', $this->data);
+    }
+
+    function export(){
+         $this->load->dbutil();
+        $this->load->helper('file');
+        $this->load->helper('download');
+        $area=$this->input->post('area');
+        $active=$this->input->post('active');
+        if($area==''){
+            $qarea='';
+        }else{
+            $qarea=" and area_id='".$area."'";
+        }
+        if($active==''){
+            $qactive='';
+        }else{
+            $qactive=" and active='".$active."'";
+        }
+        $query = $this->db->query("SELECT users.* FROM users INNER JOIN users_groups ON users.id=users_groups.user_id WHERE users_groups.group_id='5'".$qarea."".$qactive);
+        $delimiter = ",";
+        $newline = "\r\n";
+        $data = $this->dbutil->csv_from_result($query, $delimiter, $newline);
+        force_download('User Admin Area.csv', $data);
+    }
+
 
     function _render_page($view, $data=null, $render=false)
     {

@@ -1,4 +1,5 @@
 <div class="page-content">
+<input type="hidden" id="controller_name" name="controller_name" value="<?php echo base_url() ?>users_groups/">
     <div class="content">
         <div class="grid simple">
             <div class="grid-title">
@@ -23,7 +24,13 @@
 
                                 <p>
                                     <?php echo lang('create_user_nik_label', 'nik');?> <br />
-                                    <?php echo bs_form_input($nik);?>
+                                    <select onchange="nik_change()" name="nik" id="nik" style="width:100%">
+                                    <option value="">Select NIK</option>   
+                                    <?php foreach ($employe as $nik) {
+                                    ?>
+                                    <option value="<?php echo $nik->nik ?>"><?php echo $nik->nik ?></option>
+                                    <?php } ?>
+                                    </select>
                                 </p>
 
                                 <p>

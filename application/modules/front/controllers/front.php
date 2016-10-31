@@ -54,7 +54,7 @@ class Front extends MX_Controller {
         }else{
             $this->data['propinsi'] = array();
         }
-
+        $this->data['background']=select_where('background','id',8)->row();
         $kabupaten = $this->kabupaten->getAll();
         if($kabupaten->num_rows() > 0){
             $this->data['kabupaten'] = $kabupaten->result_array();
@@ -565,15 +565,11 @@ class Front extends MX_Controller {
             $order_total = $value['order_total'];
         
         $order_code = $confirmation_code;
-		//email
-  //       $message = '<h1><b>Terima Kasih,</b></h1>
-  // <h4>Nomor transaksi anda adalah <b>'.$order_code.'</b></h4>
-  // <h4>selanjutnya silahkan melakukan pembayaran sebesar <b>RP '.number_format($order_total).'</b> ke nomor rekening berikut</h4>
-  // </br>
-  // <h4><b>Rekening Bank Permata</b></h4>
-  // <h4>Bank Permata Cabang Kyai Hasyim Jakarta</h4>
-  // <h4>atas nama : PT Erlangga</h4>
-  // <h4>Nomor rekening : 451376137813</h4>';
+		$emails=select_where('email_order','id','1')->row();
+        $email1=str_replace('*order_code', $order_code, $emails);
+        $message=str_replace('*order_total', number_format($order_total), $email1);
+        //email
+
 		
   //       $this->load->library('email', $config);
   //     $this->email->set_newline("\r\n");

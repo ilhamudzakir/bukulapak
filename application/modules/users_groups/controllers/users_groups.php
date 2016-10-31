@@ -182,7 +182,7 @@ class users_groups extends MX_Controller {
 	function create_user()
     {
         $this->data['title'] = "Create User";
-
+        $this->data['employe']=$this->db->query("select * from employe")->result();
         if (!$this->ion_auth->logged_in() || $this->ion_auth->is_agen() || $this->ion_auth->is_sales())
         {
             redirect('auth', 'refresh');
@@ -255,6 +255,7 @@ class users_groups extends MX_Controller {
         {
             //display the create user form
             //set the flash data error message if there is one
+            
             $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
 
             $this->data['nik'] = array(
@@ -695,6 +696,11 @@ class users_groups extends MX_Controller {
         {
             return $this->load->view($view, $data, TRUE);
         }
+    }
+
+    function sales_employe($nik){
+        $q=select_where('employe','nik',$nik)->row();
+        echo json_encode($q);
     }
 
 }
