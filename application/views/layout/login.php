@@ -1,6 +1,7 @@
 <style type="text/css">
      body{
-          background:url("<?php echo base_url(); ?>assets/front/images/girls-back.jpg") no-repeat;
+          
+          background:url("<?php echo base_url(); ?>assets/front/images/<?php echo $background->content ?>") no-repeat;
           background-size: 100%;
      }
 </style>

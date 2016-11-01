@@ -11,6 +11,7 @@ $(document).ready(function() {
       var gen_password = randomPassword(8);
       $("#password").val(gen_password);
   });
+    $('#nik').select2();
 
 });
 
@@ -22,6 +23,28 @@ function randomPassword(length) {
         pass += chars.charAt(i);
     }
     return pass;
+}
+
+function nik_change()
+{
+    var nik= $('[name="nik"]').val();
+    $.ajax({
+    url : controller_name + "/sales_employe/" + nik,
+    type: "GET",
+    dataType: "JSON",
+    success: function(data){
+                 
+      $('[name="first_name"]').val(data.first_name);
+      $('[name="last_name"]').val(data.last_name);
+      $('[name="email"]').val(data.email);
+      $('[name="phone"]').val(data.phone);
+                 
+    },
+    error: function (jqXHR, textStatus, errorThrown)
+    {
+      alert('Error get data from ajax');
+    }
+    });
 }
 
           

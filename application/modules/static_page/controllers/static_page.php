@@ -43,7 +43,23 @@ class Static_page extends MX_Controller {
         }
     }
 
-    
+        public function change_background()
+    {
+        if (!$this->ion_auth->logged_in())
+        {
+            redirect('auth/login', 'refresh');
+        }
+        elseif($this->ion_auth->is_admin())
+        {
+            $this->data['controller_name'] = 'static_page';
+
+            $this->_render_page('static_page/change_background', $this->data);
+        }
+        else
+        {
+            return show_error('You must be an administrator to view this page.');
+        }
+    }
 
     public function detail($id)
     {
@@ -55,9 +71,47 @@ class Static_page extends MX_Controller {
 
         $this->data['static']=$this->db->query("select * from static_page where id='".$id."'")->row();
         $this->_render_page('static_page/detail', $this->data);
-
-            
       
+    }
+
+    public function detail_background($id)
+    {
+        if (!$this->ion_auth->logged_in())
+        {
+            redirect('auth/login', 'refresh');
+        }
+        $this->data['controller_name'] = 'static_page';
+
+        $this->data['static']=$this->db->query("select * from background where id='".$id."'")->row();
+        $this->_render_page('static_page/detail_background', $this->data);
+      
+    }
+
+    function upload()
+    {
+                $id=$this->input->post('id');
+                $config['upload_path'] = './assets/front/images/';
+                $config['allowed_types']        = 'gif|jpg|png';
+
+                $this->load->library('upload', $config);
+                if ( !  $this->upload->do_upload("user_file"))
+                {
+                        $error =  $this->upload->display_errors();
+
+                        echo $error;
+                }
+                else
+                {       
+                     $upload_data = $this->upload->data();
+           
+            $file_name = $upload_data['file_name']; //Now you got the file name in the $file_name var. Use it to record in db.
+            $data = array(
+            'content'=> $file_name,
+             );
+            $this->db->update('background', $data, "id ='".$id."'");
+            redirect('static_page/detail_background/'.$id);
+
+                }
     }
 
     
@@ -75,6 +129,34 @@ class Static_page extends MX_Controller {
             $row = array();
             $row[] = $static->title;
             $row[] = '<a class="btn btn-sm btn-primary" href="'.site_url('static_page/detail/'.$static->id).'" title="Detail"><i class="glyphicon glyphicon-pencil"></i> Detail</a>';
+    
+        
+            $data[] = $row;
+        }
+
+        $output = array(
+                        "draw" => $_POST['draw'],
+                        "recordsTotal" => $this->db->query('select * from static_page')->num_rows(),
+                        "recordsFiltered" => $this->db->query('select * from static_page')->num_rows(),
+                        "data" => $data,
+                );
+        echo json_encode($output);
+    }
+
+        public function ajax_background_list()
+    {   
+        //$area_id = $this->session->userdata('area_id');
+        $id = $this->session->userdata('user_id');
+        
+        $list = $this->db->query('select * from background')->result();
+        $data = array();
+        $no = $_POST['start'];
+        $rec = "";
+        foreach ($list as $static) {
+            $no++;
+            $row = array();
+            $row[] = $static->title;
+            $row[] = '<a class="btn btn-sm btn-primary" href="'.site_url('static_page/detail_background/'.$static->id).'" title="Detail"><i class="glyphicon glyphicon-pencil"></i> Detail</a>';
     
         
             $data[] = $row;
@@ -107,7 +189,17 @@ class Static_page extends MX_Controller {
                 $this->template->add_js('static.js');
             }
 
-             if(in_array($view, array('static_page/detail')))
+               if(in_array($view, array('static_page/change_background')))
+            {
+                $this->template->add_css('datatables/css/dataTables.bootstrap.css');
+                //$this->template->add_css('bootstrap-datepicker/css/datepicker.css');
+                $this->template->add_js('datatables/js/jquery.dataTables.min.js');
+                $this->template->add_js('datatables/js/dataTables.bootstrap.js');
+                //$this->template->add_js('bootstrap-datepicker/js/bootstrap-datepicker.js');
+                $this->template->add_js('change_background.js');
+            }
+
+             if(in_array($view, array('static_page/detail','static_page/layout_email')))
             {
                 //$this->template->add_css('datatables/css/dataTables.bootstrap.css');
                 //$this->template->add_css('bootstrap-datepicker/css/datepicker.css');
@@ -146,6 +238,22 @@ class Static_page extends MX_Controller {
          redirect('static_page/detail/'.$id);
         }
 
+    }
+
+        public function layout_email()
+    {   
+        $id=1;
+        if (!$this->ion_auth->logged_in())
+        {
+            redirect('auth/login', 'refresh');
+        }
+        $this->data['controller_name'] = 'static_page';
+
+        $this->data['static']=select_where('email_order','id',$id)->row();
+        $this->_render_page('static_page/layout_email', $this->data);
+
+            
+      
     }
 
 }

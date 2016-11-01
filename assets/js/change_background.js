@@ -12,21 +12,37 @@ $(document).ready(function() {
   var order_status = $('#order_status').val();
 
 
-  
+  table_admin = $('#table_admin').DataTable({ 
+    
+    "processing": true, //Feature control the processing indicator.
+    "serverSide": true, //Feature control DataTables' server-side processing mode.
+    
+    "ajax": {
+        "url": base_url + controller_name + "/ajax_background_list",
+        "type": "POST"
+    },
+
+    "columnDefs": [
+    { 
+      "targets": [ -1 ], //last column
+      "orderable": false, //set not orderable
+    },
+    ],
+    "oLanguage": {
+         "sSearch": "Title :"
+       }
+
+  });
+
+
   //$("#order_status_id").select2();
-  $("#txtEditor").Editor();
-  $('#txtEditor').Editor("getText");
-   $('.Editor-editor').html($('#txtEditor').val());
+  $("#order_status_id").css('width','250px');
+
+  $('#table_wrapper .dataTables_filter input').addClass("input-medium ");
+  $('#table_wrapper .dataTables_length select').addClass("select2-wrapper span12"); 
+	
 });
 
-$( document ).ready(function() {
-   $( ".Editor-editor" ).keyup(function() {
-    $('.Editor-editor').html()=$('#txtEditor').val();
-   });
-});
- $(document).on("ajax:before", "#form-wysiwyg", function(e) {
-    $('#txtEditor').val($('.Editor-editor').html());
-  });
 function randomPassword(length) {
     var chars = "abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOP1234567890";
     var pass = "";

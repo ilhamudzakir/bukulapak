@@ -929,3 +929,6 @@ span.icon-wa {
 #back-to-top.show {
     opacity: 1;
 }
+.lapak-list .price-list{
+    font-size: 16px;
+}

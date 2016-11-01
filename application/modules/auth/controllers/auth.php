@@ -76,15 +76,25 @@ class Auth extends MX_Controller {
             $row[] = date('d M Y H:i:s',$users->last_login);
             $get_users_groups = $this->users->get_user_groups($users->id);
             
-            $active_label = ($users->active == 1) ? anchor("auth/deactivate/".$users->id, lang('index_active_link'), array('class' => 'btn btn-small btn-info')) : anchor("auth/activate/". $users->id, lang('index_inactive_link'), array('class' => 'btn btn-small btn-danger'));
-            $row[] = $active_label;
+           if($users->active==0){
+            $status='Inactive';
+           }else{
+            $status='Active';
+           }
+            $row[] = $status;
             $row[] = $users->password_mask;
             foreach ($get_users_groups as $group):
                 $row_1[] = $group->group_name.';';
             endforeach;
             $row[] = $row_1;
             $action_label = '<a class="btn btn-small btn-primary" href="'.site_url('auth/edit_user/'.$users->id).'" title="Edit"><i class="glyphicon glyphicon-pencil"></i></a>';
-            $row[] = $action_label;
+             
+            if($users->active == 0){
+                $active_label1=anchor("auth/activate/". $users->id, 'Active', array('class' => 'btn btn-small btn-info'));
+            } else{
+                $active_label1 =anchor("auth/deactivate/".$users->id, 'Non Active', array('class' => 'btn btn-small btn-danger'));
+            }
+            $row[] = $action_label."</br></br>".$active_label1;
 
             $data[] = $row;
         }
@@ -134,7 +144,7 @@ class Auth extends MX_Controller {
     {
         $this->data['title'] = "Login";
         
-
+         $this->data['background']=select_where('background','id',9)->row();
         //validate form input
         $this->form_validation->set_rules('identity', 'Identity', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
@@ -937,6 +947,37 @@ class Auth extends MX_Controller {
             return FALSE;
         }
     }
+
+    function export_excel(){
+        $this->data['controller_name'] = 'auth';
+
+        $this->data['area']=select_all('area');
+        $this->_render_page('auth/export_excel', $this->data);
+    }
+
+    function export(){
+         $this->load->dbutil();
+        $this->load->helper('file');
+        $this->load->helper('download');
+        $area=$this->input->post('area');
+        $active=$this->input->post('active');
+        if($area==''){
+            $qarea='';
+        }else{
+            $qarea=" and area_id='".$area."'";
+        }
+        if($active==''){
+            $qactive='';
+        }else{
+            $qactive=" and active='".$active."'";
+        }
+        $query = $this->db->query("SELECT users.* FROM users INNER JOIN users_groups ON users.id=users_groups.user_id WHERE users_groups.group_id='5'".$qarea."".$qactive);
+        $delimiter = ",";
+        $newline = "\r\n";
+        $data = $this->dbutil->csv_from_result($query, $delimiter, $newline);
+        force_download('User Admin Area.csv', $data);
+    }
+
 
     function _render_page($view, $data=null, $render=false)
     {

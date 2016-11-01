@@ -64,7 +64,13 @@
                 </li>
 
                  <li class="start active">
-                  <a href="<?php echo site_url('static_page')?>">
+                  <a href="<?php echo site_url('static_page/change_background')?>">
+                    <span class="title">Change Background</span>
+                  </a>
+                </li>
+
+                 <li class="start active">
+                  <a href="<?php echo site_url('static_page/layout_email')?>">
                     <span class="title">Layout Order Email</span>
                   </a>
                 </li>

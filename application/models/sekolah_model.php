@@ -126,7 +126,7 @@ class sekolah_model extends CI_Model {
 		return $data;
 	}
 	function select_sekolah(){
-		$query=$this->db->query("select sekolah.id, sekolah.title from sekolah inner join lapak on sekolah.id=lapak.sekolah_id  where lapak.active='active' group by sekolah.id");
+		$query=$this->db->query("select sekolah.id, sekolah.title from sekolah inner join lapak on sekolah.id=lapak.sekolah_id  where lapak.active='approve' group by sekolah.id");
 		return $query;
 	}
 
