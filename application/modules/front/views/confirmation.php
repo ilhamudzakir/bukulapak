@@ -59,7 +59,7 @@
 
     <div class="form-group">
       <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-12">
         <label class="grey">Unggah Bukti Transfer</label>
       <input type="file" class="form border" name="upload_file" id="upload_file">
       <?php //echo form_error('upload_file','<div class="alert alert-error">','</div>'); ?>
@@ -67,6 +67,15 @@
      
     </div>
     </div>
+    <div class="form-group">
+      <div class="row">
+      <div class="col-md-12">
+        <label class="grey">Catatn</label>
+      <textarea class="form border" name="notes" id="notes" placeholder="Catatan.."></textarea>
+      <?php echo form_error('notes','<div class="alert alert-error">','</div>'); ?>
+      </div>
+      </div>
+      </div>
     <div class="form-group">
     <div class="col-md-6 center">
       <input type="button" name="submit" value="Submit" class="form btn2 large" id="confirmation_submit" onClick="submit_confirmation()">

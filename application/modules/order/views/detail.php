@@ -133,7 +133,7 @@
                           <?php } ?> 
                         </div>
                         <div class="col-md-2">
-                          <?php if($i == 2) echo '<label class="label label-info" onClick="lihatconfirmationimg('.$value['order_id'].','.$x.')">Lihat gambar</label>'?>
+                          <?php if($i == 2) echo '<label class="label label-info" onClick="lihatconfirmationimg('.$value['order_id'].','.$x.')">Detail Transaksi</label>'?>
                         </div>
                         <div class="col-md-3" <?php if($no>1){?> style="display: none"<?php } ?>>
                           <?php 
@@ -178,10 +178,27 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h3 class="modal-title">Gambar bukti transfer / konfirmasi pembayaran </h3>
+        <h3 class="modal-title">Detail transaksi konfirmasi pembayaran</h3>
       </div>
       <div class="modal-body form text-center">
         <img id="confirm_img" width="300" src="">
+        
+      </div>
+      <div class="modal-footer text-left">
+        <div class="row">
+          <div class="col-md-12" id="metode">
+            <b >Metode Pembayaran</b>  
+          </div>
+          <div class="col-md-12"  id="namapeng">
+            <b>Nama Pengirim</b> 
+          </div>
+          <div class="col-md-12" id="namabank">
+            <b >Nama Bank</b> 
+          </div>
+          <div class="col-md-12" id="notes">
+            <b >Notes</b> 
+          </div>
+        </div>
       </div>
     </div>
   </div>

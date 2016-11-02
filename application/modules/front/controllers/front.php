@@ -638,6 +638,7 @@ class Front extends MX_Controller {
         $confirmation_name = $this->input->post('confirmation_name');
         $confirmation_bank = $this->input->post('confirmation_bank');
         $upload_file= $this->input->post('upload_file');
+        $notes= $this->input->post('notes');
 
         $orders = $this->orders->get_by_code($confirmation_code);
         if($orders->num_rows() > 0){
@@ -672,6 +673,7 @@ class Front extends MX_Controller {
                 'confirmation_method'    => $confirmation_method,
                 'confirmation_name'    => $confirmation_name,
                 'confirmation_bank'    => $confirmation_bank,
+                'notes'                => $notes,
                 'upload_file'    => $fileName,
                 'create_date'    => date('Y-m-d H:i:s',now())
             );
@@ -699,7 +701,181 @@ class Front extends MX_Controller {
         //$this->load->library('form_validation');
         $this->data['controller_name'] = 'front';
         $this->data['function'] = '';
+        if(isset($_GET['no_trans'])){
+        $confirmation_code=$_GET['no_trans'];
+         $query = $this->orders->cekstatusorder($confirmation_code);
+            if($query->num_rows() > 0)
+            {
+                $value = $query->row_array();
+                $order_status_id = $value['order_status_id'];
+                $order_id = $value['order_id'];
+                $order_shipping_price = $value['order_shipping_price'];
+                $order_total = $value['order_total'];
 
+                if($order_status_id == 1) {
+                    $order_ceklist = '&#10004';
+                    $Konfirmasi_ceklist = '';
+                    $pembayaran_ceklist = '';
+                    $proses_ceklist = '';
+                    $kirim_ceklist = '';
+                    $terima_ceklist = '';
+                }elseif($order_status_id <= 2){
+                    $order_ceklist = '&#10004';
+                    $Konfirmasi_ceklist = '&#10004';
+                    $pembayaran_ceklist = '';
+                    $proses_ceklist = '';
+                    $kirim_ceklist = '';
+                    $terima_ceklist = '';
+                }elseif($order_status_id <= 3){
+                    $order_ceklist = '&#10004';
+                    $Konfirmasi_ceklist = '&#10004';
+                    $pembayaran_ceklist = '&#10004';
+                    $proses_ceklist = '';
+                    $kirim_ceklist = '';
+                    $terima_ceklist = '';
+                }elseif($order_status_id <= 4){
+                    $order_ceklist = '&#10004';
+                    $Konfirmasi_ceklist = '&#10004';
+                    $pembayaran_ceklist = '&#10004';
+                    $proses_ceklist = '&#10004';
+                    $kirim_ceklist = '';
+                    $terima_ceklist = '';
+                }elseif($order_status_id <= 5){
+                    $order_ceklist = '&#10004';
+                    $Konfirmasi_ceklist = '&#10004';
+                    $pembayaran_ceklist = '&#10004';
+                    $proses_ceklist = '&#10004';
+                    $kirim_ceklist = '&#10004';
+                    $terima_ceklist = '';
+                }elseif($order_status_id <= 6){
+                    $order_ceklist = '&#10004';
+                    $Konfirmasi_ceklist = '&#10004';
+                    $pembayaran_ceklist = '&#10004';
+                    $proses_ceklist = '&#10004';
+                    $kirim_ceklist = '&#10004';
+                    $terima_ceklist = '&#10004';
+                }else{
+                    $order_ceklist = '';
+                    $Konfirmasi_ceklist = '';
+                    $pembayaran_ceklist = '';
+                    $proses_ceklist = '';
+                    $kirim_ceklist = '';
+                    $terima_ceklist = '';
+                }
+                
+                $query_items = $this->items->get_items_by_order_id($order_id);
+                if($query_items->num_rows() > 0)
+                {
+                    $items='';
+                    $items .= '<div class="center text-center"><h4>Detail dan Status Transaksi Nomor '.$confirmation_code.'</h4></div>';
+                    $items .= '<div class="col-md-7 center martop bar"></div>';
+                    $items .= '<div class="col-md-7 center" style="padding:0px; top:-5px;">';
+                        $items .= '<div class="kotak-bullet">';
+                           $items .= '<div class="bullet bullet-left">'.$order_ceklist.'</div>';
+                           $items .= 'Order';
+                         $items .= '</div>';
+                         $items .= '<div class="kotak-bullet">';
+                           $items .= '<div class="bullet bullet-left">'.$Konfirmasi_ceklist.'</div>';
+                           $items .= 'Konfirmasi Pembayaran';
+                         $items .= '</div>';
+                         $items .= '<div class="kotak-bullet">';
+                           $items .= '<div class="bullet bullet-left">'.$pembayaran_ceklist.'</div>';
+                           $items .= 'Pembayaran Diterima';
+                         $items .= '</div>';
+                         $items .= '<div class="kotak-bullet">';
+                           $items .= '<div class="bullet bullet-left">'.$proses_ceklist.'</div>';
+                           $items .= 'Pesanan Diproses';
+                         $items .= '</div>';
+                         $items .= '<div class="kotak-bullet">';
+                           $items .= '<div class="bullet bullet-left">'.$kirim_ceklist.'</div>';
+                           $items .= 'Barang Dirikirim';
+                         $items .= '</div>';
+                         $items .= '<div class="kotak-bullet kotak-w-n">';
+                           $items .= '<div class="bullet bullet-left" id="terima">'.$terima_ceklist.'</div>';
+                           $items .= 'Barang Diterima';
+                         $items .= '</div>';    
+                       $items .= '</div>';
+
+                    
+                    $items .= '<div class="col-md-8 center">';
+                    if($order_status_id == 5) {
+                        $filter_ = array("order_id"=>"where/".$order_id, "order_status_id"=>"where/5");
+                        $query_ = GetAll('order_history',$filter_);
+                        if($query_->num_rows() > 0)
+                        {
+                            $v_ = $query_->row_array();
+                            $op = $v_['operator'];
+                            $cat = $v_['catatan'];
+                        }else{
+                            $op = "";
+                            $cat = "";
+                        }
+                        $items .= '<div class="col-md-12 martop2">';
+                            $items .= '<span id="textbarang">Barang pesanan anda sudah kami kirimkan menggunakan operator</span> : <strong>'.$op.'</strong> dengan catatan ';
+                            $items .= '<strong>'.$cat.'</strong>';
+                        $items .= '</div>';
+                       
+                        $items .='<div class="col-md-6 martop2 center" id="textbarang2" ><input onClick="submit_diterima(this)" order-id="'.$order_id.'" type="submit" id="barangok" class="form btn2 martop2" value="Barang Sudah Diterima" name="submit"></div>';
+                       
+                       
+                    }
+
+                     if($order_status_id == 6) {
+                        $filter_ = array("order_id"=>"where/".$order_id, "order_status_id"=>"where/5");
+                        $query_ = GetAll('order_history',$filter_);
+                        if($query_->num_rows() > 0)
+                        {
+                            $v_ = $query_->row_array();
+                            $op = $v_['operator'];
+                            $cat = $v_['catatan'];
+                        }else{
+                            $op = "";
+                            $cat = "";
+                        }
+                        $items .= '<div class="col-md-12 martop2 text-center">';
+                            $items .= '<span id="textbarang">Barang pesanan anda sudah diterima menggunakan</span> : <strong>'.$op.'</strong> dengan catatan ';
+                            $items .= '<strong>'.$cat.'</strong><br/>';
+                            $items .='<div class="col-md-6 martop2 center" id="textbarang2" >Terima kasih sudah berbelanja di website kami.</div>';
+                        $items .= '</div>';
+                       
+                       
+                       
+                    }
+                    
+                    foreach ($query_items->result_array() as $key => $value) {
+                        $buku=$this->db->query("select * from buku where kode_buku LIKE '".$value['product_id']."'")->row();
+                        $martop2 = ($key == 0) ? 'martop2' : '';
+                        $items .= '<div class="col-md-12 '.$martop2.'" style="border-top:1px solid grey; padding: 20px 0px;">';
+                          $items .= '<div class="col-md-3 text-center">';
+                            $items .= '<img src="uploads/cover/'.$buku->cover.'" width="70px">';
+                          $items .= '</div>';
+                          $items .= '<div class="col-md-6">';
+                            $items .= '<h5><b>'.$value['item_name'].'</b></h5>';
+                            $items .= '<h5><b>'.$value['item_qty'].' Pcs</b></h5>';
+                          $items .= '</div>';
+                          $items .= '<div class="col-md-3">';
+                            $items .= '<h5><b>IDR. '.number_format($value['item_subtotal']).'</b></h5>';
+                          $items .= '</div>';
+                        $items .= '</div>';
+
+                    }
+                    $items .= '<div class="col-md-12" style="border-top:1px solid grey; border-bottom:1px solid grey; padding:20px 0px">';
+                      $items .= '<div class="col-md-9 text-center"><b>Ongkos Kirim</b></div>';
+                      $items .= '<div class="col-md-3"><b>IDR. '.number_format($order_shipping_price).'</b></div>';
+                    $items .= '</div>';
+                    $items .= '<div class="col-md-12">';
+                      $items .= '<div class="col-md-9"></div>';
+                      $items .= '<div class="col-md-3"><h5><b>IDR. '.number_format($order_total).'</b></h5></div>';
+                    $items .= '</div>';
+                    $items .= '</div>';
+
+                }
+                $this->data['item']=$items;
+               
+            }else{
+                $this->data['item']='<div class="alert alert-error col-md-7 center">Kode Transaksi anda Salah</div>';
+            }
+        }
         $this->_render_page('front/status-transaksi', $this->data);
     }
 
@@ -791,7 +967,7 @@ class Front extends MX_Controller {
                          $items .= '</div>';
                          $items .= '<div class="kotak-bullet">';
                            $items .= '<div class="bullet bullet-left">'.$proses_ceklist.'</div>';
-                           $items .= 'Pesan Diproses';
+                           $items .= 'Pesanan Diproses';
                          $items .= '</div>';
                          $items .= '<div class="kotak-bullet">';
                            $items .= '<div class="bullet bullet-left">'.$kirim_ceklist.'</div>';
@@ -880,11 +1056,11 @@ class Front extends MX_Controller {
                 echo json_encode(array('status'=>1,'validation_errors'=>'','html_result'=>$items));
             }else
             {
-                echo json_encode(array('status'=>0,'validation_errors'=>'<div class="alert alert-error">Kode transaksi salah</div>','html_result'=>$items));
+                echo json_encode(array('status'=>0,'validation_errors'=>'<div class="alert alert-error col-md-7 center">Kode transaksi salah</div>','html_result'=>$items));
             }
         }else
         {
-            echo json_encode(array('status'=>0,'validation_errors'=>'<div class="alert alert-error">Kode Transaksi wajib diisi</div>','html_result'=>$items));
+            echo json_encode(array('status'=>0,'validation_errors'=>'<div class="alert alert-error col-md-7 center">Kode Transaksi wajib diisi</div>','html_result'=>$items));
         }
     }
 
@@ -912,19 +1088,31 @@ class Front extends MX_Controller {
         }
     }
 
-    function barang_diterima($id){
-        $order=$this->lapak->getrow('orders','order_id',$id)->row();
-        $data= array(
+    function barang_diterima(){
+        $id=$this->input->post('id');
+        $email=$this->input->post('email');
+        $code=$this->input->post('code');
+        $data_order=array(
+        'order_email'=>$email,
+        'order_id'=>$id,
+        'order_code'=>$code
+            );
+        $order=select_where_array('orders',$data_order)->num_rows();
+
+       
+        if($order>0){
+             $data= array(
             "order_status_id"=>6,
         );
         if($id==''){
          redirect('front/status');   
         }
         $query=$this->db->update('orders', $data, "order_id =".$id."");
-        if($query){
-           echo json_encode(array('status'=>1,'validation_errors'=>'','html_result'=>$items));
+            $html='success';
+           echo json_encode($html);
         }else{
-           echo json_encode(array('status'=>1,'validation_errors'=>'query errors','html_result'=>$items));
+             $html='error';
+           echo json_encode($html);
         }
     }
 

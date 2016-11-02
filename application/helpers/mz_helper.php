@@ -620,6 +620,8 @@ if (!function_exists('GetSalesbyArea')){
 	}
 }
 
+
+
 if (!function_exists('GetAdmin')){
 	function GetAdmin()
 	{
@@ -1694,4 +1696,13 @@ function select_all($table){
 		return $data;
 }
 
+function select_where_array($table,$where){
+		$ci=& get_instance();
+		$ci->load->database('default',TRUE);
+		$ci->db->select('*');
+		$ci->db->from($table);
+		$ci->db->where($where);
+		$data = $ci->db->get();
+		return $data;
+	}
 ?>

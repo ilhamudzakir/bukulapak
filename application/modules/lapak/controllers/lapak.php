@@ -849,6 +849,7 @@ class Lapak extends MX_Controller {
         $this->data['active'] = $lapak->active;
 
         $this->data['judul_lapak'] = url_title($lapak->title);
+        $this->data['sales_id_lapak'] = $lapak->sales_id;
 
         $this->data['superior_id'] = GetSalesbyArea();
 

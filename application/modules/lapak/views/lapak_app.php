@@ -35,7 +35,7 @@
                     <option value="">Pilih Atasan 1</option>
                     <?php foreach ($superior_id as $key => $value) { ?>
                       <?php $selected = ($value['sales_id'] == $valuesuperior_id) ? 'selected="selected"' : '' ?>
-                      <option value="<?php echo $value['sales_id']; ?>" <?php echo $selected ?> > <?php echo $value['title']; ?></option>
+                      <option <?php if($sales_id_lapak==$value['sales_id']){ ?> disabled="disabled" <?php } ?> value="<?php echo $value['sales_id']; ?>" <?php echo $selected ?> > <?php echo $value['title']; ?></option>
                     <?php }?>
                   </select>
                   <span class="help-block"></span>
@@ -47,7 +47,7 @@
                     <option value="">Pilih Atasan 2</option>
                     <?php foreach ($next_superior_id as $key => $value) { ?>
                       <?php $selected = ($value['sales_id'] == $valuenext_superior_id) ? 'selected="selected"' : '' ?>
-                      <option value="<?php echo $value['sales_id']; ?>" <?php echo $selected ?> > <?php echo $value['title']; ?></option>
+                      <option <?php if($sales_id_lapak==$value['sales_id']){ ?> disabled="disabled" <?php } ?> value="<?php echo $value['sales_id']; ?>" <?php echo $selected ?> > <?php echo $value['title']; ?></option>
                     <?php }?>
                   </select>
                   <span class="help-block"></span>

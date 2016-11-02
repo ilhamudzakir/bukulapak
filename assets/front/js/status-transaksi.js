@@ -35,20 +35,37 @@ function cektransaksi()
  function submit_diterima()
 {
   
-    var data = '';
+    
+     $('#modal_form').modal('show'); // show bootstrap modal
+   
+}
+
+function cek_diterima(){
+  var data = '';
     var id = document.getElementById("barangok").getAttribute("order-id");
+    var email = document.getElementById("email_order").value;
+     var code = document.getElementById("confirmation_code").value;
     $('#loading').show();
- 
-    $.ajax({
+   $.ajax({
     type: "POST",
-    url: "front/barang_diterima/"+id,
+    data: {
+      id: id,
+      email: email,
+      code: code,
+    },
+    url: "front/barang_diterima/",
     success: function(html){ 
+    var html=jQuery.parseJSON(html);
+    if(html=='success'){
+      $('#modal_form').modal('hide');
+    document.getElementById("validasi_email").style.display="none";
     document.getElementById("textbarang").innerHTML="Barang pesanan anda sudah diterima menggunakan";
     document.getElementById("textbarang2").innerHTML="Terima kasih sudah berbelanja di website kami.";
     document.getElementById("terima").innerHTML="&#10004";
-    
     $('#loading').hide();
+    }else{
+    document.getElementById("validasi_email").style.display="block";
+    }
     }
 });
 }
-

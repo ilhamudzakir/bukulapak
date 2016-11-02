@@ -25,7 +25,12 @@ function lihatconfirmationimg(id,con)
     $.ajax({
     url : base_url+"order/get_image_confirm/"+id+'/'+con,
     success : function(response){
-      $('#confirm_img').attr('src',response);
+    var duce = jQuery.parseJSON(response);
+      $('#confirm_img').attr('src',base_url+'uploads/transaksi/'+duce.upload_file);
+      document.getElementById("namabank").innerHTML = "<b>Nama Bank</b> : "+duce.confirmation_bank;
+      document.getElementById("namapeng").innerHTML = "<b>Nama Pengirim</b> : "+duce.confirmation_name;
+      document.getElementById("metode").innerHTML = "<b>Metode Pembayaran</b> : "+duce.confirmation_method;
+      document.getElementById("notes").innerHTML = "<b>Notes</b> : "+duce.notes;
       $('#modal_img').modal('show'); // show bootstrap modal
           
     },

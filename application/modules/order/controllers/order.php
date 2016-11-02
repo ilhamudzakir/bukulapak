@@ -142,8 +142,9 @@ class Order extends MX_Controller {
         }
     }
     public function get_image_confirm($id,$con){
-        $a=$this->db->query("select confirmations.upload_file from order_history INNER JOIN orders ON orders.order_id=order_history.order_id INNER JOIN confirmations on confirmations.confirmation_code=orders.order_code where order_history.order_id='".$id."' and order_history.order_status_id='2' limit ".$con.",1 ")->row();
-       echo base_url()."uploads/transaksi/".$a->upload_file;
+        $a=$this->db->query("select confirmations.upload_file, confirmations.confirmation_method, confirmations.confirmation_name, confirmations.confirmation_bank, confirmations.notes from order_history INNER JOIN orders ON orders.order_id=order_history.order_id INNER JOIN confirmations on confirmations.confirmation_code=orders.order_code where order_history.order_id='".$id."' and order_history.order_status_id='2' limit ".$con.",1 ")->row();
+         echo json_encode($a);
+       
     }
     public function ajax_add()
     {

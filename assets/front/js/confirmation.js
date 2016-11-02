@@ -9,7 +9,7 @@ function submit_confirmation()
  
     var data = new FormData($('#confirmation_upload')[0]);
     $('#loading').show();
- 
+    var code = $('#confirmation_code').val();
      $.ajax({
                type:"POST",
                url: base_url+"front/proceedconfirmation/",
@@ -23,7 +23,8 @@ function submit_confirmation()
               {
                 $('#loading').hide();
                   $('#confirmation_upload')[0].reset();
-                  $('#validation_errors').html(data.validation_errors);  
+                  $('#validation_errors').html(data.validation_errors);
+                  document.location = base_url+"front/status?no_trans="+code;
               }
        });
  
