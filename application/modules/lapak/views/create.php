@@ -291,9 +291,10 @@
                       <div class="col-md-4">
                         <label class="control-label">Jenjang</label>
                         <select id="jenjang" name="jenjang" style="width: 100%">
-                          <!-- <option value="0">Pilih Jenjang</option> -->
+                          <option value="0">ALL</option>
                           <option value="SD">SD</option>
                           <option value="SDLB">SDLB</option>
+                          <option value="SMA">SMA</option>
                           <option value="SLB">SLB</option>
                           <option value="SMP">SMP</option>
                           <option value="SMPLB">SMPLB</option>

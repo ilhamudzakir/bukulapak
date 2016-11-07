@@ -51,27 +51,9 @@
         <select class="form border select2 arrow-sel" name="bstudy" id="bstudy" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
           <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>">Bidang Studi</option>
 		  <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/">SEMUA</option>
-          
-		  <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/AKTIVITAS">AKTIVITAS</option>
-          <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/BHS ASING">BHS ASING</option>
-          <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/BHS DAERAH">BHS DAERAH</option>
-          <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/BHS INDONESIA">BHS INDONESIA</option>
-          <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/FILSAFAT">FILSAFAT</option>
-          <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/GABPEL">GABPEL</option>
-          <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/GEOGRAFI">GEOGRAFI</option>
-          <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/GEOGRAFI">GEOGRAFI</option>
-          <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/ILMU KEDOKTERAN">ILMU KEDOKTERAN</option>
-          <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/ILMU POLITIK">ILMU POLITIK</option>
-          <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/ILMU POLITIK">ILMU POLITIK</option>
-          <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/IPA">IPA</option>
-          <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/IPS">IPS</option>
-          <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/ISLAM">ISLAM</option>
-          <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/KESENIAN">KESENIAN</option>
-          <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/KOMPUTER">KOMPUTER</option>
-          <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/MATEMATIKA">MATEMATIKA</option>
-          <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/PENDIDIKAN">PENDIDIKAN</option>
-          <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/SEJARAH">SEJARAH</option>
-          <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/SOSPOL">SOSPOL</option>
+       <?php foreach ($bstudy->result_array() as $key => $value) {  ?>   
+		  <option value="<?php echo base_url(); ?>front/search_sekolah/<?php echo $this->uri->segment(3);echo"/";echo $this->uri->segment(4);echo"/";echo $this->uri->segment(5); ?>/<?php echo $value['bstudi'] ?>"><?php echo $value['bstudi'] ?></option>
+          <?php } ?>
         </select>
       </div>
       

@@ -57,6 +57,22 @@ class Buku_model extends CI_Model {
 		return $query;
 	}
 
+	public function getbukustudy($sekolah_id)
+	{
+        $this->db->select('lapak.title as title,lapak.sales_id as sales_id,lapak_buku.kode_buku as kode_buku, lapak_buku.lapak_id as lapak_id, lapak_buku.id as id, buku.cover as cover, buku.judul as judul, buku.pengarang as pengarang, buku.harga as harga, buku.bstudi as bstudi, buku.jenjang as jenjang, buku.berat as berat, sekolah.title as sekolah');
+		$this->db->from('lapak');
+		$this->db->join('sekolah', 'lapak.sekolah_id = sekolah.id');
+		$this->db->join('lapak_buku', 'lapak.id = lapak_buku.lapak_id');
+		$this->db->join('buku', 'lapak_buku.kode_buku = buku.kode_buku');
+		$this->db->where('lapak.sekolah_id',$sekolah_id);
+		$this->db->where('lapak_buku.is_deleted',0);
+		$this->db->group_by('buku.bstudi');
+
+		$query = $this->db->get();
+
+		return $query;
+	}
+
 	public function getbukubylapak($lapak_id)
 	{
         $this->db->select('lapak.title as title,lapak.sales_id as sales_id,lapak_buku.kode_buku as kode_buku, lapak_buku.lapak_id as lapak_id, lapak_buku.id as id, buku.cover as cover, buku.judul as judul, buku.pengarang as pengarang, buku.harga as harga, buku.bstudi as bstudi, buku.jenjang as jenjang, buku.berat as berat, sekolah.title as sekolah');

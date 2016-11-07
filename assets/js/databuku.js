@@ -213,4 +213,41 @@ function save()
             alert('Error adding / update data');
         }*/
     });
+
+
+    
+      
 }
+function change_publish(){
+           if(confirm("Are you sure you want to change this?"))  
+           {    
+                var publish= $('#change').val();
+                var id = [];  
+                $(':checkbox:checked').each(function(i){  
+                     id[i] = $(this).val();  
+                });  
+                if(id.length === 0) //tell you if the array is empty  
+                {  
+                     alert("Please Select atleast one checkbox");  
+                }  
+                else  
+                {  
+                     $.ajax({  
+                          url:controller_name+'/change_publish',  
+                          method:'POST',  
+                          data:{id:id,publish:publish},  
+                          success:function()  
+                          {  
+                                $("#alert").attr("class","alert alert-info");
+                                 table.ajax.reload();
+                                $('#change').val('');
+                          }  
+                     });  
+                }  
+           }  
+           else  
+           {  
+                return false;  
+           }  
+}
+

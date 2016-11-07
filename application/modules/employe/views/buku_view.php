@@ -3,18 +3,12 @@
     <div class="grid simple">
     <input type="hidden" id="controller_name" value="<?php echo current_url(); ?>">
     <div class="grid-title">
-      <h3>Data Buku</h3>
+      <h3>Data Employe</h3>
     </div>
     <div class="grid-body ">
-    <div id="alert" class="alert alert-info hide">Succses, Data buku telah di perbarui</div>
-      <button class="btn btn-success" onclick="add_groups()"><i class="glyphicon glyphicon-plus"></i> Upload Buku</button>
+    <div id="alert" class="alert alert-info hide">Succses, Data Employe telah di perbarui</div>
+      <button class="btn btn-success" onclick="add_groups()"><i class="glyphicon glyphicon-plus"></i> Upload Employe</button>
       
-      
-      <select name="publish" id="change" onchange="change_publish()" class="form-controll" style="margin-left:10px;">
-        <option value="">Select Book To Pulish or Not</option>
-        <option value="1">Publish</option>
-         <option value="0">Not Publish</option>
-      </select>
       <br />
     <br />
     <table id="table" class="table" cellspacing="0" width="100%">
@@ -46,7 +40,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h3 class="modal-title">Upload Buku</h3>
+        <h3 class="modal-title">Upload Employe</h3>
       </div>
       <div class="modal-body form">
         <div id="loading" style="display:none">
@@ -56,7 +50,7 @@
         <form action="#" id="form" class="form-horizontal" enctype="multipart/form-data">
           <div class="form-body">
             <div class="form-group">
-              <label class="control-label col-md-5">Unggah data buku (.xls)</label>
+              <label class="control-label col-md-5">Unggah data Employe (.xls)</label>
               <div class="col-md-7">
                 <input type="file" class="form border" name="upload_file" id="upload_file">
                 <input type="hidden" id="base_url" name="base_url" value="<?php echo base_url()?>">

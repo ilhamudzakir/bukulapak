@@ -149,18 +149,27 @@ class Order extends MX_Controller {
     public function ajax_add()
     {
         $this->_validate();
+        if($this->input->post('next_order_status_id')==5){
+            $catatan=$this->input->post('catatan')." ".$this->input->post('resi');
+        }else{
+            $catatan=$this->input->post('catatan');
+        }
         $data = array(
                 'order_id' => $this->input->post('order_id'),
                 'order_status_id' => $this->input->post('next_order_status_id'),
-                'catatan' => $this->input->post('catatan'),
+                'catatan' => $catatan,
                 'operator' => $this->input->post('operator'),
                 'create_date' => date('Y-m-d H:i:s',now()),
                 'create_user_id' => $this->session->userdata('user_id'),
             );
+        if($this->input->post('next_order_status_id')==5 and $this->input->post('resi')==''){
+            
+        }else{
         $insert = $this->order_history->add($data);
-
         $update_status = array('order_status_id'=>$this->input->post('next_order_status_id'));
         $this->orders->update($this->input->post('order_id'),$update_status);
+        }
+        
 
         /*kirim email notif*/
         $config1['wordwrap'] = TRUE;
@@ -194,7 +203,7 @@ class Order extends MX_Controller {
             $this->email->subject('bukusekolahku.com : Perubahan status order dengan kode '.$this->input->post('order_code').' menjadi barang dikirim');
             $this->email->message('Hello '.$this->input->post('order_name').',<br/><br/>
                 Berikut adalah perubahan status order dengan kode '.$this->input->post('order_code').' menjadi BARANG DIKIRIM<br/><br/>
-                berikut adalah informasinya : <strong>'.$this->input->post('catatan').'</strong> <br/><br/>
+                berikut adalah informasinya : <strong>'.$catatan.'</strong> <br/><br/>
                 Terima kasih<br/>
                 Admin area bukusekolahku.com'
                 );    
@@ -225,8 +234,11 @@ class Order extends MX_Controller {
         {
             $this->email->send();    
         }
-            
+        if($this->input->post('next_order_status_id')==5 and $this->input->post('resi')==''){
+            echo json_encode(array("status" => FALSE));
+        }else{
         echo json_encode(array("status" => TRUE, "html_"=>$html_));
+        }
     }
 
     public function ajax_admin_list()

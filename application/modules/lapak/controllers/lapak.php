@@ -236,8 +236,8 @@ class Lapak extends MX_Controller {
             $row[] = $lapak->title;
             $row[] = $lapak->lapak_code;
             $row[] = $lapak->school_name;
-            $row[] = $lapak->propinsi;
-            $row[] = $lapak->kabupaten;
+            // $row[] = $lapak->propinsi;
+            // $row[] = $lapak->kabupaten;
             //$row[] = $lapak->agen_name;
             //$row[] = $lapak->agen_disc;
             //$row[] = $lapak->buyer_disc;
@@ -1658,9 +1658,9 @@ class Lapak extends MX_Controller {
         }
 
         if (strlen($jenjang) > 0) {
-            //if($jenjang != 0){
+            if($jenjang != 0){
                 $this->db->where('jenjang',$jenjang);    
-            //}
+            }
         }
 
         if (strlen($judul_buku) > 0) {

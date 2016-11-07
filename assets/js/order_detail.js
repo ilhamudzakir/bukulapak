@@ -67,7 +67,7 @@ function save()
                   success: function(data)
                   {
 
-                      if(data.status) //if success close modal and reload ajax table
+                      if(data.status==true) //if success close modal and reload ajax table
                       {
                           window.location.reload();
                           //$('#modal_form').modal('hide');
@@ -76,14 +76,12 @@ function save()
                       }
                       else
                       {
-                          for (var i = 0; i < data.inputerror.length; i++) 
-                          {
-                              $('#form [name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                              $('#form [name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
-                          }
+                          document.getElementById("resi").required = true;
+                          $('#btnSave').attr('disabled',false);
+                          $("#alert").attr("class","alert alert-error col-md-12");
                       }
                       $('#btnSave').text('save'); //change button text
-                      $('#btnSave').attr('disabled',false); //set button enable 
+                       //set button enable 
 
 
                   },

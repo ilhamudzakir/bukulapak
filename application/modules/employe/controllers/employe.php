@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Buku extends MX_Controller {
+class Employe extends MX_Controller {
 
 	public $data;
 

@@ -51,9 +51,9 @@
                   <th width="150px">Sales</th>
                   <th width="150px">Nama Lapak</th>
                   <th width="150px">Kode Lapak</th>
-                  <th width="150px">Sekolah</th>
+                  <th width="150px">Sekolah</th><!-- 
                   <th width="150px">Propinsi</th>
-                  <th width="150px">Kabupaten</th>
+                  <th width="150px">Kabupaten</th> -->
                   <!-- <th width="150px">Agen</th>
                   <th width="150px">Disc Agen</th>
                   <th width="150px">Disc Pembeli</th>

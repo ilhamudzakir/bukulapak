@@ -36,7 +36,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                     <div class="form form-group">
                       <label>Email pemesan</label>
                       <label><strong><?php echo strtolower($order['order_email'])?></strong></label>
@@ -73,42 +73,6 @@
                   </div>
                 </div>
               </div>
-              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 border-all-side">
-                <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <ul class="no-list-type">
-                    <?php if($items_order->num_rows() > 0) { ?>
-                      <?php foreach ($items_order->result_array() as $key => $value) { ?>
-                        <li class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
-                              <img width="100" src="<?php echo base_url() ?>uploads/cover/<?php echo getcoverbuku($value['product_id']) ?>">
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
-                              <label><?php echo $value['judul_buku']?></label>
-                              <label><?php echo $value['item_qty']?> buku</label>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 text-right">
-                              <label><?php echo 'IDR. '.number_format($value['item_subtotal'])?></label>
-                            </div>
-                        </li>
-                      <?php } ?>
-                    <?php } ?>
-                    </ul>
-                    <div class="row border-top-bottom">
-                      <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8"><label>Ongkos Kirim : </label></div>
-                      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 text-right">
-                        <label><?php echo 'IDR. '.number_format($order['order_shipping_price'])?></label>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
-                        <h3><?php echo 'IDR. '.number_format($order['order_total'])?></h3>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-              </div>
             </div>
             <div class="row order-history">
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -133,7 +97,7 @@
                           <?php } ?> 
                         </div>
                         <div class="col-md-2">
-                          <?php if($i == 2) echo '<label class="label label-info" onClick="lihatconfirmationimg('.$value['order_id'].','.$x.')">Detail Transaksi</label>'?>
+                          <?php if($i == 2 ) echo '<label class="label label-info" onClick="lihatconfirmationimg('.$value['order_id'].','.$x.')">Detail Transaksi</label>'?>
                         </div>
                         <div class="col-md-3" <?php if($no>1){?> style="display: none"<?php } ?>>
                           <?php 
@@ -151,7 +115,7 @@
                                   <label class="label label-inverse" onClick="ubahstatus()">Ubah status : <?php echo $next_order_status_title; ?></label>
                                 <?php }?>
                               <?php }else{ ?>
-                                <?php if($this->ion_auth->is_admin_area()) { ?>
+                                <?php if($this->ion_auth->is_admin_area() and $next_order_status_title!='' ) { ?>
                                   <label class="label label-inverse" onClick="ubahstatus()">Ubah status : <?php echo $next_order_status_title; ?></label>
                                 <?php }?>
                               <?php }?>
@@ -165,6 +129,50 @@
                 <?php } ?>
               </div>
             </div>
+
+            <div class="row">
+              
+              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+              <h4>Data Buku Order</h4>
+              </br>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <ul class="no-list-type border-all-side">
+                    <?php if($items_order->num_rows() > 0) { ?>
+                      <?php foreach ($items_order->result_array() as $key => $value) { ?>
+                        <li class="row">
+                         
+                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+
+                              <label><?php echo $value['judul_buku']?></label>
+                              <label><?php echo $value['item_qty']?> buku</label>
+                               <label>Kode Buku : <?php echo $value['kode_buku']?></label>
+
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 text-left">
+                              <label><?php echo 'IDR. '.number_format($value['item_subtotal'])?></label>
+                            </div>
+                        </li>
+                      <?php } ?>
+                    <?php } ?>
+                    </ul>
+                    <div class="row border-top-bottom">
+                      <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8"><label>Ongkos Kirim : </label></div>
+                      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 text-right">
+                        <label><?php echo 'IDR. '.number_format($order['order_shipping_price'])?></label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
+                        <h3><?php echo 'IDR. '.number_format($order['order_total'])?></h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          
           </div>
         </div>
         
@@ -220,21 +228,21 @@
               <li class="row">
                   <label class="control-label col-md-12">Nama Operator (wajib diisi)</label>
                   <div class="col-md-12">
-                    <input type="text" class="form-control" name="operator" id="operator">
+                    <input type="text" class="form-control" name="operator" required id="operator">
                     <span class="help-block"></span>
                   </div>
               </li>
             <?php } ?>
             
             <li class="row">
-                <label class="control-label col-md-12">Catatan (wajib diisi <?php echo ($next_order_status_id == 5)? 'nomor resi' : '';?>)</label>
+                <label class="control-label col-md-12">Catatan (wajib diisi)</label>
                 <div class="col-md-12">
                   <?php if($next_order_status_id == 3) { 
                       $value_msg = 'Pembayaran sudah diterima, admin area dipersilahkan melanjutkan proses pengiriman barang';
                     }elseif($next_order_status_id == 4) { 
                       $value_msg = 'pesanan sedang diproses'; 
                     }elseif($next_order_status_id == 5) {  
-                      $value_msg = 'Barang telah dikirim dengan nomor resi pengiriman = ......'; 
+                      $value_msg = 'Barang telah dikirim dengan nomor resi pengiriman = '; 
                     }else{
                        $value_msg='';
                       } ?>
@@ -242,7 +250,17 @@
                   <span class="help-block"></span>
                 </div>
             </li>
+            <?php if($next_order_status_id == 5) { ?>
+              <li class="row">
+                  <label class="control-label col-md-12">No Resi (wajib diisi)</label>
+                  <div class="col-md-12">
+                    <input type="text" class="form-control" id="resi" name="resi" required>
+                    </br>
+                    <div id="alert" class="alert alert-error hide col-md-12">No.Resi Wajib diisi</div>
+                  </div>
 
+              </li>
+            <?php } ?>
             <li class="row">
               <?php if($next_order_status_id == 3) { ?>
                 <p class="col-md-12">pastikan pembayaran sudah diterima rekening<br/>jika status sudah dirubah ke "pembayaran diterima" maka notifikasi akan diberikan <br/>

@@ -92,8 +92,8 @@ class Front extends MX_Controller {
 		}else{
 		$this->data['buku'] = $this->buku->getbukubysekolah($sekolah_id);
 		}
+        $this->data['bstudy'] = $this->buku->getbukustudy($sekolah_id);
         $this->data['lapak'] = $this->lapak->getlapakbysekolah($sekolah_id);
-
         $this->_render_page('front/list-book-sekolah', $this->data);
     }
 

@@ -194,7 +194,7 @@ class Orders_model extends CI_Model {
 	
 	function get_items_by_id($id)
 	{
-		$this->db->select("items.*,buku.judul as judul_buku");
+		$this->db->select("items.*,buku.judul as judul_buku, buku.kode_buku as kode_buku");
 		$this->db->from("items");
 		$this->db->join("buku", "buku.kode_buku = items.product_id");
 		$this->db->where("order_id",$id);
