@@ -562,7 +562,7 @@ class Lapak extends MX_Controller {
         $lapak = $lapak_exist->row();
 
         //validate form input
-        $this->form_validation->set_rules('title', 'Nama lapak', 'required|xss_clean');
+        // $this->form_validation->set_rules('title', 'Nama lapak', 'required|xss_clean');
 		$this->form_validation->set_rules('sekolah_id', 'Nama sekolah', 'required|xss_clean');
         $this->form_validation->set_rules('agen_id', 'Nama agen', 'required|xss_clean');
         $this->form_validation->set_rules('start_active', 'Tanggal mulai aktif', 'required|xss_clean');
@@ -573,10 +573,12 @@ class Lapak extends MX_Controller {
         $this->form_validation->set_rules('buyer_disc', 'Disc. pembeli', 'required|xss_clean');
 
         if (isset($_POST) && !empty($_POST))
-        {
+        {   
+            $lapak_code=$this->lapak->kode_lapak($this->session->userdata('area_id'));
             $data = array(
-                'lapak_code' => $id.'-'.url_title($this->input->post('title'), '_', TRUE),
-                'title' => $this->input->post('title'),
+                'lapak_code' => $this->session->userdata('area_id')."".$lapak_code,
+                // 'title' => $this->input->post('title'),
+                'title' => $this->session->userdata('area_id')."".$lapak_code,
                 'start_active'  => date('Y-m-d',strtotime($this->input->post('start_active'))),
                 'end_active'    => date('Y-m-d',strtotime($this->input->post('end_active'))),
                 'propinsi_id'   => $this->input->post('propinsi_id'),
@@ -587,7 +589,10 @@ class Lapak extends MX_Controller {
                 'buyer_disc'    => $this->input->post('buyer_disc'),
                 'notes'         => $this->input->post('notes')
             );
-
+            $data_code=array(
+                'kode'=>$lapak_code,
+                );
+            $this->db->update('kode_lapak', $data_code, "area_id = '".$this->session->userdata('area_id')."'");
             if ($this->form_validation->run() === TRUE)
             {
                 $this->lapak->update(array("id" => $id), $data);

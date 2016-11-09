@@ -192,16 +192,38 @@ class Orders_model extends CI_Model {
 		return $this->db->count_all_results();
 	}
 	
-	function get_items_by_id($id)
+	function get_items_by_id($id,$lapak_id)
 	{
 		$this->db->select("items.*,buku.judul as judul_buku, buku.kode_buku as kode_buku");
 		$this->db->from("items");
 		$this->db->join("buku", "buku.kode_buku = items.product_id");
 		$this->db->where("order_id",$id);
+		$this->db->where("lapak_id",$lapak_id);
 		$this->db->order_by("item_id");
 		return $this->db->get(); 
 	}
+
+	function get_items_by_id_group($id)
+	{
+		$this->db->select("items.*,buku.judul as judul_buku, buku.kode_buku as kode_buku, lapak.lapak_code as lapak_code");
+		$this->db->from("items");
+		$this->db->join("buku", "buku.kode_buku = items.product_id");
+		$this->db->join("lapak", "lapak.id = items.lapak_id");
+		$this->db->where("order_id",$id);
+		$this->db->group_by("lapak_id");
+		return $this->db->get(); 
+	}
 	
+	function lapak_sum($id,$lapak_id)
+	{
+		$this->db->select("SUM(item_subtotal) as lapak_sum");
+		$this->db->from("items");
+		$this->db->join("buku", "buku.kode_buku = items.product_id");
+		$this->db->where("order_id",$id);
+		$this->db->where("lapak_id",$lapak_id);
+		$this->db->order_by("item_id");
+		return $this->db->get(); 
+	}
 	function get_items_by_id_count($id)
 	{
 		$this->db->select("*,product_sizes.product_size_code");

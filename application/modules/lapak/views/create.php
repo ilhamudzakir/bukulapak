@@ -9,22 +9,20 @@
       <?php echo validation_errors('<div class="alert alert-error">','</div>')?>
       <form action="<?php echo site_url(uri_string())?>" id="form" class="form" method="post">
           <div class="form-body lapak">
-            <div class="form-group">
+            <!-- <div class="form-group">
               <div class="row">
                 <div class="col-md-12"><label class="control-label">Nama Lapak</label></div>
               </div>
               <div class="row">
-                <div class="col-md-2">
-                  <?php echo bs_form_input($lapak_id); ?>
-                  <span class="help-block"></span>
-                </div>
+                
                 <div class="col-md-6">
                   <input type="hidden" value="<?php echo $this->session->userdata('user_id')?>" name="sales_id"/>
+                  <input type="hidden" value="<?php $lapak_id?>" name="lapak_id"/>
                   <?php echo bs_form_input($title_input);?>
                   <span class="help-block"></span>
                 </div>
               </div>
-            </div>
+            </div> -->
             <div class="form-group">
               <div class="row">
                 <div class="col-md-12">

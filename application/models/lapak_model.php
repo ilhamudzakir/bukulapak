@@ -413,4 +413,17 @@ class lapak_model extends CI_Model {
 		return $data;
 	}
 
+	function kode_lapak($area_id) { 
+		$query=$this->db->query("select * from kode_lapak WHERE area_id='".$area_id."'")->row();
+		if($query->kode>=9999){
+		$kd = $query->kode+1; 
+        }else{
+        $q = $this->db->query("SELECT kode AS kodenya FROM kode_lapak where area_id='".$area_id."'")->row();
+        $nilaikode = substr($q->kodenya, 1);
+   		$kode = (int) $nilaikode;
+   		$kode = $kode + 1;
+   		$kd = str_pad($kode, 4, "0", STR_PAD_LEFT);
+        }
+        return $kd;
+   } 
 }

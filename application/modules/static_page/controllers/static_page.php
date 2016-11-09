@@ -189,6 +189,25 @@ class Static_page extends MX_Controller {
                 $this->template->add_js('static.js');
             }
 
+            if(in_array($view, array('static_page/layout_email')))
+            {
+                $this->template->add_css('datatables/css/dataTables.bootstrap.css');
+                //$this->template->add_css('bootstrap-datepicker/css/datepicker.css');
+                $this->template->add_js('datatables/js/jquery.dataTables.min.js');
+                $this->template->add_js('datatables/js/dataTables.bootstrap.js');
+                //$this->template->add_js('bootstrap-datepicker/js/bootstrap-datepicker.js');
+                $this->template->add_js('layout_email.js');
+            }
+             if(in_array($view, array('static_page/notification')))
+            {
+                $this->template->add_css('datatables/css/dataTables.bootstrap.css');
+                //$this->template->add_css('bootstrap-datepicker/css/datepicker.css');
+                $this->template->add_js('datatables/js/jquery.dataTables.min.js');
+                $this->template->add_js('datatables/js/dataTables.bootstrap.js');
+                //$this->template->add_js('bootstrap-datepicker/js/bootstrap-datepicker.js');
+                $this->template->add_js('notification.js');
+            }
+
                if(in_array($view, array('static_page/change_background')))
             {
                 $this->template->add_css('datatables/css/dataTables.bootstrap.css');
@@ -199,7 +218,7 @@ class Static_page extends MX_Controller {
                 $this->template->add_js('change_background.js');
             }
 
-             if(in_array($view, array('static_page/detail','static_page/layout_email')))
+             if(in_array($view, array('static_page/detail','static_page/layout_email_detail','notification')))
             {
                 //$this->template->add_css('datatables/css/dataTables.bootstrap.css');
                 //$this->template->add_css('bootstrap-datepicker/css/datepicker.css');
@@ -240,9 +259,8 @@ class Static_page extends MX_Controller {
 
     }
 
-        public function layout_email()
+        public function layout_email_detail($id)
     {   
-        $id=1;
         if (!$this->ion_auth->logged_in())
         {
             redirect('auth/login', 'refresh');
@@ -250,7 +268,115 @@ class Static_page extends MX_Controller {
         $this->data['controller_name'] = 'static_page';
 
         $this->data['static']=select_where('email_order','id',$id)->row();
-        $this->_render_page('static_page/layout_email', $this->data);
+        $this->_render_page('static_page/layout_email_detail', $this->data);
+
+            
+      
+    }
+       public function layout_email()
+    {
+        if (!$this->ion_auth->logged_in())
+        {
+            redirect('auth/login', 'refresh');
+        }
+        elseif($this->ion_auth->is_admin())
+        {
+            $this->data['controller_name'] = 'static_page';
+
+            $this->_render_page('static_page/layout_email', $this->data);
+        }
+        else
+        {
+            return show_error('You must be an administrator to view this page.');
+        }
+    }
+    function layout_email_list()
+    {   
+       $id = $this->session->userdata('user_id');
+        
+        $list = $this->db->query('select * from email_order')->result();
+        $data = array();
+        $no = $_POST['start'];
+        $rec = "";
+        foreach ($list as $static) {
+            $no++;
+            $row = array();
+            $row[] = $static->title;
+            $row[] = '<a class="btn btn-sm btn-primary" href="'.site_url('static_page/layout_email_detail/'.$static->id).'" title="Detail"><i class="glyphicon glyphicon-pencil"></i> Detail</a>';
+    
+        
+            $data[] = $row;
+        }
+
+        $output = array(
+                        "draw" => $_POST['draw'],
+                        "recordsTotal" => $this->db->query('select * from email_order')->num_rows(),
+                        "recordsFiltered" => $this->db->query('select * from email_order')->num_rows(),
+                        "data" => $data,
+                );
+        echo json_encode($output);
+
+            
+      
+    }
+
+
+    public function notification_detail($id)
+    {   
+        if (!$this->ion_auth->logged_in())
+        {
+            redirect('auth/login', 'refresh');
+        }
+        $this->data['controller_name'] = 'static_page';
+
+        $this->data['static']=select_where('notifications','id',$id)->row();
+        $this->_render_page('static_page/notification_detail', $this->data);
+
+            
+      
+    }
+       public function notification()
+    {
+        if (!$this->ion_auth->logged_in())
+        {
+            redirect('auth/login', 'refresh');
+        }
+        elseif($this->ion_auth->is_admin())
+        {
+            $this->data['controller_name'] = 'static_page';
+
+            $this->_render_page('static_page/notification', $this->data);
+        }
+        else
+        {
+            return show_error('You must be an administrator to view this page.');
+        }
+    }
+    function notification_list()
+    {   
+       $id = $this->session->userdata('user_id');
+        
+        $list = $this->db->query('select * from notifications')->result();
+        $data = array();
+        $no = $_POST['start'];
+        $rec = "";
+        foreach ($list as $static) {
+            $no++;
+            $row = array();
+            $row[] = $static->title;
+            $row[] = '<a class="btn btn-sm btn-primary" href="'.site_url('static_page/notification_detail/'.$static->id).'" title="Detail"><i class="glyphicon glyphicon-pencil"></i> Detail</a>';
+    
+        
+            $data[] = $row;
+        }
+
+        $output = array(
+                        "draw" => $_POST['draw'],
+                        "recordsTotal" => $this->db->query('select * from notifications')->num_rows(),
+                        "recordsFiltered" => $this->db->query('select * from notifications')->num_rows(),
+                        "data" => $data,
+                );
+        echo json_encode($output);
 
             
       

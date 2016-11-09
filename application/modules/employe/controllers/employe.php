@@ -18,7 +18,7 @@ class Employe extends MX_Controller {
         $this->lang->load('auth');
         $this->load->helper('language');
 
-		$this->load->model('databuku_model','buku');
+		$this->load->model('employe_model','employe');
 
 		$this->data['hide_sidebar'] = "";
 	}
@@ -35,38 +35,34 @@ class Employe extends MX_Controller {
         }
         else
         {
-			$this->data['controller_name'] = 'buku';
+			$this->data['controller_name'] = 'employe';
 
-			$this->_render_page('buku/buku_view', $this->data);
+			$this->_render_page('employe/employe_view', $this->data);
         }
 	}
 
 	public function ajax_list()
 	{
-		$list = $this->buku->get_datatables();
+		$list = $this->employe->get_datatables();
 		$data = array();
 		$no = $_POST['start'];
-		foreach ($list as $buku) {
-			if($buku->publish=='1'){$publish="Publish";}else{ $publish="Not Publish";}
+		foreach ($list as $employe) {
 			$no++;
 			$row = array();
-			$row[]="<input type='checkbox' value='".$buku->kode_buku."' name='check[]' id='check'/>";
-			$row[] = '<img src="'.base_url().'uploads/cover/'.$buku->cover.'" style="width: 100px;"> ';
-			$row[] = $buku->kode_buku;
-			$row[] = $buku->judul;
-			$row[] = $buku->jenjang;
-			$row[] = $buku->pengarang;
-			$row[] = $buku->harga;
-			$row[] = $publish;
-			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void()" title="Edit" onclick="edit_buku('."'".$buku->kode_buku."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>';
+			$row[] = $employe->nik;
+			$row[] = $employe->email;
+			$row[] = $employe->first_name;
+			$row[] = $employe->last_name;
+			$row[] = $employe->phone;
+			$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void()" title="Edit" onclick="edit_employe('."'".$employe->id."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a> <a class="btn btn-sm btn-danger" href="javascript:void()" title="Edit" onclick="deleted('.$employe->id.')"><i class="glyphicon glyphicon-erase"></i> Delete</a>';
 		
 			$data[] = $row;
 		}
 
 		$output = array(
 						"draw" => $_POST['draw'],
-						"recordsTotal" => $this->buku->count_all(),
-						"recordsFiltered" => $this->buku->count_filtered(),
+						"recordsTotal" => $this->employe->count_all(),
+						"recordsFiltered" => $this->employe->count_filtered(),
 						"data" => $data,
 				);
 		echo json_encode($output);
@@ -108,61 +104,15 @@ class Employe extends MX_Controller {
 					foreach ($arr_data as $key1 => $value1) {
 						//$values .= $value1['B'].'<br/>';
 						$data = array(
-				                'thn_katalog'    => $value1['A'],
-				                'kode_buku'    =>  $value1['B'],
-				                'isbn'    =>  $value1['C'],
-				                'judul'    =>  $value1['D'],
-				                'pengarang'    =>  $value1['E'],
-				                'sinopsis'    =>  $value1['F'],
-				                'sinopsis_html'    =>  $value1['G'],
-				                'lebar'    =>  $value1['H'],
-				                'tinggi'    =>  $value1['I'],
-				                'warna'    =>  $value1['J'],
-				                'berat'    =>  $value1['K'],
-				                'tebal'    =>  $value1['L'],
-				                'jml_halaman'    =>  $value1['M'],
-				                'thn_terbit'    =>  $value1['N'],
-				                'harga'    =>  $value1['O'],
-				                'kertas'    =>  $value1['P'],
-				                'jenjang'    =>  $value1['Q'],
-				                'bstudi'    =>  $value1['R'],
-				                'cover'    =>  $value1['S'],
-				                'tgl_terbit'    =>  $value1['T'],
-				                'brandname'    =>  $value1['U'],
+				                'nik'    => $value1['A'],
+				                'email'    => $value1['B'],
+				                'first_name'    => $value1['C'],
+				                'last_name'    => $value1['D'],
+				                'phone'    => $value1['E'],
+				                
 				            );
-							$this->buku->add($data);
+							$this->employe->add($data);
 					}
-						//foreach ($value1 as $key2 => $value2) {
-							
-							 /*$data = array(
-				                'thn_katalog'    => $value2['A'],
-				                'kode_buku'    =>  $value2['B'],
-				                'isbn'    =>  $value2['C'],
-				                'judul'    =>  $value2['D'],
-				                'pengarang'    =>  $value2['E'],
-				                'sinopsis'    =>  $value2['F'],
-				                'sinopsis_html'    =>  $value2['G'],
-				                'lebar'    =>  $value2['H'],
-				                'tinggi'    =>  $value2['I'],
-				                'warna'    =>  $value2['J'],
-				                'berat'    =>  $value2['K'],
-				                'tebal'    =>  $value2['L'],
-				                'jml_halaman'    =>  $value2['M'],
-				                'thn_terbit'    =>  $value2['N'],
-				                'harga'    =>  $value2['O'],
-				                'kertas'    =>  $value2['P'],
-				                'jenjang'    =>  $value2['Q'],
-				                'bstudi'    =>  $value2['R'],
-				                'cover'    =>  $value2['S'],
-				                'tgl_terbit'    =>  $value2['T'],
-				                'brandname'    =>  $value2['U'],
-				            );
-							$this->buku->add($data);*/
-						//}
-					//die('value. = '. $values);
-					//send the data in an array format
-					//$data['header'] = $header;
-					//$data['values'] = $arr_data;
 
                 	echo json_encode(array('status'=>TRUE,'validation_errors'=>'<div class="alert alert-success">Upload file Success</div>'));
                 }else{
@@ -175,36 +125,14 @@ class Employe extends MX_Controller {
                 echo json_encode(array('status'=>FALSE,'validation_errors'=>'<div class="alert alert-success">Please input file</div>'));
             }
 
-           /* $data = array(
-                'confirmation_code'    => $confirmation_code,
-                'confirmation_method'    => $confirmation_method,
-                'confirmation_name'    => $confirmation_name,
-                'confirmation_bank'    => $confirmation_bank,
-                'upload_file'    => $fileName,
-                'create_date'    => date('Y-m-d H:i:s',now())
-            );
-
-            $this->confirmation->add($data);
-
-            $update_status = array('order_status_id'=>2);
-            $this->orders->update_by_code($confirmation_code,$update_status);
-
-            $this->order_history->add(array('order_id'=>$order_id,'order_status_id'=>2,'create_date'=>date('Y-m-d H:i:s',now())));*/
-
-
-            //echo "success";
-            //echo json_encode(array('validation_errors'=>'<div class="alert alert-success">Success</div>'));
-            
-        /*}else{
-            echo json_encode(array('validation_errors'=>validation_errors('<div class="alert alert-error">', '</div>')));
-        }*/
+           
 
         
     }
 
 	public function ajax_edit($id)
 	{
-		$data = $this->buku->get_by_id($id);
+		$data = $this->employe->get_by_id($id);
 		echo json_encode($data);
 	}
 
@@ -212,59 +140,35 @@ class Employe extends MX_Controller {
 	{
 		$this->_validate();
 		$data = array(
-				'name' => $this->input->post('name'),
-				'description' => $this->input->post('description'),
+				'nik' => $this->input->post('nik'),
+				'email' => $this->input->post('email'),
+				'first_name' => $this->input->post('first_name'),
+				'last_name' => $this->input->post('last_name'),
+				'phone' => $this->input->post('phone'),
 			);
-		$insert = $this->groups->save($data);
+		$this->db->insert('employe',$data);
 		echo json_encode(array("status" => TRUE));
 	}
 
 	public function ajax_update()
 	{
 		//$this->_validate();
-		$attachment_file=$_FILES["upload_file2"];
-        if($attachment_file) 
-        {
-            $output_dir = "uploads/cover/";
-            $fileName = strtolower($_FILES["upload_file2"]["name"]);
-            move_uploaded_file($_FILES["upload_file2"]["tmp_name"],$output_dir.$fileName);
-            //echo "File uploaded successfully";
-        }else{
-            $fileName = $this->input->post('cover');  
-        }
+		
 
         $data = array(
-				'thn_katalog' => $this->input->post('thn_katalog'),
-				'isbn' => $this->input->post('isbn'),
-				'judul' => $this->input->post('judul'),
-				'pengarang' => $this->input->post('pengarang'),
-				'sinopsis' => $this->input->post('sinopsis'),
-				'sinopsis_html' => $this->input->post('sinopsis_html'),
-				'lebar' => $this->input->post('lebar'),
-				'tinggi' => $this->input->post('tinggi'),
-				'warna' => $this->input->post('warna'),
-				'berat' => $this->input->post('berat'),
-				'tebal' => $this->input->post('tebal'),
-				'jml_halaman' => $this->input->post('jml_halaman'),
-				'thn_terbit' => $this->input->post('thn_terbit'),
-				'harga' => $this->input->post('harga'),
-				'kertas' => $this->input->post('kertas'),
-				'jenjang' => $this->input->post('jenjang'),
-				'bstudi' => $this->input->post('bstudi'),
-				'cover' => $fileName,
-				'tgl_terbit' => $this->input->post('tgl_terbit'),
-				'brandname' => $this->input->post('brandname'),
+				'nik' => $this->input->post('nik'),
+				'email' => $this->input->post('email'),
+				'first_name' => $this->input->post('first_name'),
+				'last_name' => $this->input->post('last_name'),
+				'phone' => $this->input->post('phone'),
 			);
-		$this->buku->update(array('kode_buku' => $this->input->post('kode_buku')), $data);
+		$this->employe->update(array('id' => $this->input->post('id')), $data);
 		echo json_encode(array("status" => TRUE));
 	}
 
 	public function ajax_delete($id)
 	{
-		$data = array(
-				'is_deleted' => 1
-			);
-		$this->groups->update(array('id' => $id), $data);
+		$this->db->query("DELETE FROM employe WHERE id = '".$id."' ");
 		echo json_encode(array("status" => TRUE));
 	}
 
@@ -332,7 +236,7 @@ class Employe extends MX_Controller {
             $this->template->add_js('datatables/js/dataTables.bootstrap.js');
             $this->template->add_js('bootstrap-wysihtml5/wysihtml5-0.3.0.js');
             $this->template->add_js('bootstrap-wysihtml5/bootstrap-wysihtml5.js');
-            $this->template->add_js('databuku.js');
+	        $this->template->add_js('dataemploye.js');
 
             if ( ! empty($data['title']))
             {
@@ -345,14 +249,5 @@ class Employe extends MX_Controller {
         {
             return $this->load->view($view, $data, TRUE);
         }
-    }
-    function change_publish(){
-    	$id=$this->input->post('id');
-    	$data=array(
-    		'publish'=>$this->input->post('publish'),
-    	);
-    	foreach ($id as $id) {
-    	$this->db->update('buku', $data, "kode_buku = $id");
-    	}
     }
 }

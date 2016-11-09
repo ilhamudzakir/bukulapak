@@ -119,7 +119,34 @@ class Order extends MX_Controller {
                redirect(site_url('order'));
             }
 
-            $this->data['items_order'] = $items_by_order = $this->orders->get_items_by_id($id);
+            $item_group=$this->orders->get_items_by_id_group($id)->result();
+            foreach ($item_group as $item_group) {
+                $items_order="<ul class='no-list-type border-all-side row'>";
+                $items_by_order = $this->orders->get_items_by_id($id,$item_group->lapak_id)->result();
+                $lapak_sum = $this->orders->lapak_sum($id,$item_group->lapak_id)->row();
+                 $items_order.="
+                    <li class='row col-md-12'><b>Kode Lapak</b> : ".$item_group->lapak_code."</li>";
+                foreach ($items_by_order as $key) {
+                $items_order.="
+                    <li class='col-md-12 border-top-bottom'>
+                         <div class='row'>
+                            <div class='col-xs-12 col-sm-12 col-md-8 col-lg-8'>
+
+                              <label><b>Nama Buku</b> : ".$key->judul_buku."</label>
+                              <label><b>Jumlah Buku</b> :".$key->item_qty." buku</label>
+                               <label><b>Kode Buku</b> : ".$key->kode_buku."</label>
+
+                            </div>
+                            <div class='col-xs-12 col-sm-12 col-md-4 col-lg-4 text-left'>
+                              <label><b>IDR.".number_format($key->item_subtotal)."</b> </label>
+                            </div>
+                            </div>
+                        </li>";
+                    }
+                      $items_order.="<li style='margin-top:10px' class='row col-md-12'><b>Total Penjualan Lapak</b> : IDR.".number_format($lapak_sum->lapak_sum)."</li>";
+                    $items_order.="</ul>";
+            }
+            $this->data['items_order'] = $items_order;
            
             $this->data['order_history'] = $this->order_history->get_by_order_id($id);
 
@@ -562,4 +589,234 @@ fa fa-cloud-download'></i> Download PDF</button></a>";
     $this->m_pdf->pdf->Output('Konfirmasi_Pembayaran.pdf', 'D');
 
     }
+
+function download_surat($id){
+    $this->load->library('m_pdf');
+    $this->load->helper('download');
+    $order_by_id = $this->orders->get_by_id($id);
+            if($order_by_id->num_rows() > 0)
+            {
+                $q_lapak_pertama = $this->items->get_lapak_pertama($id);
+                if($q_lapak_pertama->num_rows() > 0)
+                {
+                    $value = $q_lapak_pertama->row_array();
+                    $this->data['admin_area_name'] = $value['admin_area_name'];
+                    $this->data['admin_area_email'] = $value['admin_area_email'];
+                    $this->data['admin_area_id'] = $value['admin_area_id'];
+                }else{
+                    $this->data['admin_area_name'] = '';
+                    $this->data['admin_area_email'] = '';
+                    $this->data['admin_area_id'] = 0;
+                }
+
+                $order = $order_by_id->row_array();
+                $next_order_status_id = $order['order_status_id'] + 1;
+                $q_next_order_status = $this->order_status->get_by_id($next_order_status_id);
+                if($q_next_order_status->num_rows() > 0)
+                {
+                    $value = $q_next_order_status->row_array();
+                    $this->data['next_order_status_title'] = $value['title'];
+                    $this->data['next_order_status_id'] = $next_order_status_id;
+                }else{
+                    $this->data['next_order_status_title'] = "";
+                    $this->data['next_order_status_id'] = 0;
+                }
+
+            }else{
+                $message_success =  "<div class='alert alert-danger text-center'><button data-dismiss='alert' class='close'></button><h4>PERINGATAN</h4>".
+                                    "<p>Maaf data yang anda minta tidak tersedia disistem kami".
+                                    "<br/>Silakan coba kembali<br/></div>";
+                $this->session->set_flashdata('message', $message_success);
+
+               redirect(site_url('order'));
+            }
+
+            $item_group=$this->orders->get_items_by_id_group($id)->result();
+            foreach ($item_group as $item_group) {
+                $items_order="<ul class='no-list-type border-all-side row'>";
+                $items_by_order = $this->orders->get_items_by_id($id,$item_group->lapak_id)->result();
+                $lapak_sum = $this->orders->lapak_sum($id,$item_group->lapak_id)->row();
+                 $items_order.="
+                    <li class='row col-md-12'><b>Kode Lapak</b> : ".$item_group->lapak_code."</li>";
+                foreach ($items_by_order as $key) {
+                $items_order.="
+                    <li class='col-md-12 border-top-bottom'>
+                         <div class='row'>
+                            <div class='col-xs-12 col-sm-12 col-md-8 col-lg-8'>
+
+                              <label><b>Nama Buku</b> : ".$key->judul_buku."</label>
+                              <label><b>Jumlah Buku</b> :".$key->item_qty." buku</label>
+                               <label><b>Kode Buku</b> : ".$key->kode_buku."</label>
+
+                            </div>
+                            <div class='col-xs-12 col-sm-12 col-md-4 col-lg-4 text-left'>
+                              <label><b>IDR.".number_format($key->item_subtotal)."</b> </label>
+                            </div>
+                            </div>
+                        </li>";
+                    }
+                      $items_order.="<li style='margin-top:10px' class='row col-md-12'><b>Total Penjualan Lapak</b> : IDR.".number_format($lapak_sum->lapak_sum)."</li>";
+                    $items_order.="</ul>";
+            }
+            $items_order = $items_order;
+           
+            $order_history = $this->order_history->get_by_order_id($id);
+
+            $title = "Pesanan";
+
+           
+            
+            $cek_rekening = $this->config__->getbytitle('cek_rekening');
+
+            $img_confirmation = GetImgConfirmation($id);
+
+
+    $html='
+    <link href="'.base_url().'assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" media="print" />
+        <link  media="print" href="'.base_url().'assets/plugins/bootstrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="'.base_url().'assets/plugins/bootstrapv3/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" media="print" />
+        <link href="'.base_url().'assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" media="print" />
+        <link href="'.base_url().'assets/plugins/animate.min.css" rel="stylesheet" type="text/css" media="print" />
+        <link media="print"  href="'.base_url().'assets/plugins/jquery-scrollbar/jquery.scrollbar.css" rel="stylesheet" type="text/css" media="print" />
+        <link href="'.base_url().'assets/plugins/bootstrap-select2/select2.css" media="print" rel="stylesheet" type="text/css" />
+        <link href="'.base_url().'webarch/css/webarch2.css" rel="stylesheet" type="text/css" media="print" />
+        
+<div style="background:#fff!important;width:100%; height:auto" class="container">
+    <div style="background:#fff!important;width:100%" >
+      <div class="row">
+        <div class="col-md-12">
+         <div class="grid-title">
+            <div class="row">
+              <div class="col-md-6">
+                <span class="head-title">Pesanan >'.$order["order_code"].'</span>
+                
+              </div>
+              <div class="col-md-6 text-right">
+                <span class="subhead-title">Status : '.$order["order_status"].'</span>
+              </div>
+            </div>
+
+          </div>
+          
+          <div class="grid-body ">
+            <div class="row detail-pesanan">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h4>Detail pesanan</h4>
+              </div>
+            </div>
+            <div class="row order-item-info">
+              <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <h4>Data lengkap</h4>
+                    <div class="form form-group">
+                      <label>Nama pemesan</label>
+                      <label><strong>'.strtoupper($order["order_name"]).'</strong></label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                    <div class="form form-group">
+                      <label>Email pemesan</label>
+                      <label><strong>'.strtolower($order["order_email"]).'</strong></label>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <div class="form form-group">
+                      <label>Telepon pemesan</label>
+                      <label><strong>'.strtoupper($order["order_phone"]).'</strong></label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <h4>Alamat pengiriman</h4>
+                    <div class="form form-group">
+                      <label>Nama penerima</label>
+                      <label><strong>'.strtoupper($order["order_recipient_name"]).'</strong></label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <div class="form form-group">
+                      <label>Alamat penerima</label>
+                      <label><strong>'.strtolower($order["order_recipient_address"]).'</strong></label>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <div class="form form-group">
+                      <label>Telepon penerima</label>
+                      <label><strong>'.($order["order_recipient_phone"]).'</strong></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row order-history">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h4>History Status</h4>';
+                if($order_history->num_rows() > 0) {
+
+                $html.='<ul class="ul-order-history" id="ul-order-history">';
+                $no=0;
+                   foreach ($order_history->result_array() as $key => $value) {
+                   $x=$no-1;
+                   $i=$value['order_status_id'];
+                
+                    $html.='<li class="row" style="list-style:none;border-bottom:1px solid #eee; padding-bottom:10px; padding-top:10px">
+                        <div class="col-md-2">'.$value["order_status"].'</div>
+                        <div class="col-md-5">
+                          '.date("d M Y H:i",strtotime($value["create_date"]));
+
+                          if($value['username']) {
+                            $html.='oleh : '.$value["username"];
+                             } 
+                          if($value['catatan']) {
+                            $html.='catatan : '. $value['catatan'];
+                          }  
+                        $html.='
+                    </li>';
+                  $no++;
+                  $html.='</ul>';
+                 }
+              $html.='</div>
+            </div>
+
+            <div class="row">
+              
+              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+              <h4>Data Buku Order</h4>
+              </br>
+                <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">';
+$html.=$items_order;
+                  $html.='<div class="row border-top-bottom">
+                      <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8"><label>Ongkos Kirim : </label></div>
+                      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 text-right">
+                        <label>IDR. '.number_format($order["order_shipping_price"]).'</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
+                        <h3>IDR.'.number_format($order["order_total"]).'</h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>';
+    $PDFContent = mb_convert_encoding($html, 'UTF-8', 'UTF-8');
+    $this->m_pdf->pdf->WriteHTML(utf8_encode($PDFContent));
+    $this->m_pdf->pdf->Output('Surat Pesanan.pdf', 'D');
+    }
+}
 }

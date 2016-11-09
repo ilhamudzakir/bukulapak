@@ -191,7 +191,19 @@ class users_groups extends MX_Controller {
 	function create_user()
     {
         $this->data['title'] = "Create User";
-        $this->data['employe']=$this->db->query("select * from employe")->result();
+        $employe=$this->db->query("select * from employe")->result();
+        $employess='';
+        foreach ($employe as $employe) {
+            $userss=select_where('users','nik',$employe->nik)->num_rows();
+            if($userss>0){
+                $disable='disabled';
+            }else{
+                $disable='';
+            }
+            $employess.="<option ".$disable."  value='".$employe->nik."''>".$employe->nik." </option>";
+        }
+        $this->data['employes']=$employess;
+        $this->data['users']=$this->db->query("select * from users")->result();
         if (!$this->ion_auth->logged_in() || $this->ion_auth->is_agen() || $this->ion_auth->is_sales())
         {
             redirect('auth', 'refresh');

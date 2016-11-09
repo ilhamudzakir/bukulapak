@@ -10,6 +10,13 @@
             <div class="row">
               <div class="col-md-6">
                 <span class="head-title">Pesanan > <?php echo $order['order_code']; ?></span>
+                </br>
+                 </br>
+                <?php if($order['order_status_id']>=2){ ?>
+          
+          <a href="<?php echo base_url() ?>order/download_surat/<?php echo $order['order_id'] ?>"><button class='btn btn-info btn-cons' type='button'><i class='
+fa fa-cloud-download'></i> Download Surat Pesanan</button></a> 
+          <?php } ?>
               </div>
               <div class="col-md-6 text-right">
                 <span class="subhead-title">Status : <?php echo $order['order_status']; ?></span>
@@ -17,7 +24,7 @@
             </div>
 
           </div>
-
+          
           <div class="grid-body ">
             <div class="row detail-pesanan">
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -137,25 +144,9 @@
               </br>
                 <div class="row">
                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <ul class="no-list-type border-all-side">
-                    <?php if($items_order->num_rows() > 0) { ?>
-                      <?php foreach ($items_order->result_array() as $key => $value) { ?>
-                        <li class="row">
-                         
-                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                  
+                    <?php echo $items_order ?>
 
-                              <label><?php echo $value['judul_buku']?></label>
-                              <label><?php echo $value['item_qty']?> buku</label>
-                               <label>Kode Buku : <?php echo $value['kode_buku']?></label>
-
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 text-left">
-                              <label><?php echo 'IDR. '.number_format($value['item_subtotal'])?></label>
-                            </div>
-                        </li>
-                      <?php } ?>
-                    <?php } ?>
-                    </ul>
                     <div class="row border-top-bottom">
                       <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8"><label>Ongkos Kirim : </label></div>
                       <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 text-right">

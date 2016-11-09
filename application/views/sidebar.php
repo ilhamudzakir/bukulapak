@@ -49,6 +49,7 @@
                     <li><a href="<?php echo site_url('buku'); ?>"><i class="fa fa-book"></i> Buku</a></li>
                     <li><a href="<?php echo site_url('area'); ?>"><i class="fa fa-map"></i> Area</a></li>
                     <li><a href="<?php echo site_url('area_shipping'); ?>"><i class="fa fa-truck"></i> Ongkos kirim</a></li>
+                     <li><a href="<?php echo site_url('employe'); ?>"><i class="fa fa-group"></i>Employe</a></li>
                   </ul>
                 </li>
                 <li class="start active">
@@ -71,7 +72,12 @@
 
                  <li class="start active">
                   <a href="<?php echo site_url('static_page/layout_email')?>">
-                    <span class="title">Layout Order Email</span>
+                    <span class="title">Layout Email</span>
+                  </a>
+                </li>
+                 <li class="start active">
+                  <a href="<?php echo site_url('static_page/notification')?>">
+                    <span class="title">Notifications</span>
                   </a>
                 </li>
                 
@@ -145,7 +151,7 @@
               </ul>
             </li>
             <?php } ?>
-            <li><a href="#">Rendered page in <?php echo $this->benchmark->elapsed_time()?> s</a></li>
+            <!-- <li><a href="#">Rendered page in <?php echo $this->benchmark->elapsed_time()?> s</a></li> -->
           </ul>
           <!-- END SIDEBAR MENU -->
         </div>

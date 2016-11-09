@@ -26,10 +26,7 @@
                                     Nik * <br />
                                     <select onchange="nik_change()" name="nik" id="nik" style="width:100%">
                                     <option value="">Select NIK*</option>   
-                                    <?php foreach ($employe as $nik) {
-                                    ?>
-                                    <option value="<?php echo $nik->nik ?>"><?php echo $nik->nik ?></option>
-                                    <?php } ?>
+                                    <?php echo $employes; ?>
                                     </select>
                                 </p>
 
