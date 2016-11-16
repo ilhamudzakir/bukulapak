@@ -20,10 +20,10 @@
     <div> 
 <ul  class="nav nev nav-pills  nev-pills" id="p-sekolah">
     <li class="active tabse" id="tabsekolah">
-          <a  href="#sekolah" data-toggle="tab">Buku</a>
+          <a  href="#sekolah" id="tab-none-border" data-toggle="tab">Buku</a>
     </li>
     <li class="tabse" id="tablapak">
-      <a href="#lapak" data-toggle="tab">lapak</a>
+      <a href="#lapak" id="tab-none-border" data-toggle="tab">lapak</a>
     </li>
 </ul>
 
@@ -61,18 +61,25 @@
   </div>
 		<div class="kotak">
       <?php if($buku->num_rows() > 0) { ?>
-        <?php foreach ($buku->result_array() as $key => $value) { ?>
+        <?php foreach ($buku->result_array() as $key => $value) {
+         $disc_lapak=select_where('lapak','id',$value['lapak_id'])->row();
+                      if($disc_lapak->buyer_disc!=0){
+                      $value_harga=$value['harga']/100*$disc_lapak->buyer_disc;
+                      $value_harga=$value['harga']-$value_harga;
+                      }else{
+                         $value_harga=$value['harga'];
+                      }
+                      ?>
           <!------------------------list---------------->
           <?php $area_sales = GetAreaSales($value['sales_id']); $area_id = $area_sales['area_id']; $area_title = $area_sales['area_title']?>
             <div class="list-book">
               <div class="col-md-3"> 
                 <a href="#">
-                  <!-- <img src="<?php echo base_url().$value['cover']?>" width="130px"> -->
                   <img src="<?php echo base_url().'uploads/cover/'.$value['cover']?>" width="130px">
                 </a>
               </div>
               <div class="col-md-5" >
-                <a href="$">
+                <a href="<?php echo base_url() ?>front/detail/<?php echo $value['kode_buku'] ?>">
                   <h4><?php echo $value['judul']; ?></h4>
                 </a>
                 <span><?php echo $value['bstudi']; ?>, <?php echo $value['pengarang']; ?></span><br/>
@@ -80,8 +87,7 @@
                 <span><?php echo strtoupper(url_title($value['lapak_id'].'-'.$value['title'])); ?></span><br/>
                 <span>AREA PENGIRIMAN : <?php echo strtoupper($area_title); ?></span>
                 <div class="ko-price">
-                  <!-- <h4 class="price-list disc">RP 45.000</h4>  -->
-                  <h4 class="price-list2">RP <?php echo number_format($value['harga'])?></h4>
+                  <?php  if($disc_lapak->buyer_disc!=0){ ?><h4 style="text-decoration: line-through; margin-right: 5px" class="price-list2">RP <?php echo number_format($value['harga'])?></h4>  <h4 class="price-list2">RP <?php echo number_format($value_harga)?></h4><?php }else{ ?><h4 class="price-list2">RP <?php echo number_format($value['harga'])?></h4> <?php } ?>
                 </div>
               </div>
               <div class="col-md-4 text-right">
@@ -95,11 +101,14 @@
                       <input type="hidden" name="kode_buku" id="kode_buku" value="<?php echo $value['kode_buku']?>">
                       <input type="hidden" name="lapak_id" id="lapak_id" value="<?php echo $value['lapak_id']?>">
                       <input type="hidden" name="berat_<?php echo $value['lapak_id']?>_<?php echo $value['kode_buku']?>" id="berat_<?php echo $value['lapak_id']?>_<?php echo $value['kode_buku']?>" value="<?php echo $value['berat']?>">
-                      <input type="hidden" name="harga_<?php echo $value['lapak_id']?>_<?php echo $value['kode_buku']?>" id="harga_<?php echo $value['lapak_id']?>_<?php echo $value['kode_buku']?>" value="<?php echo $value['harga']?>">
+                      <input type="hidden" name="harga_<?php echo $value['lapak_id']?>_<?php echo $value['kode_buku']?>" id="harga_<?php echo $value['lapak_id']?>_<?php echo $value['kode_buku']?>" value="<?php echo $value_harga?>">
+                      
                       <input type="hidden" name="judul_<?php echo $value['lapak_id']?>_<?php echo $value['kode_buku']?>" id="judul_<?php echo $value['lapak_id']?>_<?php echo $value['kode_buku']?>" value="<?php echo $value['judul']?>">
                       <!-- <input type="hidden" name="sales_<?php echo $value['lapak_id']?>_<?php echo $value['kode_buku']?>" id="sales_<?php echo $value['lapak_id']?>_<?php echo $value['kode_buku']?>" value="<?php echo $value['sales_id']?>"> -->
                       
                       <input type="button" name="submit" value="Beli" class="form btn2" onClick="addcart(<?php echo $value['lapak_id']?>,'<?php echo $value['kode_buku']?>',<?php echo $value['sales_id']?>,<?php echo $area_id?>)">
+                      <div class="alert alert-info text-left hide" id="alert_<?php echo $value['kode_buku']?>">
+                     <p>Buku ini sudah berada di keranjang belanja anda.</p></div>
                     </div>
                   <!-- </form> -->
                 </div>

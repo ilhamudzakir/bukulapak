@@ -57,6 +57,19 @@ function add_groups()
   $('.modal-title').text('Upload Buku'); // Set Title to Bootstrap modal title
 }
 
+
+function add_buku()
+{
+  controller_name = $('#controller_name').val();
+  save_method = 'add';
+  $('#kode_buku').attr('readonly',false);
+  $('#form_edit')[0].reset(); // reset form on modals
+  $('.form-group').removeClass('has-error'); // clear error class
+  $('.help-block').empty(); // clear error string
+  $('#modal_form_edit').modal('show'); // show bootstrap modal when complete loaded
+  $('.modal-title').text('ADD Buku'); // Set title to Bootstrap modal title
+}
+
 var base_url = $('#base_url').val();
 
 function upload()
@@ -80,15 +93,18 @@ function upload()
             $('#loading').hide();
           //if(data.status) {
             $('#form')[0].reset();
+            $('#upload_warning').html('Upload success');
             $('#validation_errors').html(data.validation_errors);  
           //}  
           }
         },
-        error: function (jqXHR, textStatus, errorThrown)
+        error: function (jqXHR, textStatus, errorThrown,data)
         {
             $('#loading').hide();
           //if(data.status) {
           $('#form')[0].reset();
+           $('#upload_warning').attr('class','alert alert-danger');
+            $('#upload_warning').html('Upload Failed,'+ errorThrown);
           $('#validation_errors').html(data.validation_errors); 
         }
     });
@@ -99,6 +115,7 @@ function edit_buku(id)
 {
   controller_name = $('#controller_name').val();
   save_method = 'update';
+  $('#kode_buku').attr('readonly',true);
   $('#form_edit')[0].reset(); // reset form on modals
   $('.form-buku').removeClass('has-error'); // clear error class
    $('.help-block').empty(); // clear error string

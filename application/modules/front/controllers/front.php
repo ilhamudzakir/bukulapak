@@ -66,7 +66,7 @@ class Front extends MX_Controller {
         $filterk = array("id"=>"where/6",);
         $this->data['keunggulan'] = GetAll('static_page',$filterk)->row();
         $this->data['buku']=$this->buku->count_max();
-        $lapak=$this->db->query("select * from buku order by kode_buku DESC limit 0,8");
+        $lapak=$this->db->query("select * from buku order by tgl_terbit DESC limit 0,8");
         $this->data['lapak']=$lapak->result();
         $this->_render_page('front/home', $this->data);
 	}
@@ -124,6 +124,16 @@ class Front extends MX_Controller {
 
     public function addcart($lapak_id,$kode_buku,$sales_id,$area_id)
     {   
+
+        $itemsnya = TRUE;
+        foreach($this->cart->contents() as $items){
+            if($items['id']==$kode_buku){
+                echo json_encode(array("status" =>'same',"kode_buku"=>$kode_buku, "current_url"=>0));
+                $itemsnya = FALSE;
+                break;
+            }
+        }
+        if($itemsnya==TRUE){
         $unique=$this->confirmation->unique_kode();
         $this->session->set_userdata("uniquecode",$unique);
         if($this->session->userdata('valid_area_id') == NULL) {
@@ -158,7 +168,7 @@ class Front extends MX_Controller {
             
             if($this->cart->insert($data))
             {
-                echo json_encode(array("status" => TRUE,"total_item"=>$this->cart->total_items(), "current_url"=>$current_url));
+                echo json_encode(array("status" =>'true',"total_item"=>$this->cart->total_items(), "current_url"=>$current_url));
             }else{
                 echo json_encode(array("status" => FALSE,"total_item"=>0, "current_url"=>$current_url));
             }
@@ -195,7 +205,7 @@ class Front extends MX_Controller {
             
             if($this->cart->insert($data))
             {
-                echo json_encode(array("status" => TRUE,"total_item"=>$this->cart->total_items(), "current_url"=>$current_url));
+                echo json_encode(array("status" =>'true',"total_item"=>$this->cart->total_items(), "current_url"=>$current_url));
             }else{
                 echo json_encode(array("status" => FALSE,"total_item"=>0, "current_url"=>$current_url));
             }
@@ -205,44 +215,8 @@ class Front extends MX_Controller {
             echo json_encode(array("status" => FALSE,"total_item"=>0, "current_url"=>$current_url));
         }
     }
-
-    /*private function addcartprocess($lapak_id,$kode_buku,$sales_id,$area_id)
-    {
-            $lapak_id = $lapak_id;
-            $kode_buku = $kode_buku;
-            $sales_id = $sales_id;
-            $cty = $this->input->post('cty');
-            $berat = ($this->input->post('berat') == 0) ? 1 : $this->input->post('berat');
-            $harga = $this->input->post('harga');
-            $judul = $this->input->post('judul');
-            $current_url = $this->input->post('current_url');
-
-            $dweight = ($berat * $cty);
-            $kg_weight = ($dweight < 1) ? 1 : $dweight;
-
-            $data = array(
-                'id'            => $kode_buku,
-                'qty'           => $cty,
-                'price'         => $harga,
-                'name'          => $judul,
-                'sales_id'      => $sales_id,
-                'weight'        => $kg_weight,
-                'lapak_id'      => $lapak_id
-            );
-
-            $this->session->set_userdata('url_sekolah_terakhir',$current_url);
-            $this->session->set_userdata('sales_id',$sales_id);
-            //$this->session->set_userdata('pertama_sales_id',$sales_id);
-            $area_sales = GetAreaSales($this->session->userdata('sales_id'));
-            $this->session->set_userdata('valid_area_id',$area_sales['area_id']);
-            
-            if($this->cart->insert($data))
-            {
-                echo json_encode(array("status" => TRUE,"total_item"=>$this->cart->total_items(), "current_url"=>$current_url));
-            }else{
-                echo json_encode(array("status" => FALSE,"total_item"=>0, "current_url"=>$current_url));
-            }
-    }*/
+    
+    }
 
     public function updatecart($rowid)
     {
@@ -360,7 +334,7 @@ class Front extends MX_Controller {
         }
         else
         {
-
+            $this->session->sess_destroy();
             //return show_error('error');
             $this->_render_page('front/cart_empty', $this->data);
         }
@@ -523,7 +497,8 @@ class Front extends MX_Controller {
             $this->order_history->add($data_history);
 
             foreach($this->cart->contents() as $items)
-            {
+            {   
+                $bukunya=select_where('buku','kode_buku',$items['id'])->row();
                 $items_all = array(
                     'order_id'  => $order_id,   
                     'product_id' => $items['id'],
@@ -532,6 +507,7 @@ class Front extends MX_Controller {
                     'item_name' => $items['name'],
                     'item_qty'  => $items['qty'],
                     'item_price'    => $items['price'],
+                    'price_first'    => $bukunya->harga,
                     'item_subtotal' => $items['subtotal'],
                 );
                 
@@ -542,7 +518,16 @@ class Front extends MX_Controller {
             $product = GetAll('items',$filterprod)->row();
             $filterlap= array("id"=>"where/".$product->lapak_id);
             $lapak = GetAll('lapak',$filterlap)->row();
-            $confirmation_code=$lapak->lapak_code."-".$order_id."".$product->sales_id."".date('Y');
+            if($order_id<9){
+                $code_ordernya="000".$order_id;
+            }elseif($order_id<99){
+                 $code_ordernya="00".$order_id;
+            }elseif($order_id<999){
+                 $code_ordernya="0".$order_id;
+            }elseif($order_id<9999){
+                 $code_ordernya=$order_id;
+            }
+            $confirmation_code="INV".$area_id."".date('Y')."".$code_ordernya;
 
             $this->orders->update($order_id,array('order_code'=>$confirmation_code));
 
@@ -617,8 +602,27 @@ class Front extends MX_Controller {
         }
         $this->data['order_code'] = $confirmation_code;
         
-
+        $this->data['static'] = select_where('static_page','id','8')->row();
         $this->_render_page('front/finish', $this->data);
+    }
+
+    public function detail($id)
+    {
+        $this->data['controller_name'] = 'front';
+        $this->data['function'] = '';
+        $buku=select_where('lapak_buku','kode_buku',$id)->row();
+        $this->data['lapak'] = select_where('lapak','id',$buku->lapak_id)->row();
+        $this->data['buku'] = select_where('buku','kode_buku',$id)->row();
+        $this->data['lapak_buku'] = $buku;
+        $this->data['sales'] = select_where('users','id', $this->data['lapak']->sales_id)->row();
+
+                      if($this->data['lapak']->buyer_disc!=0){
+                      $value_harga=$this->data['buku']->harga/100*$this->data['lapak']->buyer_disc;
+                      $this->data['value_harga']=$this->data['buku']->harga-$value_harga;
+                      }else{
+                         $this->data['value_harga']=$value['harga'];
+                      }
+        $this->_render_page('front/detail-book', $this->data);
     }
 
     public function confirmation()
@@ -1129,7 +1133,7 @@ class Front extends MX_Controller {
                 $this->front_template->add_js('home.js');
             }
 
-            if(in_array($view, array('front/list-book-sekolah','front/list-book-lapak')))
+            if(in_array($view, array('front/list-book-sekolah','front/list-book-lapak','front/detail/')))
             {
                 $this->front_template->add_js('list-book-sekolah.js');
             }

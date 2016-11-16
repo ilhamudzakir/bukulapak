@@ -11,7 +11,7 @@
   <div class="container">
 <div class="col-md-8 center">
 <div class="grey">
- <?php echo $page->content ?>
+ <?php echo htmlspecialchars_decode($page->content )?>
 </div>
 </div>
 

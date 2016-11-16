@@ -1,7 +1,7 @@
 <section>
 <div class="title2">
   <div class="container">
-    <div class="col-md-6 pull-left padding-botop"><h3>Status Transaksi</h3>
+   <div class="col-md-6 pull-left padding-botop"><h3>Status Transaksi</h3>
       <input type="hidden" id="base_url" name="base_url" value="<?php echo base_url()?>">
     </div>
   </div>
@@ -10,7 +10,9 @@
 <section class="matobot">
 <div  class="container">
   <div class="col-md-5 center">
-    <div class="row">
+    <div class="row"><?php if(isset($_GET['no_trans'])){ ?>
+    <div class="col-m-12 alert alert-info">Selamat, anda telah berhasil melakukan konfirmasi pembayaran</div>
+    <?php } ?>
       <div class="col-md-8">
         <div class="row">
           <div class="col-md-12 padding-none">

@@ -9,7 +9,7 @@
           <div class="grid-title">
             <div class="row">
               <div class="col-md-12">
-                <span class="head-title">Detail Notification</span>
+                <span class="head-title"><?php if($static='null'){ ?>Add Jenjang <?php }else{echo "Detail ".$static->title; } ?></span>
               </div>
              
             </div>
@@ -19,28 +19,18 @@
           <div class="grid-body ">
             <div class="row">
               <div class="col-xs-12 col-sm-12 col-md-12">
-                <form onSubmit="document.my_form.content.value = $('.Editor-editor').html()" name="my_form" method="post" enctipe="multipart/form-data" class="form" action="<?php echo base_url() ?>static_page/update_notif">
-                  <input type="hidden" name="id" value="<?php echo $static->id ?>">
-                  
-                  <div class="form-group">
+                <form onSubmit="document.my_form.content.value = $('.Editor-editor').html()" name="my_form" method="post" enctipe="multipart/form-data" class="form" action="<?php echo base_url();if($static='null'){ echo "jenjang/add"; }else{ echo "jenjang/update"; }?>">
+                  <input type="hidden" name="id" value="<?php if($static!='null'){ echo $static->id; }?>">
+                   <div class="form-group">
               <label class="control-label col-md-2">Title</label>
               <div class="col-md-10">
-              <input type="text" class="form-controll col-md-12" name="title" readonly value="<?php echo $static->title ?>">
-               
+               <input name="title" placeholder="title" value="<?php if($static!='null'){  echo $static->title; } ?>" class="form-control" type="text">
                 <span class="help-block"></span>
               </div>
               <div class="clearfix"></div>
             </div>
 
-
-            <div class="form-group">
-              <label class="control-label col-md-2">Content</label>
-              <div class="col-md-10">
-               <textarea name="content" class="form-controll col-md-12" id="txtEditor"><?php echo str_replace('src="', 'src="'.base_url(),$static->content) ?></textarea>
-                <span class="help-block"></span>
-              </div>
-              <div class="clearfix"></div>
-            </div>
+            
 
             <div class="form-group">
 

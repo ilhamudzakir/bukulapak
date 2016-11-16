@@ -205,12 +205,13 @@ class Orders_model extends CI_Model {
 
 	function get_items_by_id_group($id)
 	{
-		$this->db->select("items.*,buku.judul as judul_buku, buku.kode_buku as kode_buku, lapak.lapak_code as lapak_code");
+		$this->db->select("items.*,buku.judul as judul_buku, buku.kode_buku as kode_buku, lapak.lapak_code as lapak_code, users.first_name as first_name, users.last_name as last_name ");
 		$this->db->from("items");
 		$this->db->join("buku", "buku.kode_buku = items.product_id");
 		$this->db->join("lapak", "lapak.id = items.lapak_id");
+		$this->db->join("users", "users.id = items.sales_id");
 		$this->db->where("order_id",$id);
-		$this->db->group_by("lapak_id");
+		$this->db->group_by("items.lapak_id");
 		return $this->db->get(); 
 	}
 	
@@ -336,6 +337,11 @@ class Orders_model extends CI_Model {
 		}else{
 		$query=$this->db->query("select orders.order_id, orders.order_code, orders.order_name, orders.order_email, orders.order_phone, orders.order_recipient_name, orders.order_recipient_address, orders.order_recipient_phone, propinsi.title as propinsi, kabupaten.title as kabupaten, kecamatan.title as kecamatan, orders.order_recipient_postcode, orders.order_shipping_price, orders.order_subtotal, orders.order_total, orders.order_date, orders.order_date_confirm, area.title as area FROM orders INNER JOIN propinsi on propinsi.propinsi_id=orders.order_propinsi_id INNER JOIN kabupaten on kabupaten.kabupaten_id=orders.order_kabupaten_id INNER JOIN kecamatan on kecamatan.kecamatan_id=orders.order_kecamatan_id INNER JOIN area on area.id=orders.area_id  WHERE  orders.area_id ='".$area."' and orders.order_status_id='2' and orders.order_date BETWEEN '".$from." 00:00:00' AND '".$to." 23:59:59'  ");
 	}
+		return $query;
+	}
+
+	function filter_transaksi($froms,$to){
+		$query = $this->db->query("SELECT orders.order_code, orders.order_name, orders.order_email, orders.order_phone, orders.order_recipient_name, orders.order_recipient_address, orders.order_recipient_phone,propinsi.title as order_propinsi,kabupaten.title as order_kabupaten,kecamatan.title as order_kecamatan, orders.order_recipient_postcode, orders.order_shipping_price, orders.order_subtotal, orders.order_total, orders.order_date, orders.order_confirm, orders.order_date_confirm, order_status.title as status_order, area.title as area FROM orders INNER JOIN propinsi on propinsi.propinsi_id=orders.order_propinsi_id INNER JOIN kabupaten on kabupaten.kabupaten_id=orders.order_kabupaten_id INNER JOIN kecamatan on kecamatan.kecamatan_id=orders.order_kecamatan_id INNER JOIN order_status ON order_status.id=orders.order_status_id INNER JOIN area on area.id=orders.area_id WHERE orders.order_date BETWEEN '".$froms."' AND '".$to."'");
 		return $query;
 	}
 }

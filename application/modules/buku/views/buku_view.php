@@ -7,6 +7,7 @@
     </div>
     <div class="grid-body ">
     <div id="alert" class="alert alert-info hide">Succses, Data buku telah di perbarui</div>
+    <button class="btn btn-success" onclick="add_buku()"><i class="glyphicon glyphicon-plus"></i> ADD Buku</button>
       <button class="btn btn-success" onclick="add_groups()"><i class="glyphicon glyphicon-plus"></i> Upload Buku</button>
       
       
@@ -62,16 +63,9 @@
                 <input type="hidden" id="base_url" name="base_url" value="<?php echo base_url()?>">
                 <span class="help-block"></span>
               </div>
+
             </div>
-            <!-- <div class="form-group">
-              <div class="row">
-                <div class="col-md-6">
-                  <label class="grey">Unggah data buku (.xls)</label>
-                <input type="file" class="form border" name="upload_file" id="upload_file">
-                <input type="hidden" id="base_url" name="base_url" value="<?php echo base_url()?>">
-                </div>
-              </div>
-            </div> -->
+           <div class="alert alert-info hide" id="upload_warning">Upload Succsess</div>
           </div>
         </form>
         <div class="modal-footer">

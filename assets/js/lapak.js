@@ -310,9 +310,11 @@ function add_buku()
   save_method = 'search';
   $('#form_buku')[0].reset(); // reset form on modals
   $('.form-group_buku').removeClass('has-error'); // clear error class
+  $('.table_buku').html('');
   $('.help-block_buku').empty(); // clear error string
   $('#modal_form_buku').modal('show'); // show bootstrap modal
   $('.modal-title_buku').text('Tambah Buku'); // Set Title to Bootstrap modal title
+
 }
 
 function add_lapak()
@@ -664,12 +666,24 @@ function search_buku()
       //url = "<?php echo site_url('lapak/ajax_add')?>";
       url = base_url + controller_name + "/ajax_search_buku";
   }
-
+  var kode_buku=$("#kode_buku").val();
+  var jenjang=$('#jenjang').val();
+  var judul_buku=$('#judul_buku').val();
+  var lapak_id=$('#lapak_id').val();
+  if(kode_buku==''){
+    kode_buku='0';
+  }
+   if(jenjang==''){
+    jenjang='0';
+  }
+   if(judul_buku==''){
+    judul_buku='0';
+  }
    // ajax adding data to database
       $.ajax({
         url : url,
         type: "POST",
-        data: $('#form_buku').serialize(),
+        data: { kode_buku: kode_buku, jenjang: jenjang, judul_buku: judul_buku, lapak_id: lapak_id, },
         dataType: "JSON",
         success: function(data)
         {
@@ -700,8 +714,8 @@ function masukkan_buku(lapak_id, buku_id)
     success: function(data)
     {
         $('#lapak_buku_id').html(data.data_lapak_buku);
-        $('#btnmasukkanbuku_' + buku_id).text('Tambahkan buku ini'); //change button text
-        $('#btnmasukkanbuku_' + buku_id).attr('disabled',false); //set button enable 
+        $('#btnmasukkanbuku_' + buku_id).text('Buku ini sudah di tambahkan'); //change button text
+        $('#btnmasukkanbuku_' + buku_id).attr('disabled',true); //set button enable 
 
 
     },

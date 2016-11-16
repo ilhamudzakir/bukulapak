@@ -12,7 +12,8 @@
                <div class="title1 left-text"><h2 class="col-blue">Cara Mudah Beli Buku</h2></div>
                <div class="col-md-12 center">
                     <div class="row">
-                         <div id="exTab1">   
+                         <div id="exTab1">
+                             <div class="tab-container">
                               <ul  class="nav nav-pills">
                                    <li class="active tabs" id="tabsekolah">
                                         <a  href="#sekolah" data-toggle="tab">Cari berdasarkan sekolah</a>
@@ -21,8 +22,9 @@
                                         <a href="#lapak" data-toggle="tab">Cari kode lapak</a>
                                    </li>
                               </ul>
+                            </div>
 
-                              <div class="tab-content clearfix">
+                              <div class="tab-content di-depan clearfix">
                                    <div class="tab-pane active" id="sekolah">
                                         <form action="<?php echo site_url('front/sekolah')?>">
                                              <div class="form-group">
@@ -158,7 +160,7 @@
      <div class="header-fasilitas">
      <h2><?php echo $keunggulan->title ?></h2>
      </div>
-     <?php echo $keunggulan->content ?>   
+     <?php echo htmlspecialchars_decode($keunggulan->content) ?>   
 
 </div>
 </section>
@@ -168,7 +170,8 @@
      <div class="header-fasilitas">
      <h2><?php echo $cara_pembelian->title ?></h2>
      </div>
-     <?php echo $cara_pembelian->content ?>
+   
+     <?php echo htmlspecialchars_decode($cara_pembelian->content) ?>
     
 
 </div>

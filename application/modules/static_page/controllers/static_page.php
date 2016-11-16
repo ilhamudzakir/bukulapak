@@ -208,6 +208,7 @@ class Static_page extends MX_Controller {
                 $this->template->add_js('notification.js');
             }
 
+
                if(in_array($view, array('static_page/change_background')))
             {
                 $this->template->add_css('datatables/css/dataTables.bootstrap.css');
@@ -218,7 +219,7 @@ class Static_page extends MX_Controller {
                 $this->template->add_js('change_background.js');
             }
 
-             if(in_array($view, array('static_page/detail','static_page/layout_email_detail','notification')))
+             if(in_array($view, array('static_page/detail','static_page/layout_email_detail','static_page/notification_detail')))
             {
                 //$this->template->add_css('datatables/css/dataTables.bootstrap.css');
                 //$this->template->add_css('bootstrap-datepicker/css/datepicker.css');
@@ -244,9 +245,11 @@ class Static_page extends MX_Controller {
     }
     function update(){
         $id=$this->input->post('id');
+        $content=str_replace('<pre contenteditable="true">','',$this->input->post('content'));
+        $content1=str_replace('</pre>','',$content);
         $data=array(
             'title'=>$this->input->post('title'),
-            'content'=>$this->input->post('content'),
+            'content'=>$content1,
             );
         $update=$this->db->update('static_page', $data, array('id' => $id));
         if($update){
@@ -255,6 +258,23 @@ class Static_page extends MX_Controller {
         }else{
         $this->session->set_flashdata('message_success','Data gagal diperbarui');
          redirect('static_page/detail/'.$id);
+        }
+
+    }
+
+        function update_notif(){
+        $id=$this->input->post('id');
+        $data=array(
+            'title'=>$this->input->post('title'),
+            'content'=>$this->input->post('content'),
+            );
+        $update=$this->db->update('notifications', $data, array('id' => $id));
+        if($update){
+        $this->session->set_flashdata('message_success','Succses, Data Anda Telah diperbarui');
+        redirect('static_page/notification_detail/'.$id);
+        }else{
+        $this->session->set_flashdata('message_success','Sorry, data anda gagal diperbarui');
+         redirect('static_page/notification_detail/'.$id);
         }
 
     }

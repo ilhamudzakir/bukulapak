@@ -189,7 +189,8 @@ class Lapak extends MX_Controller {
             $row[] = $lapak->is_approve_next_superior;
             $row[] = $lapak->next_superior_name;
             $row[] = $lapak->approve_next_superior_date;
-			$row[] = date('d M Y',strtotime($lapak->start_active)).' - '.date('d M Y',strtotime($lapak->end_active));
+			$row[] = date('d M Y',strtotime($lapak->start_active));
+            $row[] = date('d M Y',strtotime($lapak->end_active));
 			$row[] = $num_rows.' buku';
 			//$row[] = number_format($hargas['total_harga']);
 			$row[] = strtoupper($lapak->active);
@@ -541,7 +542,7 @@ class Lapak extends MX_Controller {
         $this->data['controller_name'] = 'lapak';
 
         $this->data['hide_sidebar'] = 'hide-sidebar';
-
+        $this->data['jenjang'] = select_where('jenjang_buku','is_deleted','0')->result();
         $filter_lapak = array('id'=>'where/'.$id);
         $lapak_exist = getAll('lapak',$filter_lapak);
         if($lapak_exist->num_rows() > 0){
@@ -576,9 +577,9 @@ class Lapak extends MX_Controller {
         {   
             $lapak_code=$this->lapak->kode_lapak($this->session->userdata('area_id'));
             $data = array(
-                'lapak_code' => $this->session->userdata('area_id')."".$lapak_code,
+                'lapak_code' => $this->session->userdata('area_id')."-".$lapak_code,
                 // 'title' => $this->input->post('title'),
-                'title' => $this->session->userdata('area_id')."".$lapak_code,
+                'title' => $this->session->userdata('area_id')."-".$lapak_code,
                 'start_active'  => date('Y-m-d',strtotime($this->input->post('start_active'))),
                 'end_active'    => date('Y-m-d',strtotime($this->input->post('end_active'))),
                 'propinsi_id'   => $this->input->post('propinsi_id'),
@@ -1657,22 +1658,21 @@ class Lapak extends MX_Controller {
         $jenjang = $this->input->post('jenjang');
         $judul_buku = $this->input->post('judul_buku');
         $table_html = '';
-
-        if(strlen($kode_buku) > 0){
+        $this->db->select('kode_buku,cover,judul, harga, jenjang, bstudi');
+         if($kode_buku!='0'){
             $this->db->like('kode_buku',$kode_buku);
         }
 
-        if (strlen($jenjang) > 0) {
-            if($jenjang != 0){
+      
+            if($jenjang!='0'){
                 $this->db->where('jenjang',$jenjang);    
             }
-        }
+           
+      
 
-        if (strlen($judul_buku) > 0) {
+        if ($judul_buku!='0') {
             $this->db->like('judul',$judul_buku);
         }
-
-        $this->db->select('kode_buku,cover,judul, harga, jenjang, bstudi');
         $this->db->limit(30);
         $query = $this->db->get('buku');
         $last_query = $this->db->last_query();
@@ -1693,7 +1693,16 @@ class Lapak extends MX_Controller {
                     $table_html .= '<td>';
                     $r="'";
                     $kodebuk=$r."".$value['kode_buku']."".$r;
+                    $data_array=array(
+                        'lapak_id'=>$lapak_id,
+                        'kode_buku'=>$value['kode_buku'],
+                        );
+                    $count_buk=select_where_array('lapak_buku',$data_array)->num_rows();
+                    if($count_buk>0){
+                        $table_html .= '<button type="button" disabled  id="btnmasukkanbuku_'.$value["kode_buku"].'" class="btn btn-info">Buku ini sudah ditambahkan</button>';
+                    }else{
                         $table_html .= '<button type="button" onClick="masukkan_buku('.$lapak_id.','.$kodebuk.')" id="btnmasukkanbuku_'.$value["kode_buku"].'" class="btn btn-info">Tambahkan buku ini</button>';
+                    }
                     $table_html .= '</td>';
                 $table_html .= '</tr>';                
             }

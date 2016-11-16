@@ -47,9 +47,26 @@
                     <li><a href="<?php echo site_url('auth'); ?>"><i class="fa fa-user"></i> Auth</a></li>
                     <li><a href="<?php echo site_url('groups'); ?>"><i class="fa fa-users"></i> Groups</a></li>
                     <li><a href="<?php echo site_url('buku'); ?>"><i class="fa fa-book"></i> Buku</a></li>
+                    <li><a href="<?php echo site_url('jenjang'); ?>"><i class="fa fa-book"></i> Jenjang Buku</a></li>
                     <li><a href="<?php echo site_url('area'); ?>"><i class="fa fa-map"></i> Area</a></li>
                     <li><a href="<?php echo site_url('area_shipping'); ?>"><i class="fa fa-truck"></i> Ongkos kirim</a></li>
-                     <li><a href="<?php echo site_url('employe'); ?>"><i class="fa fa-group"></i>Employe</a></li>
+                    <li><a href="<?php echo site_url('employe'); ?>"><i class="fa fa-group"></i> Employe</a></li>
+                    <li><a href="<?php echo site_url('sekolah'); ?>"><i class="fa fa-bell"></i> Sekolah</a></li>
+                  
+                  </ul>
+                </li>
+                <li>
+                  <a href="javascript:;"><i class="fa fa-bars"></i> <span class="title">Laporan</span><span class="arrow "></span></a>
+                  <ul class="sub-menu">
+                    <li><a href="<?php echo site_url('report/transaksi'); ?>"><i class="fa fa-dollar"></i> Transaksi</a></li>
+                    <li><a href="<?php echo site_url('report/area'); ?>"><i class="fa fa-flag"></i> Area</a></li>
+                    <li><a href="<?php echo site_url('report/sales'); ?>"><i class="fa fa-user"></i> Sales</a></li>
+                    <li><a href="<?php echo site_url('report/agen'); ?>"><i class="fa fa-user"></i> Agen</a></li>
+                    <li><a href="<?php echo site_url('report/sales_item'); ?>"><i class="fa fa-book"></i> Sales/Item</a></li>
+                    <li><a href="<?php echo site_url('report/sales_invoice'); ?>"><i class="fa fa-file"></i> Sales/Invoice</a></li>
+                    <li><a href="<?php echo site_url('report/sales_lapak'); ?>"><i class="fa fa-home"></i> Sales/Lapak</a></li>
+                    <li><a href="<?php echo site_url('report/item'); ?>"><i class="fa fa-book"></i> Item</a></li>
+                    <li><a href="<?php echo site_url('report/ongkir'); ?>"><i class="fa fa-file"></i> Invoice Ongkir</a></li>
                   </ul>
                 </li>
                 <li class="start active">
@@ -131,6 +148,20 @@
                   <ul class="sub-menu">
                    <li><a href="<?php echo site_url('area_shipping'); ?>"><i class="fa fa-truck"></i> Ongkos kirim</a></li>
                     <li><a href="<?php echo site_url('sekolah'); ?>"><i class="fa fa-bell"></i> Sekolah</a></li>
+                  </ul>
+                </li>
+               <li>
+                  <a href="javascript:;"><i class="fa fa-bars"></i> <span class="title">Laporan</span><span class="arrow "></span></a>
+                  <ul class="sub-menu">
+                    <li><a href="<?php echo site_url('report/transaksi'); ?>"><i class="fa fa-user"></i> Transaksi</a></li>
+                    <li><a href="<?php echo site_url('report/area'); ?>"><i class="fa fa-user"></i> Area</a></li>
+                    <li><a href="<?php echo site_url('report/sales'); ?>"><i class="fa fa-user"></i> Sales</a></li>
+                    <li><a href="<?php echo site_url('report/agen'); ?>"><i class="fa fa-user"></i> Agen</a></li>
+                    <li><a href="<?php echo site_url('report/sales_item'); ?>"><i class="fa fa-user"></i> Sales/Item</a></li>
+                    <li><a href="<?php echo site_url('report/sales_invoice'); ?>"><i class="fa fa-user"></i> Sales/Invoice</a></li>
+                    <li><a href="<?php echo site_url('report/sales_lapak'); ?>"><i class="fa fa-user"></i> Sales/Lapak</a></li>
+                    <li><a href="<?php echo site_url('report/item'); ?>"><i class="fa fa-user"></i> Item</a></li>
+                    <li><a href="<?php echo site_url('report/ongkir'); ?>"><i class="fa fa-user"></i> Invoice Ongkir</a></li>
                   </ul>
                 </li>
               </ul>

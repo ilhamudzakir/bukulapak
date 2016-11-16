@@ -41,18 +41,22 @@ function addcart(lapak_id,kode_buku,sales_id,area_id)
       current_url: current_url
     },
     success : function(response){
-      if(!response.status)
-      {
-        alert('Failed');
+     
+        if(response.status=='same'){
+        $("#alert_"+response.kode_buku).attr('class','alert alert-info text-left');
+        
       }else{
         $(".text-checkout").html(response.total_item);
-        
         window.location.replace(base_url+'front/carts');
+        
       }
+      
+    
     },
+   
     error: function (jqXHR, textStatus, errorThrown)
     {
-        alert('Maaf Anda hanya dapat berbelanja pada area yang sama dengan daftar belanjaan anda sekarang');
+      alert('Maaf anda hanya boleh membeli buku di area yang sama');
     },
     dataType: "json",
   });

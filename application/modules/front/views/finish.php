@@ -15,24 +15,10 @@
 </section>
 <section class="matobot">
 	<div class="container text-center">
-  <h1><b>Terima Kasih,</b></h1>
-  <h4>Nomor transaksi anda adalah <b><?php echo $order_code; ?></b></h4>
-  <h4>selanjutnya silahkan melakukan pembayaran sebesar <b>RP <?php echo number_format($order_total); ?></b> ke nomor rekening berikut</h4>
-  </br>
-  <h4><b>Rekening Bank Permata</b></h4>
-  <h4>Bank Permata Cabang Kyai Hasyim Jakarta</h4>
-  <h4>atas nama : PT Erlangga</h4>
-  <h4>Nomor rekening : 451376137813</h4>
-   </br>
-    </br>
-        </br>
-            </br>
-            <div class="row">
-  <div class="text-left col-md-7 center" style="padding-left:50px">
-  <h4>+ Kami juga telah mengirimkan detail transaksi ini ke alamat email Anda</h4>
-  <h4>+ Catat nomor transaksi anda</h4>
-  <h4>+ Setelah melakukan transfer lakukan <b>konfirmasi pembayaran</b></h4>
-  </div>
-  </div>
+  <?php
+  $staticc=str_replace('*order_code', $order_code, $static->content);
+        $message=str_replace('*order_total', number_format($order_total), $staticc);
+        echo $message;
+  ?>
 	</div><!----end container-------------->
 </section>

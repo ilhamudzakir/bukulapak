@@ -331,7 +331,7 @@
                     </div>
                   </div>
                   <div class="col-md-2">
-                    <input type="hidden" value="<?php echo $this->uri->segment(3)?>" name="lapak_id"/>
+                    <input type="hidden" value="<?php echo $this->uri->segment(3)?>" name="lapak_id" id="lapak_id"/>
                     <button type="button" id="btnSearch" onclick="search_buku()" class="btn btn-primary">Search</button>
                   </div>
                 </div>

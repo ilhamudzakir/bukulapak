@@ -143,7 +143,7 @@
             </select>
           </div>
 
-           <div class="col-md-7 col-xs-4">
+           <div class="col-md-4 col-xs-4">
           <select id="thn2" name="thn2" class="form-control" >
 
             <option value="0">Thn</option>

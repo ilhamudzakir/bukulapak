@@ -105,8 +105,11 @@ class Buku extends MX_Controller {
 					        $arr_data[$row][$column] = $data_value;
 					    }
 					}
+					$no=1;
 					foreach ($arr_data as $key1 => $value1) {
 						//$values .= $value1['B'].'<br/>';
+					$no++;
+					$bukunya=select_where('buku','kode_buku',$value1['B'])->num_rows();
 						$data = array(
 				                'thn_katalog'    => $value1['A'],
 				                'kode_buku'    =>  $value1['B'],
@@ -130,7 +133,11 @@ class Buku extends MX_Controller {
 				                'tgl_terbit'    =>  $value1['T'],
 				                'brandname'    =>  $value1['U'],
 				            );
+						if($bukunya>0){
+							$this->buku->update(array('kode_buku' => $value1['B']), $data);
+						}else{
 							$this->buku->add($data);
+						}
 					}
 						//foreach ($value1 as $key2 => $value2) {
 							
@@ -164,9 +171,9 @@ class Buku extends MX_Controller {
 					//$data['header'] = $header;
 					//$data['values'] = $arr_data;
 
-                	echo json_encode(array('status'=>TRUE,'validation_errors'=>'<div class="alert alert-success">Upload file Success</div>'));
+                	echo json_encode(array('nonya'=>$no,'status'=>TRUE,'validation_errors'=>'<div class="alert alert-success">Upload file Success</div>'));
                 }else{
-                	echo json_encode(array('status'=>FALSE,'validation_errors'=>'<div class="alert alert-success">Upload file failed</div>'));
+                	echo json_encode(array('nonya'=>$no,'status'=>FALSE,'validation_errors'=>'<div class="alert alert-success">Upload file failed</div>'));
                 }
 
 
@@ -210,12 +217,42 @@ class Buku extends MX_Controller {
 
 	public function ajax_add()
 	{
-		$this->_validate();
-		$data = array(
-				'name' => $this->input->post('name'),
-				'description' => $this->input->post('description'),
+		//$this->_validate();
+		$attachment_file=$_FILES["upload_file2"];
+        if($attachment_file) 
+        {
+            $output_dir = "uploads/cover/";
+            $fileName = strtolower($_FILES["upload_file2"]["name"]);
+            move_uploaded_file($_FILES["upload_file2"]["tmp_name"],$output_dir.$fileName);
+            //echo "File uploaded successfully";
+        }else{
+            $fileName = $this->input->post('cover');  
+        }
+
+        $data = array(
+				'thn_katalog' => $this->input->post('thn_katalog'),
+				'isbn' => $this->input->post('isbn'),
+				'judul' => $this->input->post('judul'),
+				'pengarang' => $this->input->post('pengarang'),
+				'sinopsis' => $this->input->post('sinopsis'),
+				'sinopsis_html' => $this->input->post('sinopsis_html'),
+				'lebar' => $this->input->post('lebar'),
+				'tinggi' => $this->input->post('tinggi'),
+				'warna' => $this->input->post('warna'),
+				'berat' => $this->input->post('berat'),
+				'tebal' => $this->input->post('tebal'),
+				'jml_halaman' => $this->input->post('jml_halaman'),
+				'thn_terbit' => $this->input->post('thn_terbit'),
+				'harga' => $this->input->post('harga'),
+				'kertas' => $this->input->post('kertas'),
+				'jenjang' => $this->input->post('jenjang'),
+				'bstudi' => $this->input->post('bstudi'),
+				'cover' => $fileName,
+				'tgl_terbit' => $this->input->post('tgl_terbit'),
+				'brandname' => $this->input->post('brandname'),
 			);
-		$insert = $this->groups->save($data);
+        $this->db->insert('buku',$data);
+		
 		echo json_encode(array("status" => TRUE));
 	}
 
@@ -255,6 +292,7 @@ class Buku extends MX_Controller {
 				'tgl_terbit' => $this->input->post('tgl_terbit'),
 				'brandname' => $this->input->post('brandname'),
 			);
+        
 		$this->buku->update(array('kode_buku' => $this->input->post('kode_buku')), $data);
 		echo json_encode(array("status" => TRUE));
 	}

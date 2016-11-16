@@ -282,31 +282,29 @@
                   <div class="col-md-10">
                     <div class="row">
                       <div class="col-md-12">
-                        <input name="kode_buku" id="kode_buku" type="text" style="width: 100%" placeholder="Kode Buku">
+                        <input name="kode_buku" value="" id="kode_buku" type="text" style="width: 100%" placeholder="Kode Buku">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-md-4">
                         <label class="control-label">Jenjang</label>
                         <select id="jenjang" name="jenjang" style="width: 100%">
-                          <option value="0">ALL</option>
-                          <option value="SD">SD</option>
-                          <option value="SDLB">SDLB</option>
-                          <option value="SMA">SMA</option>
-                          <option value="SLB">SLB</option>
-                          <option value="SMP">SMP</option>
-                          <option value="SMPLB">SMPLB</option>
-                          <option value="SMP SATAP">SMP SATAP</option>
+                          <option value="">ALL</option>
+                          <?php foreach ($jenjang as $key) { ?>
+                          <option value="<?php echo $key->title ?>"><?php echo $key->title ?></option>
+                          <?php } ?>
+                        
+                         
                         </select>
                       </div>
                       <div class="col-md-8">
                         <label class="control-label">Judul Buku</label>
-                        <input name="judul_buku" id="judul_buku" placeholder="Judul Buku" type="text" style="width: 100%">
+                        <input value="" name="judul_buku" id="judul_buku" placeholder="Judul Buku" type="text" style="width: 100%">
                       </div>
                     </div>
                   </div>
                   <div class="col-md-2">
-                    <input type="hidden" value="<?php echo $this->uri->segment(3)?>" name="lapak_id"/>
+                    <input type="hidden" value="<?php echo $this->uri->segment(3)?>" name="lapak_id" id="lapak_id"/>
                     <button type="button" id="btnSearch" onclick="search_buku()" class="btn btn-primary">Search</button>
                   </div>
                 </div>
